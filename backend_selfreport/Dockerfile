@@ -14,6 +14,6 @@ RUN npm install && npm cache clean --force
 # RUN npm install -g nodemon
 COPY . .
 
-# EXPOSE 8888
+EXPOSE 3396
 
 CMD ["node", "./dist/index.js"]
