@@ -13,7 +13,7 @@ app.use(cors());
 
 const port = process.env.PORT || 2287
 const kind = process.env.KIND || "userprofile"
-
+const tenanKind = process.env.KIND_TENAN || "profiletenan"
 
 app.get("/test", (req, res) => {
     res.send("OK")
@@ -46,7 +46,16 @@ app.post("/api/register", async (req, res) => {
 
     try{
         const taskKey = datastore.key([kind])
-        
+        const taskTenanKey = datastore.key([tenanKind])
+
+        const tenanTask = {
+            key: taskTenanKey,
+            data:{
+                email: email,
+                tenan: tenan
+            }
+        }
+
         const task = {
             key: taskKey,
             data:{
@@ -71,7 +80,11 @@ app.post("/api/register", async (req, res) => {
                 working_nature: working_nature
             }
         }
+
+        
         await datastore.save(task)
+        await datastore.save(tenanTask)
+
         warping = {
             status: 200,
             data: "Create user success"

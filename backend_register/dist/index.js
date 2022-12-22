@@ -24,6 +24,7 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 const port = process.env.PORT || 2287;
 const kind = process.env.KIND || "userprofile";
+const tenanKind = process.env.KIND_TENAN || "profiletenan";
 app.get("/test", (req, res) => {
     res.send("OK");
 });
@@ -32,6 +33,14 @@ app.post("/api/register", (req, res) => __awaiter(void 0, void 0, void 0, functi
     let warping;
     try {
         const taskKey = datastore.key([kind]);
+        const taskTenanKey = datastore.key([tenanKind]);
+        const tenanTask = {
+            key: taskTenanKey,
+            data: {
+                email: email,
+                tenan: tenan
+            }
+        };
         const task = {
             key: taskKey,
             data: {
@@ -57,6 +66,7 @@ app.post("/api/register", (req, res) => __awaiter(void 0, void 0, void 0, functi
             }
         };
         yield datastore.save(task);
+        yield datastore.save(tenanTask);
         warping = {
             status: 200,
             data: "Create user success"
