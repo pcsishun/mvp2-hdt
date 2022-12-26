@@ -39,6 +39,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const datastore_1 = require("@google-cloud/datastore");
 const dotenv = __importStar(require("dotenv"));
+const auth_1 = __importDefault(require("./middleware/auth"));
 dotenv.config();
 const app = (0, express_1.default)();
 const datastore = new datastore_1.Datastore();
@@ -51,10 +52,12 @@ const kind = process.env.KIND || "emotion";
 app.get("/test", (req, res) => {
     res.send("OK");
 });
-app.post("/api/insertData", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/insertData", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { token, email, tenan, data } = req.body;
     let warping;
     if (token && email && tenan) {
+        const setDate = new Date();
+        const isDate = setDate.getFullYear() + "/" + (setDate.getMonth() + 1) + "/" + setDate.getDate() + " " + (setDate.getHours() + 7) + ":" + setDate.getMinutes() + ":" + setDate.getSeconds();
         try {
             const taskKey = datastore.key([kind]);
             const task = {
@@ -75,7 +78,8 @@ app.post("/api/insertData", (req, res) => __awaiter(void 0, void 0, void 0, func
                     sleep_score: data.sleep_score,
                     sum_emo_q: data.sum_emo_q ? data.sum_emo_q : null,
                     tenan: data.tenan,
-                    word: data.word
+                    word: data.word,
+                    create_date: isDate
                 }
             };
             warping = {

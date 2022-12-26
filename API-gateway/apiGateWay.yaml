@@ -1,0 +1,95 @@
+swagger: '2.0'
+info:
+  title: Gateway sookyen
+  description: API gateway for sookyen project
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /api/register:
+    post:
+      summary: for register user
+      operationId: reigster
+      x-google-backend:
+        address:
+          # https://test-app-zt27agut7a-uc.a.run.app/debug
+      responses:
+        '200':
+          description: 'success'   
+          schema:
+            type: string
+        '400':
+          description: 'Error at frontend service'
+        '500':
+          description: 'Error at backend register service.'
+  /api/login:
+    post:
+      summary: for login user
+      operationId: login
+      x-google-backend:
+        address:
+          # https://test-app-zt27agut7a-uc.a.run.app/debug
+        responses:
+          '200':
+            description: 'success'
+            schema:
+              type: string
+          '400':
+          description: 'Error at frontend service'
+          '500':
+          description: 'Error at backend login service.'
+  /api/selfreport:
+    post:
+      summary: for login user
+      operationId: login
+      x-google-backend:
+        address:
+          # https://test-app-zt27agut7a-uc.a.run.app/debug
+        responses:
+          '200':
+            description: 'success'
+            schema:
+              type: string
+          '400':
+          description: 'Error at frontend service'
+          '500':
+          description: 'Error at backend selfreport service.'
+  /api/home:
+    post:
+      summary: for home user
+      operationId: home
+      x-google-backend:
+        address:
+          # https://test-app-zt27agut7a-uc.a.run.app/debug
+        responses:
+          '200':
+            description: 'success'
+            schema:
+              type: string
+          '400':
+          description: 'Error at frontend service'
+          '500':
+          description: 'Error at backend home service.'
+  /api/home:
+    post:
+      summary: for login user
+      operationId: login
+      x-google-backend:
+        address:
+          # https://test-app-zt27agut7a-uc.a.run.app/debug
+        responses:
+          '200':
+            description: 'success'
+            schema:
+              type: string
+          '400':
+          description: 'Error at frontend service'
+          '500':
+          description: 'Error at backend home service.'  
+  
+
+
+
+

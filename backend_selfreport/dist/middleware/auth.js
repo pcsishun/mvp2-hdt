@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
+// import { Module } from "module"
 dotenv_1.default.config();
 const token = process.env.SECRET_TOKEN;
 const verifyToken = (req, res, next) => {
@@ -44,4 +45,4 @@ const verifyToken = (req, res, next) => {
         }
     }
 };
-module.exports = verifyToken;
+exports.default = verifyToken;

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import {Datastore} from "@google-cloud/datastore"
 import * as dotenv from 'dotenv'
+import  auth from "./middleware/auth"
 dotenv.config()
 
 const app = express();
@@ -19,10 +20,14 @@ app.get("/test", (req, res) => {
     res.send("OK")
 });
 
-app.post("/api/insertData", async (req, res) => {
+app.post("/api/insertData",auth, async (req, res) => {
     const {token, email, tenan, data} = req.body;
     let warping;
     if(token && email && tenan){
+
+        const setDate = new Date();
+        const isDate = setDate.getFullYear()+"/"+(setDate.getMonth() + 1)+"/"+setDate.getDate()+" "+(setDate.getHours()+7)+":" + setDate.getMinutes()+":"+setDate.getSeconds()
+
         try{
             const taskKey = datastore.key([kind])
             const task = {
@@ -43,7 +48,8 @@ app.post("/api/insertData", async (req, res) => {
                     sleep_score: data.sleep_score,
                     sum_emo_q: data.sum_emo_q?data.sum_emo_q:null,
                     tenan: data.tenan,
-                    word: data.word
+                    word: data.word,
+                    create_date: isDate
                 }
             }
             warping = {

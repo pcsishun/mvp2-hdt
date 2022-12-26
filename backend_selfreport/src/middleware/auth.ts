@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+// import { Module } from "module"
 dotenv.config()
 
 const token:any = process.env.SECRET_TOKEN
@@ -39,4 +40,4 @@ const verifyToken = (req:any, res:any, next:any) => {
     }
 }
 
-module.exports = verifyToken;
+export default verifyToken;
