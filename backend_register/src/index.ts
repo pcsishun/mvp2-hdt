@@ -1,8 +1,9 @@
-import express from "express";
-import cors from "cors";
+import express from "express"
+import cors from "cors"
 import {Datastore} from "@google-cloud/datastore"
-import dotenv from "dotenv"
-dotenv.config()
+import * as dotenv from 'dotenv'
+import bcrypt from "bcrypt"
+dotenv.config({path:"../.env"})
 
 const app = express();
 const datastore = new Datastore();
@@ -14,6 +15,8 @@ app.use(cors());
 const port = process.env.PORT || 2287
 const kind = process.env.KIND || "userprofile"
 const tenanKind = process.env.KIND_TENAN || "profiletenan"
+const saltRound = process.env.SALTROUNDS || 13
+const rounds = Number(saltRound)
 
 app.get("/test", (req, res) => {
     res.send("OK")
@@ -43,6 +46,7 @@ app.post("/api/register", async (req, res) => {
     } = req.body   
 
     let warping
+    const hashPassword = await bcrypt.hashSync(password, rounds);
 
     try{
         const taskKey = datastore.key([kind])
@@ -70,7 +74,7 @@ app.post("/api/register", async (req, res) => {
                 job_level: job_level,
                 lastname: lastname,
                 mh_goal: mh_goal,
-                password: password,
+                password: hashPassword,
                 peiod: peiod,
                 personality_type: personality_type,
                 sector: sector,
@@ -100,6 +104,8 @@ app.post("/api/register", async (req, res) => {
 })
 
 app.listen(port, () => {
+    // console.log("rounds ==> ",rounds);
+    // console.log("rounds type ===> ",typeof rounds);
     console.log(`service data-sci listen on port ${port}`)
 })
 

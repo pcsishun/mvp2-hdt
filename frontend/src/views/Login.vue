@@ -42,15 +42,28 @@ export default {
         return{
             email: "",
             password: "",
-            isError: ""
+            isError: "",
+            apiLogin: import.meta.env.SERVICE_LOGIN
         }
     },
     methods:{
         async haddleLogin(){
             if(this.email && this.password){
+
                 // start connect to backend at login service //
-                 // const dataIn = axios.post("") 
-                this.$router.push("/home")
+                const payload = {
+                    email: this.email,
+                    password: this.password
+                }
+                const userAccess = await axios.post("https://backend-hdt-login-zt27agut7a-as.a.run.app/api/login",payload)
+                if(userAccess.status === 200){
+                    this.$cookies.set("hdt-token", userAccess.data)
+                    this.$router.push("/home")
+                }else{
+                    this.isError = "Invalid email or password."
+                }
+                
+                // end API //
             }else{
                 this.isError = "Email and password are require to login."
             }
@@ -60,7 +73,7 @@ export default {
         }
     },
     mounted(){
-        
+        console.log("API ===> ",this.apiLogin, import.meta.env.SERVICE_LOGIN)
     }
 }
 </script>

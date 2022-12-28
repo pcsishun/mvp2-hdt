@@ -16,21 +16,25 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const datastore_1 = require("@google-cloud/datastore");
 const dotenv_1 = __importDefault(require("dotenv"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const datastore = new datastore_1.Datastore();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-const port = process.env.PORT || 2287;
-const kind = process.env.KIND || "userprofile";
-const tenanKind = process.env.KIND_TENAN || "profiletenan";
+const port = process.env.PORT;
+const kind = process.env.KIND;
+const tenanKind = process.env.KIND_TENAN;
+const saltRound = process.env.SALTROUNDS;
+const rounds = Number(saltRound);
 app.get("/test", (req, res) => {
     res.send("OK");
 });
 app.post("/api/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { birthday, create_date, dealbreaker, email, exisiting_silution, firstname, gender, hobby, job_level, lastname, mh_goal, password, peiod, personality_type, sector, stree_level, tenan, update_date, working_nature } = req.body;
     let warping;
+    const hashPassword = yield bcrypt_1.default.hashSync(password, rounds);
     try {
         const taskKey = datastore.key([kind]);
         const taskTenanKey = datastore.key([tenanKind]);
@@ -55,7 +59,7 @@ app.post("/api/register", (req, res) => __awaiter(void 0, void 0, void 0, functi
                 job_level: job_level,
                 lastname: lastname,
                 mh_goal: mh_goal,
-                password: password,
+                password: hashPassword,
                 peiod: peiod,
                 personality_type: personality_type,
                 sector: sector,
@@ -82,5 +86,7 @@ app.post("/api/register", (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 }));
 app.listen(port, () => {
+    // console.log("rounds ==> ",rounds);
+    // console.log("rounds type ===> ",typeof rounds);
     console.log(`service data-sci listen on port ${port}`);
 });

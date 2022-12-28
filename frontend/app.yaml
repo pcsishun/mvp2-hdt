@@ -1,4 +1,4 @@
-service: mvpuser
+service: humandigitaltwin
 runtime: nodejs16
 handlers:
 - url: /(.*\..+)$ 

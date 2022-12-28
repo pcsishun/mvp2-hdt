@@ -46,8 +46,8 @@ const datastore = new datastore_1.Datastore();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-const port = process.env.PORT || 3396;
-const kind = process.env.KIND || "emotion";
+const port = process.env.PORT;
+const kind = process.env.KIND;
 // const namespace = process.env.NAMESPACE || "emotion"
 app.get("/test", (req, res) => {
     res.send("OK");
