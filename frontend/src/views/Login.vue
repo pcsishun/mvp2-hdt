@@ -17,7 +17,7 @@
                     <label>Password</label>
                 </div>
                 <div>
-                    <input class="set-input w-[100%] h-[50px]" v-model="password"/>
+                    <input class="set-input w-[100%] h-[50px]" type="password" v-model="password"/>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             {{ isError }}
         </div>
         <div>
-            <button class="mt-20 w-[250px] h-[50px] rounded-lg font-bold text-white">Login</button>
+            <button class="mt-20 w-[250px] h-[50px] rounded-lg font-bold text-white" @click="haddleLogin">Login</button>
             <div class="mt-5 w-[100px] m-auto"><u @click="haddleToRegister">สมัครสมาชิก</u></div>
         </div>
     </div>
@@ -49,16 +49,18 @@ export default {
     methods:{
         async haddleLogin(){
             if(this.email && this.password){
-
+                console.log("haddle login ", this.email, this.password)
                 // start connect to backend at login service //
                 const payload = {
                     email: this.email,
                     password: this.password
                 }
                 const userAccess = await axios.post("https://backend-hdt-login-zt27agut7a-as.a.run.app/api/login",payload)
+                console.log("userAccess", userAccess.data)
                 if(userAccess.status === 200){
+                    console.log("login!")
                     this.$cookies.set("hdt-token", userAccess.data)
-                    this.$router.push("/home")
+                    this.$router.push("/")
                 }else{
                     this.isError = "Invalid email or password."
                 }
@@ -73,7 +75,7 @@ export default {
         }
     },
     mounted(){
-        console.log("API ===> ",this.apiLogin, import.meta.env.SERVICE_LOGIN)
+        // console.log("API ===> ",this.apiLogin, import.meta.env.SERVICE_LOGIN)
     }
 }
 </script>

@@ -23,7 +23,7 @@
                 <div class="m-auto text-center mb-10">
                     <div class="text-left">บุคลิกภาพ</div>
                     <!-- <input class="set-profile w-[100%] h-[35px]" v-model="personality" required/> -->
-                    <select class="set-profile w-[100%] h-[35px]" v-model="personality"  id="working_nature" name="working_nature">
+                    <select class="set-profile w-[100%] h-[35px]" v-model="personality"  id="personality" name="personality">
                         <option value="anaylzer">นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP</option>
                         <option value="diplomat">นกการฑูต: INFJ / INFP / ENFJ / ENFP</option>
                         <option value="watchman">ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ</option>
@@ -61,6 +61,14 @@
                         <div class="text-center">วันเกิด</div>
                         <input class="set-profile w-[100%] h-[35px]" type="date" v-model="birthDate" required/>
                     </div>
+                </div>
+                <div class="set-password m-auto text-center mb-10">
+                    <div class="text-left">รหัส</div>
+                    <input class="set-profile w-[100%] h-[35px]" type="password" v-model="setPassword" />
+                </div>
+                <div class="con-password m-auto text-center mb-10">
+                    <div class="text-left">ยืนยันรหัส</div>
+                    <input class="set-profile w-[100%] h-[35px]" type="password" v-model="conPassword" />
                 </div>
             </div>
 
@@ -106,7 +114,7 @@
                 <div class="m-auto text-center mb-10">
                     <div class="text-left">อายุงาน (ปี)</div>
                     <!-- <div>Job Level</div> -->
-                    <input class="set-profile w-[100%] h-[35px]" type="number" v-model="lastname" required/>
+                    <input class="set-profile w-[100%] h-[35px]" type="number" v-model="peiod" required/>
                 </div>
             </div>
 
@@ -131,24 +139,14 @@
                     <!-- <div>Sector</div> -->
                     <!-- <input class="set-profile w-[100%] h-[35px]" v-model="firstname" required/> -->
                     <select class="set-profile w-[100%] h-[35px]" v-model="dealBreaker"  id="dealbreaker" name="dealbreaker">
-                        <option value="private_company_employee">Irregular Hour</option>
-                        <option value="government">Physically Demanding</option>
-                        <option value="freelance">Relocation</option>
-                        <option value="business_owner">Shift Work</option>
-                        <option value="business_owner">Mental Stress</option>
-                        <option value="business_owner">Benefit Balance</option>
+                        <option value="irregular_hour">Irregular Hour</option>
+                        <option value="physically_demanding">Physically Demanding</option>
+                        <option value="relocation">Relocation</option>
+                        <option value="shift_work">Shift Work</option>
+                        <option value="mental_stress">Mental Stress</option>
+                        <option value="benefit_balance">Benefit Balance</option>
                     </select>
                 </div>
-                <!-- <div class="m-auto text-center mb-10">
-                    <div class="text-left">ตำแหน่งงาน</div> -->
-                    <!-- <div>Job Level</div> -->
-                    <!-- <input class="set-profile w-[100%] h-[35px]" v-model="lastname" required/> -->
-                    <!-- <select class="set-profile w-[100%] h-[35px]" v-model="position"  id="job_level" name="job_level">
-                        <option value="employee">Employee</option>
-                        <option value="first_line_manager">First line Manager</option>
-                        <option value="management">Management</option>
-                    </select> -->
-                <!-- </div> -->
                 <div class="m-auto text-center mb-10">
                     <div class="text-left">ระดับความเครียด</div>
                     <!-- <div>Job Level</div> -->
@@ -173,24 +171,16 @@
                 </div>
             </div>
 
-            <div v-if="step === 3 && serverError === ''">
-                <div class="title text-center mb-10">
+            <div v-if="step === 3">
+                <div class="title text-center mb-10" v-if="isError === ''">
                     สมัครสมาชิกสำเสร็จคลิกปุ่มด้านล่างเพื่อทำการ login เข้าระบบ
                 </div>
-                <div class="m-auto text-center mb-10">
-                    
+                <div class="title text-center mb-10 text-red-700" v-if="isError !== ''">
+                    {{ isError }}
                 </div>
             </div>
 
-            <div v-if="step === 3 && serverError !== ''">
-                <div class="title text-center mb-10 text-red-700">
-                    {{ serverError }}
-                </div>
-                <div class="m-auto text-center mb-10">
-                    
-                </div>
-            </div>
-
+ 
         </div>
         <div class="error-show w-[80%] mt-5 m-auto text-center" v-if="isError !== ''">
             <div>
@@ -216,6 +206,8 @@ export default {
     data(){
         return{
             step:0,
+            setPassword: "",
+            conPassword: "",
             isError:"",
             email:"",
             firstname:"",
@@ -228,10 +220,11 @@ export default {
             jobLevel:"",
             hobby:"",
             dealBreaker: "",
-            position: "",
+            // position: "",
             streeValue: 50,
             mhGoal: "",
-            serverError: ""
+            serverError: "",
+            peiod:0
         }
     },
     methods:{
@@ -240,69 +233,82 @@ export default {
             const setFirstname = this.firstname.trim();
             const setLastname = this.lastname.trim();
             const setPersonality = this.personality.trim();
-
-            if(this.step === 0){
-                if(setEmail !== "" && setFirstname !== "" && setLastname !== "" && setPersonality !== ""){
-                    this.step += 1;
-                    this.isError = "";
-                }else{
-                    this.isError = "email, firstname, lastname, gender, birthdate must not be empty."
+            const setGender = this.gender.trim();
+            const setBirthDate = this.birthDate.trim();
+            
+            if(this.setPassword === this.conPassword){
+                if(this.step === 0){
+                    if(setGender !== "" && setEmail !== "" && setFirstname !== "" 
+                    && setLastname !== "" && setPersonality !== "" && this.setPassword !== ""
+                    && setBirthDate !== ""){
+                        this.step += 1;
+                        this.isError = "";
+                    }else{
+                        this.isError = "อีเมล, ชื่อ, นามสกุล, เพศ, วันเกิด, รหัสผ่าน และ บุคลิกภาพ ไม่สามารถเว้นว่างได้"
+                    }
                 }
+            }else{
+                this.isError = "ยืนยันรหัสผ่านไม่ถูกต้อง"
             }
+            
         },
 
         haddleStep_2(){
-            const setGender = this.gender.trim();
-            const setBirthDate = this.birthDate.trim();
+            
+
             const setWorkingNature = this.workingNature.trim();
             const setSector = this.sector.trim();
             const setJobLevel = this.jobLevel.trim();
-
-            if(setGender !== "" && setBirthDate !== "" && setWorkingNature !== "" && setSector !== "" && setJobLevel !== ""){
+            if(setWorkingNature !== "" && setSector !== "" && setJobLevel !== "" ){
                 this.step += 1;
                 this.isError = "";
             }else{
-                this.isError = "gender, birthdate, working natire, sector, birthdate must not be empty."
+                this.isError = "สายงาน, ประเภทงาน, ระดับยงาน และ อายุงาน ไม่สามารถเว้นว่างได้"
             }
         },
         
         async haddleRegister(){
-            const setHobby = this.hobby.trim();
-            // const setPosition = this.position.trim();
+            // console.log("haddle register")
             const setMhGoal = this.mhGoal.trim();
-            console.log("setHobby", setHobby);
-            // console.log("setPosition", setPosition)
-            console.log("setMhGoal", setMhGoal)
-            if(setHobby !== ""  && setMhGoal !== ""){
+            if(this.hobby !== ""  && setMhGoal !== "" && this.dealBreaker !== ""){
                 const setDate = new Date();
                 const isDate = setDate.getFullYear()+"/"+(setDate.getMonth() + 1)+"/"+setDate.getDate()+" "+(setDate.getHours()+7)+":" + setDate.getMinutes()+":"+setDate.getSeconds() 
                 // register POST API //
+
                 const payload = {
+                    birthday: this.birthDate,
                     create_date: isDate,
+                    dealbreaker: this.dealBreaker,
                     email: this.email,
+                    exisiting_silution: this.hobby,
                     firstname: this.firstname,
-                    lastname: this.lastname,
-                    personality: this.personality,
                     gender: this.gender,
-                    birthDate: this.birthDate,
-                    workingNature: this.workingNature,
-                    sector: this.sector,
-                    jobLevel: this.jobLevel,
                     hobby: this.hobby,
-                    dealBreaker: this.dealBreaker,
-                    position: this.position,
-                    streeValue: this.streeValue,
-                    mhGoal: this.mhGoal,
+                    job_level:  this.jobLevel,
+                    lastname: this.lastname,
+                    mh_goal: setMhGoal,
+                    password: this.setPassword,
+                    peiod: this.peiod,
+                    personality_type: this.personality,
+                    sector: this.sector,
+                    stree_level: this.streeValue,
+                    tenan: "N/A",
+                    update_date: isDate,
+                    working_nature: this.workingNature
                 }
-                
+ 
                 try{
                     const registerRepley = await axios.post("https://backend-hdt-register-zt27agut7a-as.a.run.app/api/register", payload)
-                    if(registerRepley.status === 200){
+                    console.log(registerRepley.data)
+                    if(registerRepley.data.status === 200){
+                        alert("สมัครสมาชิกสำเร็จ")
+                        console.log("this.step ==> ",this.step)
                         this.isError = ""
                         this.step += 1
-                        alert("สมัครสมาชิกสำเร็จ")
+                        
+                        
                     }else{
-                        this.isError = registerRepley.data
+                        this.isError = registerRepley.data.data
                         this.step += 1
                     }
                 }catch(err){
@@ -310,13 +316,8 @@ export default {
                 }
                 // end POST API //
 
-                // debug //
-                this.isError = "";
-                this.step += 1;
-                alert("สมัครสมาชิกสำเร็จ");
-                // end debug //
             }else{
-                this.isError = "hobby, joblevel, mhgoal must not be empty"
+                this.isError = "งานอดิเรก, ช่วงเวลาพักผ่อน, เป้าหมาย sookyen ไม่สามารถเว้นว่างได้"
             }
         },
 
@@ -333,17 +334,6 @@ export default {
 </script>
 
 <style scoped>
-
-/*.container-register{
-    background-image: url('../assets/register_phone.jpg');
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: white;
-}*/
 
 
 .set-username{
