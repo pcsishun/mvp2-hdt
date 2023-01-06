@@ -17,6 +17,7 @@ const cors_1 = __importDefault(require("cors"));
 const datastore_1 = require("@google-cloud/datastore");
 const dotenv_1 = __importDefault(require("dotenv"));
 const auth_1 = __importDefault(require("./middleware/auth"));
+const connectString_1 = __importDefault(require("./function/connectString"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const datastore = new datastore_1.Datastore();
@@ -44,7 +45,7 @@ app.post("/api/home", auth_1.default, (req, res) => __awaiter(void 0, void 0, vo
                 .filter("email", "=", email)
                 .limit(1);
             const [taskTenan] = yield datastore.runQuery(createTenanQuery);
-            if (taskTenan) {
+            if (taskTenan[0]) {
                 try {
                     const createEmotion = datastore.createQuery(kind_emo)
                         .filter("email", "=", email)
@@ -52,6 +53,10 @@ app.post("/api/home", auth_1.default, (req, res) => __awaiter(void 0, void 0, vo
                         .filter("create_date", ">=", isDate)
                         .filter("create_date", "<=", before_Date);
                     const [taskData] = yield datastore.runQuery(createEmotion);
+                    const imgBase64 = (0, connectString_1.default)(taskData);
+                    const replayData = {
+                        wordCloud: imgBase64
+                    };
                     res.send(taskData);
                 }
                 catch (err) {

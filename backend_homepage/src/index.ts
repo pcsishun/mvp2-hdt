@@ -3,6 +3,7 @@ import cors from "cors";
 import {Datastore} from "@google-cloud/datastore"
 import dotenv from "dotenv"
 import auth from './middleware/auth'
+import connectString from "./function/connectString";
 dotenv.config()
 
 const app = express();
@@ -41,7 +42,7 @@ app.post("/api/home", auth,async (req, res) => {
 
             const [taskTenan]:any  = await datastore.runQuery(createTenanQuery)
             
-            if(taskTenan){
+            if(taskTenan[0]){
                 try{
                     const createEmotion = datastore.createQuery(kind_emo)
                     .filter("email", "=", email)
@@ -50,7 +51,12 @@ app.post("/api/home", auth,async (req, res) => {
                     .filter("create_date", "<=", before_Date)
 
                     const [taskData]:any  = await datastore.runQuery(createEmotion)
-                    res.send(taskData)
+                    const imgBase64 =  connectString(taskData)
+                    const replayData = {
+                        wordCloud: imgBase64,
+                        data:taskData
+                    }
+                    res.send(replayData)
                 }catch(err){
                     warping = {
                         status: 500,

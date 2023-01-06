@@ -13,9 +13,15 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
+/* google font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100;200;300;400;500;600&display=swap');
+
 body{
   padding: 0px;
   margin: 0px;
   background-color: #EFFAFF;
+  font-family: 'Noto Sans Thai', sans-serif;
 }
+
+
 </style>

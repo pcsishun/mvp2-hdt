@@ -302,11 +302,9 @@ export default {
                     console.log(registerRepley.data)
                     if(registerRepley.data.status === 200){
                         alert("สมัครสมาชิกสำเร็จ")
-                        console.log("this.step ==> ",this.step)
+                        // console.log("this.step ==> ",this.step)
                         this.isError = ""
                         this.step += 1
-                        
-                        
                     }else{
                         this.isError = registerRepley.data.data
                         this.step += 1

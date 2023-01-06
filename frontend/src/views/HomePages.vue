@@ -29,6 +29,7 @@ import CognitiveAndEmotionalVue from '../components/chart/CognitiveAndEmotional.
 import BTNRedoVue from '../components/btn_re_do/BTNRedo.vue';
 import Navbar from '../components/navbar/Navbar.vue'
 import Menu from '../components/menu/Menu.vue'
+import axios from 'axios';
 
 export default {
     components:{
@@ -42,14 +43,35 @@ export default {
     },
     data(){
         return{
-
+            isError: ""
         }
     },
     methods:{
+        async authToken(){
+            const isToken = this.$cookies.get("hdt-token");
+            console.log(isToken);
+            if(isToken){
+                const headerConf = {
+                    headers:{
+                        "access-token": isToken.token
+                    }
+                }
 
+                try{
+                    const homeData = await axios.get(`--`, headerConf);
+                    
+                }catch(err){
+                    this.isError = err
+                }
+            }else{
+                alert("Session is expired.");
+                this.$cookies.remove("hdt-token");
+                this.$router.push("/")
+            }
+        }
     },
     mounted(){
-
+        
     }
 }
 </script>

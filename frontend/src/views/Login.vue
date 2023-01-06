@@ -59,7 +59,7 @@ export default {
                 console.log("userAccess", userAccess.data)
                 if(userAccess.status === 200){
                     console.log("login!")
-                    this.$cookies.set("hdt-token", userAccess.data)
+                    this.$cookies.set("hdt-token", userAccess.data.token)
                     this.$router.push("/")
                 }else{
                     this.isError = "Invalid email or password."

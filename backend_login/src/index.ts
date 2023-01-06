@@ -20,7 +20,7 @@ const port = process.env.PORT || 2298
 const kind = process.env.KIND || "userprofile"
 const kindTenan = process.env.KIND_TENAN || "profiletenan"
 const tokenSign = process.env.SECRET_TOKEN || "--"
-const Expires = process.env.EXPIRES || "1 day"
+const Expires = process.env.EXPIRES || "30 days"
 
 app.get("/test", (req, res) => {
     res.send("OK")
@@ -35,22 +35,22 @@ app.post("/api/login", async (req, res) => {
             .filter("email", "=", email)
             .limit(1)
             const [tenanTask]:any = await datastore.runQuery(createQueryTenan)
-            console.log("tenanTask ===> ", tenanTask)
-            if(tenanTask){
+            // console.log("tenanTask ===> ", tenanTask)
+            if(tenanTask[0]){
                 try{
                     const createQuery =  datastore.createQuery(kind)
                     .filter("email","=", email)
                     .limit(1)
                     
                     const [task]:any = await datastore.runQuery(createQuery)
-                    console.log("task ===> ",task)
+                    // console.log("task ===> ",task)
                     const hashPassword = task[0].password
                     const setEmail = task[0].email
                     const setTenan = task[0].tenan
 
-                    console.log("hashPassword ===> ",hashPassword)
-                    console.log("setEmail ===> ",setEmail)
-                    console.log("setTenan ===> ",setTenan)
+                    // console.log("hashPassword ===> ",hashPassword)
+                    // console.log("setEmail ===> ",setEmail)
+                    // console.log("setTenan ===> ",setTenan)
 
                     if(setEmail && (await bcrypt.compare(password, hashPassword))){
                         const setData = {
