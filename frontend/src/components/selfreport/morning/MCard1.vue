@@ -1,6 +1,8 @@
 <template>
-    <div class="">
-        
+    <div class="c-card-1">
+        <div>
+            
+        </div>
     </div>
 </template>
 

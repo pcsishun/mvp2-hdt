@@ -187,11 +187,16 @@
                 {{isError}}
             </div>
         </div>
-        <div class="btn-next text-center mt-10 pb-5">
-            <button v-if="step === 0" class="set-btn-next w-[60%] rounded-lg" @click="haddleStep_1()">ถัดไป</button>
-            <button v-if="step === 1" class="set-btn-next w-[60%] rounded-lg" @click="haddleStep_2()">ถัดไป</button>
-            <button v-if="step === 2" class="set-btn-next w-[60%] rounded-lg" @click="haddleRegister()">บันทึก</button>
-            <button v-if="step === 3" class="set-btn-next w-[60%] rounded-lg" @click="haddleRedict()">กลับสู่หน้า login</button>
+        <div class="btn-next text-center mt-10 pb-5 flex justify-center">
+            <div class="ml-3 mr-3">
+                <button v-if="step !== 0" class="set-btn-next w-[130px] rounded-lg" @click="backStep()">ย้อนกลับ</button>
+            </div>
+            <div class="ml-3 mr-3">
+                <button v-if="step === 0" class="set-btn-next w-[130px] rounded-lg" @click="haddleStep_1()">ถัดไป</button>
+                <button v-if="step === 1" class="set-btn-next w-[130px] rounded-lg" @click="haddleStep_2()">ถัดไป</button>
+                <button v-if="step === 2" class="set-btn-next w-[130px] rounded-lg" @click="haddleRegister()">บันทึก</button>
+                <button v-if="step === 3" class="set-btn-next w-[130px] rounded-lg" @click="haddleRedict()">กลับสู่หน้า login</button>
+            </div>
         </div>
     </div>
 </template>
@@ -228,6 +233,13 @@ export default {
         }
     },
     methods:{
+        backStep(){
+            if(this.step < 0){
+                this.step -= 1;
+            }else{
+                this.step = 0;
+            }
+        }, 
         haddleStep_1(){
             const setEmail = this.email.trim();
             const setFirstname = this.firstname.trim();

@@ -1,4 +1,6 @@
 import { createStore } from 'vuex' 
+import * as faceapi from "face-api.js";
+
 
 export default createStore({
     state: {
@@ -7,6 +9,6 @@ export default createStore({
         cssHamOpenTB: "ham-tb-close"
     },
     mutations:{
-
+        
     }
 });
