@@ -6,7 +6,7 @@
     <div class="self-report-container w-[95%] m-auto">
         <div class="title text-center mt-20 text-[20px] font-bold">บันทึกเรื่องราวของฉันประจำวัน</div>
         <div class="set-description mt-10  text-center p-5" >
-            <div class="warp" v-if="cardStep === 0">
+            <div class="warp" v-if="$store.state.stepCard === 0">
                 <div class="description-text mt-5">
                     <div> ทางเราหวังเป็นอย่างยิ่งว่าข้อมูลของท่านจะช่วยให้เราออกแบบระบบในอนาคตที่สามารถช่วยเหลือผู้ป่วยสุขภาพจิตให้สามารถดำเนินชีวิตที่ดียิ่งขึ้นได้ในอนาคต</div>
                     <div class="flex justify-around mt-10">
@@ -15,17 +15,6 @@
                         </div>
                         <div class="mt-5 text-left ml-3">ระบบจะมีการใช้ AI ตรวจจับภาวะอารมณ์จากทางใบหน้าผู้ใช้ ทางระบบจะไม่มีการเก็บรูปหรือวีดีโอ user หากพร้อมแล้วสามารถกดปุ่มเริ่มต้นเพื่อเริ่มบันทึกเรื่องราวประจำวัน</div>
                     </div>
-                </div>
-                <div class="btn-selfreport mt-20 p-5">
-                    <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700">
-                        เริ่มต้น
-                    </button>
-                    <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="fnOpen">
-                        test
-                    </button>
-                    <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="fnClose">
-                        stop test
-                    </button>
                 </div>
             </div>
             <div class="see">
@@ -40,17 +29,38 @@
                 ></video>
                 <canvas id="myCanvas" hidden />
             </div>
-            <MCard1Vue v-if="cardType === 'morning' &&  cardStep === 1"/>
-            <MCard2Vue v-if="cardType === 'morning' &&  cardStep === 2"/>
-            <MCard3Vue v-if="cardType === 'morning' &&  cardStep === 3"/>
-            <ACard1Vue v-if="cardType === 'afternoon' &&  cardStep === 1"/>
-            <ACard2Vue v-if="cardType === 'afternoon' &&  cardStep === 2"/>
-            <ACard3Vue v-if="cardType === 'afternoon' &&  cardStep === 3"/>
-            <ACard4Vue v-if="cardType === 'afternoon' &&  cardStep === 4"/>
-            <ParameterVue v-if="cardStep === 5"/>
-            <SyncDeviceVue v-if="cardStep === 6"/>
-            <HeartRateVue v-if="cardStep === 7"/>
-            <FinishCardVue v-if="cardStep === 8"/>
+            <MCard1Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 1"/>
+            <MCard2Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 2"/>
+            <MCard3Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 3"/>
+            <ACard1Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 1"/>
+            <ACard2Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 2"/>
+            <ACard3Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 3"/>
+            <ACard4Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 4"/>
+            <ParameterVue v-if="$store.state.stepCard === 5"/>
+            <!-- <SyncDeviceVue v-if="$store.state.stepCard === 6"/> -->
+            <HeartRateVue v-if="$store.state.stepCard === 6"/>
+            <FinishCardVue v-if="$store.state.stepCard === 7"/>
+            <div class="btn-selfreport mt-[40px] p-5">
+                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="$store.commit('haddleNextCard')" hidden v-if="$store.state.stepCard === 0">
+                    เริ่มต้น
+                </button> -->
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('start')" v-if="$store.state.stepCard === 0">
+                    เริ่มต้น
+                </button>
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard > 7" >
+                    ถัดไป
+                </button>
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 7" >
+                    เสร็จสิ้น
+                </button>
+                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleDebug">debug</button> -->
+                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="fnOpen">
+                    test
+                </button>
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="this.$store.commit('fnClose')">
+                    stop test
+                </button> -->
+            </div>
         </div>
     </div>
 </template>
@@ -76,7 +86,9 @@ import SyncDeviceVue from '../components/selfreport/general/SyncDevice.vue'
 import HeartRateVue from '../components/selfreport/general/HeartRate.vue'
 import FinishCardVue from '../components/selfreport/general/FinishCard.vue'
 
-import * as faceapi from "face-api.js";
+import * as faceapi from "face-api.js"
+import axios from 'axios'
+
 
 export default {
     components:{
@@ -96,8 +108,10 @@ export default {
     },
     data(){
         return{
-            cardStep: 0,
+            // $store.state.stepCard: 0,
             cardType: "",
+            isReport:"",
+            countResult: 0,
             nets: "tinyFaceDetector", 
             options: null,
             withBoxes: true,
@@ -106,6 +120,14 @@ export default {
             videoEl: null,
             canvasEl: null,
             timeout: 0,
+            setAnger:[],
+            setDisgusted:[],
+            setFearful:[],
+            setHappy:[],
+            setNeutral:[],
+            setSad:[],
+            setSurprised:[],
+            
             constraints: {
                 audio: false,
                 video: {
@@ -142,9 +164,9 @@ export default {
         },
         detection(val) {
         this.detection = val;
-        this.videoEl.pause();
+        this.$store.state.videoEl.pause();
         setTimeout(() => {
-            this.videoEl.play();
+            this.$store.state.videoEl.play();
             setTimeout(() => this.fnRun(), 300);
         }, 300);
         },
@@ -153,19 +175,123 @@ export default {
         this.$nextTick(() => {
         this.fnInit();
         });
+        // console.log("$store.state.stepCard ==> " ,this.$store.state.stepCard);
+        // console.log("cardType ==> ",this.cardType);
     },
     beforeMount(){
         this.controllCard();
     },
     methods:{
+        haddleFinish(){
+            try{
+                // POST TO Backend_emotion // 
+                console.log("POST finish")
+                alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
+                location.reload()
+            }catch(err){
+                console.log(err)
+            }
+        },  
+        haddleDebug(){
+            console.log("answerAndEmotion => ",this.$store.state.answerAndEmotion)
+        },
         controllCard(){
             const d = new Date();
             const hours = d.getHours();
             if(hours <= 12 && hours > 0){
-                this.cardType = "morning"
+                this.cardType = "morning" // morning
             }else{
-                this.cardType = "afternoon"
+                this.cardType = "afternoon" // afternoon
             }
+        },
+        
+        // start face cam // 
+        haddleNextCard(status){
+            
+            this.$store.state.stepCard += 1;
+            console.log("step card => ", this.$store.state.stepCard)
+
+            if(this.$store.state.stepCard === 5 && this.cardType === 'afternoon'){
+                this.$store.commit('fnClose');
+                this.isReport = "none"
+            }else if(this.$store.state.stepCard === 4 && this.cardType === 'morning'){
+                this.$store.commit('fnClose');
+                this.isReport = "none"
+                this.$store.state.stepCard += 1;
+            }else if(this.isReport === 'none' && this.$store.state.stepCard === 7){
+                // stream.getTracks().forEach(function(track) {
+                //     track.stop();
+                // });
+                this.$store.commit('fnClose');
+            }
+            
+            if(status === 'start'){
+                this.fnOpen();
+            }else if (this.isReport !== 'none'){
+
+                const averageAnger = this.setAnger.reduce((a, b) => a + b, 0) / this.setAnger.length;
+                const averageDisgusted = this.setDisgusted.reduce((a, b) => a + b, 0) / this.setDisgusted.length;
+                const averageFearful = this.setFearful.reduce((a, b) => a + b, 0) / this.setFearful.length;
+                const averageHappy = this.setHappy.reduce((a, b) => a + b, 0) / this.setHappy.length;
+                const averageNeutral = this.setNeutral.reduce((a, b) => a + b, 0) / this.setNeutral.length;
+                const averageSad = this.setSad.reduce((a, b) => a + b, 0) / this.setSad.length;
+                const averageSurprised = this.setSurprised.reduce((a, b) => a + b, 0) / this.setSurprised.length;
+
+                if(this.cardType === 'afternoon'){
+                    
+                        const payload = {
+                            timing: "afternoon",
+                            anger: averageAnger,
+                            disgusted:averageDisgusted,
+                            fearful:averageFearful,
+                            happy:averageHappy,
+                            neutral:averageNeutral,
+                            sad:averageSad,
+                            surprised:averageSurprised,
+                            answer: this.$store.state.answerCard,
+                        }
+                        this.setAnger = []
+                        this.setDisgusted = []
+                        this.setFearful = []
+                        this.setHappy = []
+                        this.setNeutral = []
+                        this.setSad = []
+                        this.setSurprised = []
+                        this.$store.state.answerCard = ""
+                        this.$store.state.answerAndEmotion.push(payload)
+
+            }else if(this.cardType === 'morning'){
+                        const payload = {
+                            timing: "morning",
+                            anger: averageAnger,
+                            disgusted:averageDisgusted,
+                            fearful:averageFearful,
+                            happy:averageHappy,
+                            neutral:averageNeutral,
+                            sad:averageSad,
+                            surprised:averageSurprised,
+                            answer: this.$store.state.answerCard,
+                        }
+                        this.setAnger = []
+                        this.setDisgusted = []
+                        this.setFearful = []
+                        this.setHappy = []
+                        this.setNeutral = []
+                        this.setSad = []
+                        this.setSurprised = []
+                        this.$store.state.answerCard = ""
+                        this.$store.state.answerAndEmotion.push(payload)
+                }
+            }
+        }, 
+
+        sleepFunc(milliseconds){
+            const date = Date.now();
+            let currentDate = null;
+            console.log("waiting 3 sec!")
+            do {
+                currentDate = Date.now();
+            } while (currentDate - date < milliseconds);
         },
 
         async fnInit() {
@@ -187,73 +313,97 @@ export default {
                     break;
                 case "mtcnn":
                     this.options = new faceapi.MtcnnOptions({
-                        minFaceSize: 20, // 0.1 ~ 0.9
-                        scaleFactor: 0.709, // 0.1 ~ 0.9
+                        minFaceSize: 20, 
+                        scaleFactor: 0.709, 
                     });
                     break;
                 }
-            this.videoEl = document.getElementById("myVideo");
-            this.canvasEl = document.getElementById("myCanvas");
+            this.$store.state.videoEl = document.getElementById("myVideo");
+            this.$store.state.canvasEl = document.getElementById("myCanvas");
         },
 
         async fnRunFaceLandmark() {
             console.log("RunFaceLandmark");
-            if (this.videoEl.paused) return clearTimeout(this.timeout);
+            if (this.$store.state.videoEl.paused) return clearTimeout(this.timeout);
             const result = await faceapi[this.detectFace](
-                this.videoEl,
+                this.$store.state.videoEl,
                 this.options
                 ).withFaceLandmarks();
-            if (result && !this.videoEl.paused) {
-                const dims = faceapi.matchDimensions(this.canvasEl, this.videoEl, true);
+            if (result && !this.$store.state.videoEl.paused) {
+                const dims = faceapi.matchDimensions(this.$store.state.canvasEl, this.$store.state.videoEl, true);
                 const resizeResult = faceapi.resizeResults(result, dims);
                 this.withBoxes 
-                    ? faceapi.draw.drawDetections(this.canvasEl, resizeResult)
-                    : faceapi.draw.drawFaceLandmarks(this.canvasEl, resizeResult);
+                    ? faceapi.draw.drawDetections(this.$store.state.canvasEl, resizeResult)
+                    : faceapi.draw.drawFaceLandmarks(this.$store.state.canvasEl, resizeResult);
             } else {
-                this.canvasEl.getContext("2d").clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
+                this.$store.state.canvasEl.getContext("2d").clearRect(0, 0, this.$store.state.canvasEl.width, this.$store.state.canvasEl.height);
             }
             this.timeout = setTimeout(() => this.fnRunFaceLandmark());
         },
         
         async fnRunFaceExpression() {
             // console.log("RunFaceExpression");
-            if (this.videoEl.paused) return clearTimeout(this.timeout);
-            const result = await faceapi[this.detectFace](this.videoEl, this.options)
+            if (this.$store.state.videoEl.paused) return clearTimeout(this.timeout);
+            const result = await faceapi[this.detectFace](this.$store.state.videoEl, this.options)
                 .withFaceLandmarks()
                 .withFaceExpressions();
-            if (result && !this.videoEl.paused) {
-                const dims = faceapi.matchDimensions(this.canvasEl, this.videoEl, true);
+            if (result && !this.$store.state.videoEl.paused) {
+                const dims = faceapi.matchDimensions(this.$store.state.canvasEl, this.$store.state.videoEl, true);
                 const resizeResult = faceapi.resizeResults(result, dims);
                 this.withBoxes
-                ? faceapi.draw.drawDetections(this.canvasEl, resizeResult)
-                : faceapi.draw.drawFaceLandmarks(this.canvasEl, resizeResult);
-                faceapi.draw.drawFaceExpressions(this.canvasEl, resizeResult, 0.05);
-                console.log("result emo =>",resizeResult.expressions);
-                // this.angry = resizeResult.expressions.angry
-                // this.disgusted = resizeResult.expressions.disgusted
-                // this.fearful = resizeResult.expressions.fearful
-                // this.happy = resizeResult.expressions.happy
-                // this.neutral = resizeResult.expressions.neutral
-                // this.surprised = resizeResult.expressions.surprised
+                ? faceapi.draw.drawDetections(this.$store.state.canvasEl, resizeResult)
+                : faceapi.draw.drawFaceLandmarks(this.$store.state.canvasEl, resizeResult);
+                faceapi.draw.drawFaceExpressions(this.$store.state.canvasEl, resizeResult, 0.05);
+                // output result //
+                // console.log("resizeResult.expressions.anger", resizeResult.expressions)
+                if(this.countResult < 20){
+                    // this.$store.state.anger.push(resizeResult.expressions.anger)
+                    // this.$store.state.disgusted.push(resizeResult.expressions.disgusted)
+                    // this.$store.state.fearful.push(resizeResult.expressions.fearful)
+                    // this.$store.state.happy.push(resizeResult.expressions.happy)
+                    // this.$store.state.neutral.push(resizeResult.expressions.neutral)
+                    // this.$store.state.sad.push(resizeResult.expressions.sad)
+                    // this.$store.state.surprised.push(resizeResult.expressions.surprised)
+                    this.setAnger.push(resizeResult.expressions.angry)
+                    this.setDisgusted.push(resizeResult.expressions.disgusted)
+                    this.setFearful.push(resizeResult.expressions.fearful)
+                    this.setHappy.push(resizeResult.expressions.happy)
+                    this.setNeutral.push(resizeResult.expressions.neutral)
+                    this.setSad.push(resizeResult.expressions.sad)
+                    this.setSurprised.push(resizeResult.expressions.surprised)
+                    this.countResult += 1;
+                    // console.log(this.countResult);
+                }else{
+                    this.countResult = 0;
+                    // console.log("anger: ", this.$store.state.anger)
+                    // console.log("disgusted: ", this.$store.state.disgusted)
+                    // console.log("fearful: ", this.$store.state.fearful)
+                    // console.log("happy: ", this.$store.state.happy)
+                    // console.log("neutral: ", this.$store.state.neutral)
+                    // console.log("sad: ", this.$store.state.sad)
+                    // console.log("surprised: ", this.$store.state.surprised)
+                    this.sleepFunc(3000)
+                }
+
             } else {
-                this.canvasEl
+                this.$store.state.canvasEl
                 .getContext("2d")
-                .clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
+                .clearRect(0, 0, this.$store.state.canvasEl.width, this.$store.state.canvasEl.height);
             }
             this.timeout = setTimeout(() => this.fnRunFaceExpression());
         },
 
         async fnRunFaceAgeAndGender() {
-            if (this.videoEl.paused) return clearTimeout(this.timeout);
-            const result = await faceapi[this.detectFace](this.videoEl, this.options)
+            if (this.$store.state.videoEl.paused) return clearTimeout(this.timeout);
+            const result = await faceapi[this.detectFace](this.$store.state.videoEl, this.options)
                 .withFaceLandmarks()
                 .withAgeAndGender();
-            if (result && !this.videoEl.paused) {
-                const dims = faceapi.matchDimensions(this.canvasEl, this.videoEl, true);
+            if (result && !this.$store.state.videoEl.paused) {
+                const dims = faceapi.matchDimensions(this.$store.state.canvasEl, this.$store.state.videoEl, true);
                 const resizeResults = faceapi.resizeResults(result, dims);
                 this.withBoxes
-                ? faceapi.draw.drawDetections(this.canvasEl, resizeResults)
-                : faceapi.draw.drawFaceLandmarks(this.canvasEl, resizeResults);
+                ? faceapi.draw.drawDetections(this.$store.state.canvasEl, resizeResults)
+                : faceapi.draw.drawFaceLandmarks(this.$store.state.canvasEl, resizeResults);
                 if (Array.isArray(resizeResults)) {
                 resizeResults.forEach((result) => {
                     const { age, gender, genderProbability } = result;
@@ -263,7 +413,7 @@ export default {
                         `${gender} (${Math.round(genderProbability)})`,
                     ],
                     result.detection.box.bottomLeft
-                    ).draw(this.canvasEl);
+                    ).draw(this.$store.state.canvasEl);
                 });
                 } else {
                 const { age, gender, genderProbability } = resizeResults;
@@ -273,12 +423,12 @@ export default {
                     `${gender} (${Math.round(genderProbability)})`,
                     ],
                     resizeResults.detection.box.bottomLeft
-                ).draw(this.canvasEl);
+                ).draw(this.$store.state.canvasEl);
                 }
             } else {
-                this.canvasEl
+                this.$store.state.canvasEl
                 .getContext("2d")
-                .clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
+                .clearRect(0, 0, this.$store.state.canvasEl.width, this.$store.state.canvasEl.height);
             }
             this.timeout = setTimeout(() => this.fnRunFaceAgeAndGender());
         },
@@ -305,36 +455,39 @@ export default {
             this.timeout = setTimeout(() => {
                 clearTimeout(this.timeout);
                 navigator.mediaDevices
-                .getUserMedia(this.constraints)
-                .then(this.fnSuccess)
-                .catch(this.fnError);
+                    .getUserMedia(this.constraints)
+                    .then(this.fnSuccess)
+                    .catch(this.fnError);
             }, 300);
         },
 
         fnSuccess(stream) {
+            // console.log("test ==> ",demo)
+            console.log("stream ==> ",stream)
             window.stream = stream; 
-            this.videoEl.srcObject = stream;
-            this.videoEl.play();
+            this.$store.state.videoEl.srcObject = stream;
+            this.$store.state.videoEl.play();
         },
 
         fnError(error) {
             console.log(error);
             alert("steaming error: " + error);
         },
-        fnClose() {
-            this.canvasEl.getContext("2d").clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
-            this.videoEl.pause();
-            clearTimeout(this.timeout);
-            if (typeof window.stream === "object") {
-                window.stream.getTracks().forEach((track) => track.stop());
-                window.stream = "";
-                this.videoEl.srcObject = null;
-            }
-        },
+        
+        // fnClose() {
+        //     this.$store.state.canvasEl.getContext("2d").clearRect(0, 0, this.$store.state.canvasEl.width, this.$store.state.canvasEl.height);
+        //     this.$store.state.videoEl.pause();
+        //     clearTimeout(this.timeout);
+        //     if (typeof window.stream === "object") {
+        //         window.stream.getTracks().forEach((track) => track.stop());
+        //         window.stream = "";
+        //         this.$store.state.videoEl.srcObject = null;
+        //     }
+        // },
     },
-   
     beforeDestroy() {
-        this.fnClose();
+        this.$store.commit('fnClose');
+        // this.$store.commit("fnClose")
     },
 }
 </script>

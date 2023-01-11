@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import {Datastore} from "@google-cloud/datastore"
+import language from "@google-cloud/language"
 import * as dotenv from 'dotenv'
 import  auth from "./middleware/auth"
 dotenv.config()
