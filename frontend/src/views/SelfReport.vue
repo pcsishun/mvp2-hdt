@@ -37,29 +37,24 @@
             <ACard3Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 3"/>
             <ACard4Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 4"/>
             <ParameterVue v-if="$store.state.stepCard === 5"/>
-            <!-- <SyncDeviceVue v-if="$store.state.stepCard === 6"/> -->
             <HeartRateVue v-if="$store.state.stepCard === 6"/>
             <FinishCardVue v-if="$store.state.stepCard === 7"/>
+            <div class="text-center text-red-700 mt-3 p-3">{{isError}}</div>
             <div class="btn-selfreport mt-[40px] p-5">
-                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="$store.commit('haddleNextCard')" hidden v-if="$store.state.stepCard === 0">
-                    เริ่มต้น
-                </button> -->
+                <div class="text-right" v-if="$store.state.isGoalCard !== true && $store.state.isUseMic !== false">
+                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleOpenMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 && $store.state.setMic === 'mic'">mic</button>
+                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleCloseMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 && $store.state.setMic === 'off'">off</button>
+                </div>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('start')" v-if="$store.state.stepCard === 0">
                     เริ่มต้น
                 </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard > 7" >
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 " >
                     ถัดไป
                 </button>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 7" >
                     เสร็จสิ้น
                 </button>
-                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleDebug">debug</button> -->
-                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="fnOpen">
-                    test
-                </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="this.$store.commit('fnClose')">
-                    stop test
-                </button> -->
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleDebug">debug</button>
             </div>
         </div>
     </div>
@@ -88,6 +83,7 @@ import FinishCardVue from '../components/selfreport/general/FinishCard.vue'
 
 import * as faceapi from "face-api.js"
 import axios from 'axios'
+
 
 
 export default {
@@ -119,6 +115,7 @@ export default {
             detection: "expression",
             videoEl: null,
             canvasEl: null,
+            // setMic: "mic",
             timeout: 0,
             setAnger:[],
             setDisgusted:[],
@@ -127,7 +124,8 @@ export default {
             setNeutral:[],
             setSad:[],
             setSurprised:[],
-            
+            isRecord: false,
+            // selectLang: 'th-TH',
             constraints: {
                 audio: false,
                 video: {
@@ -154,38 +152,49 @@ export default {
             fearful: null,
             happy: null,
             neutral: null,
-            surprised: null
+            surprised: null,
+            isError: null
+            // setMic:'mic'
         }
     },
     watch: {
         nets(val) {
-        this.nets = val;
-        this.fnInit();
-        },
-        detection(val) {
-        this.detection = val;
-        this.$store.state.videoEl.pause();
-        setTimeout(() => {
-            this.$store.state.videoEl.play();
-            setTimeout(() => this.fnRun(), 300);
-        }, 300);
+                this.nets = val;
+                this.fnInit();
+            },
+            detection(val) {
+            this.detection = val;
+            this.$store.state.videoEl.pause();
+            setTimeout(() => {
+                this.$store.state.videoEl.play();
+                setTimeout(() => this.fnRun(), 300);
+            }, 300);
         },
     },
     mounted() {
         this.$nextTick(() => {
         this.fnInit();
         });
-        // console.log("$store.state.stepCard ==> " ,this.$store.state.stepCard);
-        // console.log("cardType ==> ",this.cardType);
     },
     beforeMount(){
         this.controllCard();
     },
     methods:{
-        haddleFinish(){
+        
+        async haddleFinish(){
             try{
-                // POST TO Backend_emotion // 
+                // POST TO Backend_emotion //
+                // const headerConf = {
+                //     headers:{
+                //         "access-token": this.$cookies.get("hdt-token")
+                //     }
+                // }
+                // const payload = {
+                    
+                // }
+                // const resultInsert =  await axios.post("/", payload,headerConf)
                 console.log("POST finish")
+                // ==== //
                 alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
                 location.reload()
             }catch(err){
@@ -193,7 +202,9 @@ export default {
             }
         },  
         haddleDebug(){
-            console.log("answerAndEmotion => ",this.$store.state.answerAndEmotion)
+            console.log("answerAndEmotion ==> ",this.$store.state.answerAndEmotion)
+            console.log("parameter emotion ==> ", this.$store.state.emotionSlide, "and wieght", this.$store.state.weightEmotion)
+            console.log("bpm rate:", this.$store.state.myRatebpm, "average bpm => ", this.$store.state.averageBpm)
         },
         controllCard(){
             const d = new Date();
@@ -206,11 +217,9 @@ export default {
         },
         
         // start face cam // 
-        haddleNextCard(status){
-            
+        haddleNextCard(){
             this.$store.state.stepCard += 1;
-            console.log("step card => ", this.$store.state.stepCard)
-
+            this.isError = null
             if(this.$store.state.stepCard === 5 && this.cardType === 'afternoon'){
                 this.$store.commit('fnClose');
                 this.isReport = "none"
@@ -219,26 +228,25 @@ export default {
                 this.isReport = "none"
                 this.$store.state.stepCard += 1;
             }else if(this.isReport === 'none' && this.$store.state.stepCard === 7){
-                // stream.getTracks().forEach(function(track) {
-                //     track.stop();
-                // });
                 this.$store.commit('fnClose');
             }
+
             
-            if(status === 'start'){
+            if(this.$store.state.stepCard === 1){
                 this.fnOpen();
             }else if (this.isReport !== 'none'){
-
-                const averageAnger = this.setAnger.reduce((a, b) => a + b, 0) / this.setAnger.length;
-                const averageDisgusted = this.setDisgusted.reduce((a, b) => a + b, 0) / this.setDisgusted.length;
-                const averageFearful = this.setFearful.reduce((a, b) => a + b, 0) / this.setFearful.length;
-                const averageHappy = this.setHappy.reduce((a, b) => a + b, 0) / this.setHappy.length;
-                const averageNeutral = this.setNeutral.reduce((a, b) => a + b, 0) / this.setNeutral.length;
-                const averageSad = this.setSad.reduce((a, b) => a + b, 0) / this.setSad.length;
-                const averageSurprised = this.setSurprised.reduce((a, b) => a + b, 0) / this.setSurprised.length;
-
-                if(this.cardType === 'afternoon'){
-                    
+                // console.log("set 1")
+                if(this.$store.state.isGoalCard === false && this.$store.state.answerCard !== "" && this.$store.state.answerCard !== null && this.$store.state.answerCard !== NaN){
+                    // console.log("set 2")
+                    const averageAnger = this.setAnger.reduce((a, b) => a + b, 0) / this.setAnger.length;
+                    const averageDisgusted = this.setDisgusted.reduce((a, b) => a + b, 0) / this.setDisgusted.length;
+                    const averageFearful = this.setFearful.reduce((a, b) => a + b, 0) / this.setFearful.length;
+                    const averageHappy = this.setHappy.reduce((a, b) => a + b, 0) / this.setHappy.length;
+                    const averageNeutral = this.setNeutral.reduce((a, b) => a + b, 0) / this.setNeutral.length;
+                    const averageSad = this.setSad.reduce((a, b) => a + b, 0) / this.setSad.length;
+                    const averageSurprised = this.setSurprised.reduce((a, b) => a + b, 0) / this.setSurprised.length;
+                    if(this.cardType === 'afternoon'){
+                        // console.log("set 3")
                         const payload = {
                             timing: "afternoon",
                             anger: averageAnger,
@@ -257,10 +265,15 @@ export default {
                         this.setNeutral = []
                         this.setSad = []
                         this.setSurprised = []
-                        this.$store.state.answerCard = ""
                         this.$store.state.answerAndEmotion.push(payload)
-
-            }else if(this.cardType === 'morning'){
+                        this.$store.state.answerCard = ""
+                        this.$store.state.answerGoal1 = ""
+                        this.$store.state.answerGoal2 = ""
+                        this.$store.state.answerGoal3 = ""
+                        this.$store.commit('haddleCloseMic');
+                        this.$store.state.isGoalCard = false
+                        // console.log("set 4 answerCard => ", this.$store.state.answerCard)
+                    }else if(this.cardType === 'morning'){
                         const payload = {
                             timing: "morning",
                             anger: averageAnger,
@@ -271,6 +284,48 @@ export default {
                             sad:averageSad,
                             surprised:averageSurprised,
                             answer: this.$store.state.answerCard,
+                            }
+                        this.setAnger = []
+                        this.setDisgusted = []
+                        this.setFearful = []
+                        this.setHappy = []
+                        this.setNeutral = []
+                        this.setSad = []
+                        this.setSurprised = []
+                        this.$store.state.answerAndEmotion.push(payload)
+                        this.$store.state.answerCard = ""
+                        this.$store.state.answerGoal1 = ""
+                        this.$store.state.answerGoal2 = ""
+                        this.$store.state.answerGoal3 = ""
+                        this.$store.commit('haddleCloseMic')
+                        this.$store.state.isGoalCard = false
+                        // console.log("set 5 answerCard => ", this.$store.state.answerCard)
+                    }
+                }else if(this.$store.state.isGoalCard === true && this.$store.state.answerGoal1 !== "" && this.$store.state.answerGoal1 !== null && this.$store.state.answerGoal1 !== NaN){
+                    console.log("set 2")
+                    const averageAnger = this.setAnger.reduce((a, b) => a + b, 0) / this.setAnger.length;
+                    const averageDisgusted = this.setDisgusted.reduce((a, b) => a + b, 0) / this.setDisgusted.length;
+                    const averageFearful = this.setFearful.reduce((a, b) => a + b, 0) / this.setFearful.length;
+                    const averageHappy = this.setHappy.reduce((a, b) => a + b, 0) / this.setHappy.length;
+                    const averageNeutral = this.setNeutral.reduce((a, b) => a + b, 0) / this.setNeutral.length;
+                    const averageSad = this.setSad.reduce((a, b) => a + b, 0) / this.setSad.length;
+                    const averageSurprised = this.setSurprised.reduce((a, b) => a + b, 0) / this.setSurprised.length;
+                    if(this.cardType === 'afternoon'){
+                        console.log("set 3")
+                        const payload = {
+                            timing: "afternoon",
+                            anger: averageAnger,
+                            disgusted:averageDisgusted,
+                            fearful:averageFearful,
+                            happy:averageHappy,
+                            neutral:averageNeutral,
+                            sad:averageSad,
+                            surprised:averageSurprised,
+                            answer: [
+                                this.$store.state.answerGoal1,
+                                this.$store.state.answerGoal2,
+                                this.$store.state.answerGoal3,
+                            ],
                         }
                         this.setAnger = []
                         this.setDisgusted = []
@@ -279,8 +334,55 @@ export default {
                         this.setNeutral = []
                         this.setSad = []
                         this.setSurprised = []
-                        this.$store.state.answerCard = ""
                         this.$store.state.answerAndEmotion.push(payload)
+                        this.$store.state.answerCard = ""
+                        this.$store.state.answerGoal1 = ""
+                        this.$store.state.answerGoal2 = ""
+                        this.$store.state.answerGoal3 = ""
+                        this.$store.commit('haddleCloseMic');
+                        this.$store.state.isGoalCard = false
+                        // console.log("set 4 answerCard => ", this.$store.state.answerCard)
+                    }else if(this.cardType === 'morning'){
+                        const payload = {
+                            timing: "morning",
+                            anger: averageAnger,
+                            disgusted:averageDisgusted,
+                            fearful:averageFearful,
+                            happy:averageHappy,
+                            neutral:averageNeutral,
+                            sad:averageSad,
+                            surprised:averageSurprised,
+                            answer: [
+                                this.$store.state.answerGoal1,
+                                this.$store.state.answerGoal2,
+                                this.$store.state.answerGoal3,
+                            ],
+                            }
+                        this.setAnger = []
+                        this.setDisgusted = []
+                        this.setFearful = []
+                        this.setHappy = []
+                        this.setNeutral = []
+                        this.setSad = []
+                        this.setSurprised = []
+                        this.$store.state.answerAndEmotion.push(payload)
+                        this.$store.state.answerCard = ""
+                        this.$store.state.answerGoal1 = ""
+                        this.$store.state.answerGoal2 = ""
+                        this.$store.state.answerGoal3 = ""
+                        this.$store.commit('haddleCloseMic')
+                        this.$store.state.isGoalCard = false
+                        // console.log("set 5 answerCard => ", this.$store.state.answerCard)
+                    }
+                }else{
+                    console.log(this.$store.state.stepCard)
+                    if(this.$store.state.stepCard === 7){
+                        const setAverageBpm =  this.$store.state.myRatebpm.reduce((a, b) => a + b, 0) / this.$store.state.myRatebpm.length;
+                        this.$store.state.averageBpm = setAverageBpm
+                    }else{
+                        this.$store.state.stepCard -= 1
+                        this.isError = "กรุณาตอบคำถามในช่องว่าง"
+                    }
                 }
             }
         }, 
@@ -355,15 +457,8 @@ export default {
                 : faceapi.draw.drawFaceLandmarks(this.$store.state.canvasEl, resizeResult);
                 faceapi.draw.drawFaceExpressions(this.$store.state.canvasEl, resizeResult, 0.05);
                 // output result //
-                // console.log("resizeResult.expressions.anger", resizeResult.expressions)
+                // console.log("resizeResult.expressions ==> ", resizeResult.expressions)
                 if(this.countResult < 20){
-                    // this.$store.state.anger.push(resizeResult.expressions.anger)
-                    // this.$store.state.disgusted.push(resizeResult.expressions.disgusted)
-                    // this.$store.state.fearful.push(resizeResult.expressions.fearful)
-                    // this.$store.state.happy.push(resizeResult.expressions.happy)
-                    // this.$store.state.neutral.push(resizeResult.expressions.neutral)
-                    // this.$store.state.sad.push(resizeResult.expressions.sad)
-                    // this.$store.state.surprised.push(resizeResult.expressions.surprised)
                     this.setAnger.push(resizeResult.expressions.angry)
                     this.setDisgusted.push(resizeResult.expressions.disgusted)
                     this.setFearful.push(resizeResult.expressions.fearful)
@@ -375,14 +470,7 @@ export default {
                     // console.log(this.countResult);
                 }else{
                     this.countResult = 0;
-                    // console.log("anger: ", this.$store.state.anger)
-                    // console.log("disgusted: ", this.$store.state.disgusted)
-                    // console.log("fearful: ", this.$store.state.fearful)
-                    // console.log("happy: ", this.$store.state.happy)
-                    // console.log("neutral: ", this.$store.state.neutral)
-                    // console.log("sad: ", this.$store.state.sad)
-                    // console.log("surprised: ", this.$store.state.surprised)
-                    this.sleepFunc(3000)
+                    // this.sleepFunc(3000)
                 }
 
             } else {

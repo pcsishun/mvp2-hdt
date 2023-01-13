@@ -1,3 +1,5 @@
+import store from "../store"
+
 const RESCAN_INTERVAL = 1000;
 const DEFAULT_FPS = 40;
 const LOW_BPM = 42;
@@ -175,7 +177,7 @@ export class Heartbeat {
       this.face = faces.get(0);
       this.faceValid = true;
     } else {
-      console.log("No faces");
+      // console.log("No faces");
       document.getElementById("set-signal").innerHTML = "ไม่พบใบหน้า ขยับใบหน้าให้ใกล้ขึ้น หรือ ปรับแสงสว่างให้มากขึ้น";
       this.invalidateFace();
       // return "No faces"
@@ -312,13 +314,14 @@ export class Heartbeat {
         // Infer BPM
         let bpm = result.maxLoc.y * fps / signal.rows * SEC_PER_MIN;
         // console.log("bpm ==> ",bpm); // bpm_demo
+        store.state.myRatebpm.push(parseInt(bpm))
         document.getElementById("set-signal").innerHTML = "Bpm: "+Math.round(bpm);
         // Draw BPM
+        // this.$store.satate.myRatebpm.push(bpm)
         this.drawBPM(bpm);
       }
       signal.delete();
     } else {
-      console.log("signal too small");
       // let errSig = "signal too small"
       document.getElementById("set-signal").innerHTML = "ขยับใบหน้าเข้าใกล้ขึ้นอีกนิด หรือ ปรับแสงให้สว่างขึ้น";
       // return "signal too small"
@@ -488,6 +491,7 @@ export class Heartbeat {
     cv.putText(this.overlayMask, bpm.toFixed(0).toString(),
       new cv.Point(this.face.x, this.face.y - 10),
       cv.FONT_HERSHEY_PLAIN, 1.5, [255, 0, 0, 255], 2);
+
   }
   // Clean up resources
   stop() {

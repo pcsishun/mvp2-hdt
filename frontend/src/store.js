@@ -7,7 +7,7 @@ export default createStore({
         cssMenu: "menu-close",
         cssBodyMenu: "body-menu-close",
         cssHamOpenTB: "ham-tb-close",
-        stepCard:0,
+        stepCard:6,
         videoEl:null,
         canvasEl: null,
         answerAndEmotion:[],
@@ -15,68 +15,52 @@ export default createStore({
         answerGoal1:"",
         answerGoal2:"",
         answerGoal3:"",
-        // anger:[],
-        // disgusted:[],
-        // fearful:[],
-        // happy:[],
-        // neutral:[],
-        // sad:[],
-        // surprised:[]
-        // timeout: 0,
-        // constraints: {
-        //     audio: false,
-        //     video: {
-        //         width: {
-        //             min: 320,
-        //             ideal: 1280,
-        //             max: 1920,
-        //         },
-        //         height: {
-        //             min: 240,
-        //             ideal: 720,
-        //             max: 1080,
-        //         },
-        //         frameRate: {
-        //             min: 10,
-        //             ideal: 10,
-        //             max: 10,
-        //         },
-        //         facingMode: "environment",
-        //     },
-        // },
-
+        isUseMic:false,
+        isGoalCard: false,
+        clickGoalans:null,
+        selectLang: 'th-TH',
+        setMic: "mic",
+        isRecord: false,
+        emotionSlide: 0,
+        weightEmotion: 0,
+        averageBpm:0,
+        myRatebpm:[]
     },
     mutations:{
-        // haddleNextCard(state){
-        //     state.stepCard += 1;
-        //     this.commit("fnOpen");
-        // }, 
 
-        // fnOpen(state) {
-        //     console.log("start camera.")
-        //     if (typeof window.stream === "object") return;
-        //     clearTimeout(state.timeout);
-        //     state.timeout = setTimeout(() => {
-        //         clearTimeout(state.timeout);
-        //         navigator.mediaDevices
-        //         .getUserMedia(state.constraints)
-        //         .then(this.commit("fnSuccess"))
-        //         .catch(this.commit("fnError"));
-        //     }, 300);
-        // },
+        haddleOpenMic(state){
+            console.log("haddle open mic")
+            window.SpeechRecognition = window.SpeechRecognition ||  window.webkitSpeechRecognition;
+            const recognition = new window.SpeechRecognition();
+            recognition.interimResults = true;
+            recognition.continuous = true;
+            recognition.addEventListener("result", event => {
+                    let text = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join("");
+                state.answerCard = text;
+                })
+            recognition.start()
+            state.setMic = "off"
+        },
 
-        // fnSuccess(stream) {
-        //     console.log("stream => ",stream)
-        //     window.stream = stream; 
-        //     state.videoEl.srcObject = stream;
-        //     state.videoEl.play();
-        // },
+        haddleCloseMic(state){
+            console.log("state haddle mic off")
+            window.SpeechRecognition = window.SpeechRecognition ||  window.webkitSpeechRecognition;
+            const recognition = new window.SpeechRecognition();
 
-        // fnError(error) {
-        //     console.log(error);
-        //     alert("steaming error: " + error);
-        // },
-        
+            recognition.interimResults = true;
+            recognition.continuous = true;
+
+            recognition.lang = state.selectLang;
+            recognition.stop();
+            recognition.addEventListener("end", () => {
+                recognition.stop();
+                    });
+            state.setMic = "mic"
+        },
+
         fnClose(state) {
             state.canvasEl.getContext("2d").clearRect(0, 0, state.canvasEl.width, state.canvasEl.height);
             state.videoEl.pause();
@@ -87,12 +71,11 @@ export default createStore({
                 state.videoEl.srcObject = null;
             }
         },
-
         vidOff() {
             vid.pause();
             vid.src = "";
             localstream.getTracks()[0].stop();
             console.log("Vid off");
-          }
+        },
     }
 });

@@ -24,7 +24,7 @@ export default {
 
     },
     mounted(){
-
+        this.$store.state.isUseMic = false
     }
 }
 </script>

@@ -12,20 +12,20 @@
                     min="-3" 
                     max="3"
                     step="1"
-                    v-model="emotionSlide"
+                    v-model="$store.state.emotionSlide"
                 />
                 <!-- {{ emotionSlide }} -->
             </div>
             <div class="warp-wight mt-10" v-if="emotionSlide !== 0">
                 <div class="text-desc-weight w-[70%] m-auto">
-                    คิดว่าอารมณ์ระดับ {{ emotionSlide }} ที่ให้ค่านั้นส่งผลกับคุณมากแค่ไหน มากสุดคือ 10
+                    คิดว่าอารมณ์ระดับ {{ $store.state.emotionSlide }} ที่ให้ค่านั้นส่งผลกับคุณมากแค่ไหน มากสุดคือ 10
                 </div>
                 <div>
                     <input class="set-input-1 w-[90%]"
                     type="range" 
                     min="1" 
                     max="10"
-                    v-model="weightEmotion"
+                    v-model="$store.state.weightEmotion"
                 />
                 </div>
             </div>
@@ -40,8 +40,6 @@ export default {
     },
     data(){
         return{
-            emotionSlide: 0,
-            weightEmotion: 0
         }
     },
     computed:{
@@ -54,7 +52,7 @@ export default {
 
     },
     mounted(){
-
+        this.$store.state.isUseMic = false
     }
 }
 </script>

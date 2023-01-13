@@ -5,7 +5,7 @@
                 <div class="text-desc">วันทำไรสำเร็จไปบ้าง</div>
             </div>
             <div class="input-container mt-10 p-5">
-                <textarea class="set-input-1 w-[90%] h-[100px]" placeholder="" v-model="$store.state.answerCard">
+                <textarea class="set-input-1 w-[90%] h-[100px]" placeholder="" v-model="$store.state.answerCard" @click="haddleSelectInput(0)">
                 </textarea>
             </div>
             <!-- <div class="btn-selfreport mt-[40px] p-5">
@@ -34,10 +34,14 @@ export default {
 
     },
     methods:{
-
+        haddleSelectInput(evt){
+            this.$store.state.isGoalCard = false
+            this.$store.state.clickGoalans = evt
+            // console.log("evt => ", this.$store.state.clickGoalans)
+        }
     },
     mounted(){
-
+        this.$store.state.isUseMic = true
     }
 }
 </script>

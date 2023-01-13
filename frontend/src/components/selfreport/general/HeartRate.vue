@@ -54,7 +54,7 @@ export default {
     },
     data(){
         return{
-
+           
         }
     },
     computed:{
@@ -76,10 +76,10 @@ export default {
                 tag.type = 'text/javascript'
                 // console.log("tag.type =>", tag.type)
                 tag.onload = () => {
-                cv['onRuntimeInitialized'] = () => {
-                    console.log("opencv ready");
-                    resolve();
-                }
+                    cv['onRuntimeInitialized'] = () => {
+                        console.log("opencv ready");
+                        resolve();
+                    }
                 };
                 tag.onerror = () => {
                 throw new URIError("opencv didn't load correctly.");
@@ -100,7 +100,14 @@ export default {
         }
     },
     mounted(){
-    }
+        this.$store.state.isUseMic = false
+    },
+    updated() {
+        // const bpmId = document.getElementById('strawberry-plant');
+        // const myBpm = bpmId.getAttribute('')
+        // console.log("bpmRate => ",bpmId)
+    },
+
 }
 </script>
 

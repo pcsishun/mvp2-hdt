@@ -5,10 +5,38 @@
                 <div class="text-desc">ลิสต์ 3 ความคิดในใจ ที่เกิดในวันนี้</div>
             </div>
             <div class="input-container mt-10 p-5">
-                <input class="set-input-1 w-[90%]" placeholder="เรื่องที่ 1" v-model="$store.state.answerGoal1"/>
-                <input class="set-input-2 w-[90%] mt-8" placeholder="เรื่องที่ 2" v-model="$store.state.answerGoal2"/>
-                <input class="set-input-3 w-[90%] mt-8" placeholder="เรื่องที่ 3" v-model="$store.state.answerGoal3"/>
+                <div>   
+                    <input class="set-input-1 w-[80%] mr-4" placeholder="เรื่องที่ 1" v-model="$store.state.answerGoal1"/>
+                    <button  
+                        class="border border-stone-800 w-[30px] h-[30px] rounded-full text-slate-50 bg-slate-700 text-[10px]"
+                        @click="haddleOpenMicGoal1"
+                        >
+                        <b>mic</b>
+                    </button>
+                </div>
+                <div>   
+                    <input class="set-input-2 w-[80%] mt-8 mr-4" placeholder="เรื่องที่ 2" v-model="$store.state.answerGoal2"/>
+                    <button 
+                        class="border border-stone-800 w-[30px] h-[30px] rounded-full text-slate-50 bg-slate-700 text-[10px]"
+                        @click="haddleOpenMicGoal2"
+                        >
+                        <b>mic</b>
+                    </button>
+                </div>
+                <div>   
+                    <input class="set-input-3 w-[80%] mt-8 mr-4" placeholder="เรื่องที่ 3" v-model="$store.state.answerGoal3"/>
+                    <button 
+                        class="border border-stone-800 w-[30px] h-[30px] rounded-full text-slate-50 bg-slate-700 text-[10px]"
+                        @click="haddleOpenMicGoal3"
+                        >
+                        <b>mic</b>
+                    </button>
+                </div>
+                
             </div>
+            <!-- <div >
+                <button @click="debugText"> debug text</button>
+            </div> -->
             <!-- <div class="btn-selfreport mt-[40px] p-5">
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard" >
                     ถัดไป
@@ -19,13 +47,16 @@
 </template>
 
 <script>
+window.SpeechRecognition = window.SpeechRecognition ||  window.webkitSpeechRecognition;
+
+
 export default {
     components:{
 
     },
     data(){
         return{
-
+            openupMic: true
         }
     },
     computed:{
@@ -34,11 +65,95 @@ export default {
     watch:{
 
     },
-    methods:{
+    methods:{   
+        haddleCloseMic(state){
+            console.log("state haddle mic off")
+            recognition.lang = state.selectLang;
+            recognition.stop();
+            recognition.addEventListener("end", () => {
+                recognition.stop();
+            });
+            state.setMic = "mic"
+        },
 
+        haddleSelectInput(evt){
+            this.$store.commit("haddleCloseMic")
+            this.$store.state.text = ""
+            this.$store.state.clickGoalans =  evt
+            // console.log("this.$store.state.text =>", this.$store.state.text)
+        },
+        haddleOpenMicGoal1(){
+            const recognition = new window.SpeechRecognition();
+            recognition.interimResults = true;
+            recognition.continuous = true;
+            recognition.lang = this.$store.state.selectLang;
+            recognition.stop();
+            recognition.addEventListener("end", () => {
+                recognition.stop();
+            });
+            this.$store.state.setMic = "mic"
+            
+            recognition.addEventListener("result", event => {
+                let text = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join("");
+                this.$store.state.answerGoal1 = text;
+            })
+            recognition.start()
+            this.$store.state.setMic = "off"
+        },
+        haddleOpenMicGoal2(){
+            const recognition = new window.SpeechRecognition();
+            recognition.interimResults = true;
+            recognition.continuous = true;
+            recognition.lang = this.$store.state.selectLang;
+            recognition.lang = this.$store.state.selectLang;
+            recognition.stop();
+            recognition.addEventListener("end", () => {
+                recognition.stop();
+            });
+            this.$store.state.setMic = "mic"
+            
+            recognition.addEventListener("result", event => {
+                let text = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join("");
+                this.$store.state.answerGoal2 = text;
+            })
+            recognition.start()
+            this.$store.state.setMic = "off"
+        },
+        haddleOpenMicGoal3(){
+            const recognition = new window.SpeechRecognition();
+            recognition.interimResults = true;
+            recognition.continuous = true;
+            recognition.lang = this.$store.state.selectLang;
+            recognition.lang = this.$store.state.selectLang;
+            recognition.stop();
+            recognition.addEventListener("end", () => {
+                recognition.stop();
+            });
+            this.$store.state.setMic = "mic"
+            
+            recognition.addEventListener("result", event => {
+                let text = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join("");
+                this.$store.state.answerGoal3 = text;
+            })
+            recognition.start()
+            this.$store.state.setMic = "off"
+        },
+        debugText(){
+            console.log("debug this.$store.state.text =>", this.$store.state.text)
+        }
     },
     mounted(){
-
+        this.$store.state.isGoalCard = true
+        this.$store.state.isUseMic = true
     }
 }
 </script>

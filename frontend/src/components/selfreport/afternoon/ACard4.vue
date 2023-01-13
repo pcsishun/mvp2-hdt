@@ -5,7 +5,7 @@
                 <div class="text-desc">พอพูดถึงเรื่องนี้เเล้วรู้สึกอย่างไร</div>
             </div>
             <div class="input-container mt-10 p-5">
-                <textarea class="set-input-1 w-[90%] h-[100px]" placeholder=""></textarea>
+                <textarea class="set-input-1 w-[90%] h-[100px]" placeholder="" @click="haddleSelectInput(0)" v-model="$store.state.answerCard"></textarea>
             </div>
             <!-- <div class="btn-selfreport mt-[40px] p-5">
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard" >
@@ -33,10 +33,13 @@ export default {
 
     },
     methods:{
-
+        haddleSelectInput(evt){
+            this.$store.state.isGoalCard = false
+            this.$store.state.clickGoalans = evt
+        }
     },
     mounted(){
-
+        this.$store.state.isUseMic = true
     }
 }
 </script>
