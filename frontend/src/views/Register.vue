@@ -35,6 +35,20 @@
                         </a>
                     </div>
                 </div>
+                <div class="m-auto text-center mb-10">
+                    <div class="text-left">สถานะครอบครัว</div>
+                    <!-- <input class="set-profile w-[100%] h-[35px]" v-model="personality" required/> -->
+                    <select class="set-profile w-[100%] h-[35px]" v-model="familySet"  id="family" name="family">
+                        <option value="โสดใช้ชีวิตอิสร">โสดใช้ชีวิตอิสระ</option>
+                        <option value="สดดูแลพ่อแม่/ผู้สูงอายุ">โสดดูแลพ่อแม่ / ผู้สูงอายุ</option>
+                        <option value="มีครอบครัวมีPartner">มีครอบครัว / มี Partner</option>
+                        <option value="มีครอบครัวมีลูกอายุต่ำกว่า12ขวบ">มีครอบครัว มีลูกอายุต่ำกว่า 12 ขวบ</option>
+                        <option value="มีครอบครัวมีลูกอายุ13ปีขึ้นไป">มีครอบครัว มีลูกอายุ 13 ปีขึ้นไป</option>
+                        <option value="มีครอบครัวและลูกแยกไปใช้ชีวิตของตนเองแล้ว">มีครอบครัว และลูกแยกไปใช้ชีวิตของตนเองแล้ว</option>
+                        <option value="พ่อ/แม่เลี้ยงเดี่ยวมีลูกอายุต่ำกว่า12ขวบ">พ่อ/แม่เลี้ยงเดี่ยว มีลูกอายุต่ำกว่า 12 ขวบ</option>
+                        <option value="พ่อ/แม่เลี้ยงเดี่ยวมีลูกอายุ13ปีขึ้นไป">พ่อ/แม่เลี้ยงเดี่ยว มีลูกอายุ 13 ปีขึ้นไป</option>
+                    </select>
+                </div>
                 <div class="flex">
                     <div class="m-auto mb-10 text-right">
                         <div class="text-left mb-3">เพศ</div>
@@ -225,6 +239,7 @@ export default {
             jobLevel:"",
             hobby:"",
             dealBreaker: "",
+            familySet: "",
             // position: "",
             streeValue: 50,
             mhGoal: "",

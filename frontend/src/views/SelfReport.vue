@@ -3,17 +3,25 @@
         <Navbar/>
         <Menu/>
     </div>
-    <div class="self-report-container w-[95%] m-auto">
+    <div class="self-report-container w-[95%] m-auto pb-10">
         <div class="title text-center mt-20 text-[20px] font-bold">บันทึกเรื่องราวของฉันประจำวัน</div>
         <div class="set-description mt-10  text-center p-5" >
             <div class="warp" v-if="$store.state.stepCard === 0">
                 <div class="description-text mt-5">
-                    <div> ทางเราหวังเป็นอย่างยิ่งว่าข้อมูลของท่านจะช่วยให้เราออกแบบระบบในอนาคตที่สามารถช่วยเหลือผู้ป่วยสุขภาพจิตให้สามารถดำเนินชีวิตที่ดียิ่งขึ้นได้ในอนาคต</div>
+                    <div v-if="cardType === 'morning'">
+                        มาเริ่มวันใหม่ของคุณกัน  การได้พูดคุยและได้ยินเสียงสะท้อนของตัวเองเป็นอีกตัวช่วยที่จะช่วยคุณในการวางแผนชีวิตประจำวันได้นะ  เริ่มกัน
+                    </div>
+                    <div v-if="cardType === 'afternoon'">
+                        ก่อนเข้านอนคืนนี้ เรามาสรุปกันดีกว่าว่าวันนี้เจออะไรมาบ้าง
+                    </div>
                     <div class="flex justify-around mt-10">
                         <div>
                             <img class="mt-5" src="../assets/camera.png" height="550" width="550"/>
                         </div>
                         <div class="mt-5 text-left ml-3">ระบบจะมีการใช้ AI ตรวจจับภาวะอารมณ์จากทางใบหน้าผู้ใช้ ทางระบบจะไม่มีการเก็บรูปหรือวีดีโอ user หากพร้อมแล้วสามารถกดปุ่มเริ่มต้นเพื่อเริ่มบันทึกเรื่องราวประจำวัน</div>
+                    </div>
+                    <div class="description-text mt-[100px]">
+                        Application นี้เป็นพื้นที่เพื่อรับฟัง สะท้อนความรู้สึกที่เฉพาะสำหรับคุณเท่านั้น เพื่อการรู้จักตัวเองที่มากขึ้น ดังนั้นข้อมูลของคุณจะมีความเป็นส่วนตัวเฉพาะคุณ
                     </div>
                 </div>
             </div>
@@ -37,8 +45,9 @@
             <ACard3Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 3"/>
             <ACard4Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 4"/>
             <ParameterVue v-if="$store.state.stepCard === 5"/>
-            <HeartRateVue v-if="$store.state.stepCard === 6"/>
-            <FinishCardVue v-if="$store.state.stepCard === 7"/>
+            <SubEmotion v-if="$store.state.stepCard === 6"/>
+            <HeartRateVue v-if="$store.state.stepCard === 7"/>
+            <FinishCardVue v-if="$store.state.stepCard === 8"/>
             <div class="text-center text-red-700 mt-3 p-3">{{isError}}</div>
             <div class="btn-selfreport mt-[40px] p-5">
                 <div class="text-right" v-if="$store.state.isGoalCard !== true && $store.state.isUseMic !== false">
@@ -48,10 +57,10 @@
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('start')" v-if="$store.state.stepCard === 0">
                     เริ่มต้น
                 </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 " >
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 8 " >
                     ถัดไป
                 </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 7" >
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 8" >
                     เสร็จสิ้น
                 </button>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleDebug">debug</button>
@@ -78,8 +87,11 @@ import ACard4Vue from '../components/selfreport/afternoon/ACard4.vue'
 // general card //
 import ParameterVue from '../components/selfreport/general/Parameter.vue'
 import SyncDeviceVue from '../components/selfreport/general/SyncDevice.vue'
+import SubEmotion from '../components/selfreport/general/SubEmotion.vue'
 import HeartRateVue from '../components/selfreport/general/HeartRate.vue'
 import FinishCardVue from '../components/selfreport/general/FinishCard.vue'
+
+
 
 import * as faceapi from "face-api.js"
 import axios from 'axios'
@@ -99,6 +111,7 @@ export default {
         ACard4Vue,
         ParameterVue,
         SyncDeviceVue,
+        SubEmotion,
         HeartRateVue,
         FinishCardVue
     },

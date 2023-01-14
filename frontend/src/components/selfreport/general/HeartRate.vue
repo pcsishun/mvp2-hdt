@@ -28,12 +28,18 @@
                         ></video>
                     <canvas class="rounded-lg text-center" id="canvas" width="300" height="300"></canvas>
                 </div>
-                <div class="text-center mt-3">
-                    <p id="set-signal"></p>
-                </div>
+                
             </div>
-            <div class="mt-5 p-5">
-                <button class="set-input-1 w-[50%] h-[90px]" @click="activeCamera">เริ่มบันทึก</button>
+            <div class="set-input-1  mt-5 p-5  w-[80%]  m-auto">
+                <button class="" @click="activeCamera" v-if="isRec === false">เริ่มบันทึก</button>
+                <div class="text-center" v-if="isRec === true">
+                    <p>กำลังบันทึก</p>
+                    <p id="set-signal"></p>
+                    <div class="font-bold">   
+                        <p id="percent-finish"></p>
+                        <p id="mean-bpm"></p>
+                    </div>
+                </div>
             </div>
             
             <!-- <div class="input-container mt-10 p-5">
@@ -54,7 +60,7 @@ export default {
     },
     data(){
         return{
-           
+           isRec: false
         }
     },
     computed:{
@@ -90,6 +96,7 @@ export default {
         },
 
         activeCamera(){
+            this.isRec = true
             const HAARCASCADE_URI = "../../../heart_rate/haarcascade_frontalface_alt.xml"
             console.log("action cam!")
             let demo = new Heartbeat("webcam", "canvas", HAARCASCADE_URI, 30, 6, 250);
@@ -103,9 +110,9 @@ export default {
         this.$store.state.isUseMic = false
     },
     updated() {
-        // const bpmId = document.getElementById('strawberry-plant');
-        // const myBpm = bpmId.getAttribute('')
-        // console.log("bpmRate => ",bpmId)
+        // if(this.$store.state.myRatebpm.lenght >= 20){
+        //     console.log("array bpm rate => ",this.$store.state.myRatebpm)
+        // }
     },
 
 }
@@ -162,6 +169,6 @@ export default {
 }
 
 .cam-action{
-    border: 1px solid red;
+    border: 1px solid rgb(220, 220, 220);
 }
 </style>

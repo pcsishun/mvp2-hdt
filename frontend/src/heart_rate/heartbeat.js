@@ -314,7 +314,14 @@ export class Heartbeat {
         // Infer BPM
         let bpm = result.maxLoc.y * fps / signal.rows * SEC_PER_MIN;
         // console.log("bpm ==> ",bpm); // bpm_demo
-        store.state.myRatebpm.push(parseInt(bpm))
+        if(store.state.myRatebpm.length === 100){
+          const setAverageBpm =  store.state.myRatebpm.reduce((a, b) => a + b, 0) / store.state.myRatebpm.length;
+          document.getElementById("mean-bpm").innerHTML = "ประมาณการ bpm: "+parseInt(setAverageBpm)
+          store.state.averageBpm = parseInt(setAverageBpm)
+        }else if(store.state.myRatebpm.length < 100){
+          store.state.myRatebpm.push(parseInt(bpm))
+          document.getElementById("percent-finish").innerHTML = store.state.myRatebpm.length +"%"
+        }
         document.getElementById("set-signal").innerHTML = "Bpm: "+Math.round(bpm);
         // Draw BPM
         // this.$store.satate.myRatebpm.push(bpm)
