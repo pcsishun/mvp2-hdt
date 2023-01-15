@@ -6,12 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // server // 
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = __importDefault(require("dotenv"));
 // controller // 
 const loginController_1 = __importDefault(require("../controller/loginController"));
 const testController_1 = __importDefault(require("../controller/testController"));
-// env //
-dotenv_1.default.config({ path: "../../.env" });
 // router setup //
 const app = (0, express_1.default)();
 app.use(express_1.default.urlencoded({ extended: true }));

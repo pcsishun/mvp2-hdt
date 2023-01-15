@@ -1,8 +1,8 @@
 import app from "./router/app"
-import dotenv from 'dotenv'
+import sentEnv from "./env_mangement"
 
-dotenv.config({path:"../.env"});
-const port = process.env.PORT || 2298
+const envData = sentEnv();
+const port = envData.PORT
 
 app.listen(port, () => {
     console.log(`service data-sci listen on port ${port}`)

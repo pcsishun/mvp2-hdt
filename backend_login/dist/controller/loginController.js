@@ -15,13 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const datastore_1 = require("@google-cloud/datastore");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: "../../.env" });
+const env_mangement_1 = __importDefault(require("../env_mangement"));
+const envData = (0, env_mangement_1.default)();
 const datastore = new datastore_1.Datastore();
-const kind = process.env.KIND || "userprofile";
+const kindUserProfile = process.env.KIND_USER_PROFILE || "userprofile";
 const kindTenan = process.env.KIND_TENAN || "profiletenan";
-const tokenSign = process.env.SECRET_TOKEN || "--";
-const Expires = process.env.EXPIRES || "30 days";
+const tokenSign = process.env.SECRET_TOKEN || "oasdkf_)(*&@!_+#akodkasiodnidj+__)((*@!!osdf492384272340213--3402o4000---5002340291283===--++_)**&^%$$$%";
+const Expires = process.env.EXPIRES || "7d";
+// console.log(kind, kindTenan, tokenSign, Expires)
 function LoginController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;
@@ -35,7 +36,7 @@ function LoginController(req, res) {
                 // console.log("tenanTask ===> ", tenanTask)
                 if (tenanTask[0]) {
                     try {
-                        const createQuery = datastore.createQuery(kind)
+                        const createQuery = datastore.createQuery(kindUserProfile)
                             .filter("email", "=", email)
                             .limit(1);
                         const [task] = yield datastore.runQuery(createQuery);

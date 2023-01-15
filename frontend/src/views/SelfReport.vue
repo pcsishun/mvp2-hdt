@@ -64,7 +64,7 @@
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 8" >
                     เสร็จสิ้น
                 </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700"  @click="haddleDebug">debug</button>
+                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700"  @click="haddleDebug">debug</button> -->
             </div>
         </div>
     </div>
@@ -222,9 +222,15 @@ export default {
                     }
                 }
 
-                await axios.post("https://backend-hdt-selfreport-zt27agut7a-as.a.run.app/api/insertData", payload,headerConf)
-                alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
-                location.reload()
+                const replyResult = await axios.post("https://backend-hdt-selfreport-zt27agut7a-as.a.run.app/api/insertData", payload,headerConf)
+                // const replyResult = await axios.post("http://localhost:3396/api/insertData", payload, headerConf);
+                if(replyResult.status === 200 ){
+                    alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
+                    location.reload()
+                }else{
+                    alert(replyResult.data)
+                    location.reload()
+                }
             }catch(err){
                 console.log(err)
                 alert(err)

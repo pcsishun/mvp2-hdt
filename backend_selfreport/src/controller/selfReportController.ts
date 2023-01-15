@@ -1,18 +1,25 @@
 import {Datastore} from "@google-cloud/datastore"
+import sentEnv from "../env_mangement" 
 // import language from "@google-cloud/language"
-import * as dotenv from 'dotenv'
-dotenv.config({path:"../../.env"})
-
+// import * as dotenv from 'dotenv'
+// dotenv.config({path:"../../.env"})
+const envData = sentEnv();
 const datastore = new Datastore();
 const kind = process.env.KIND || "emotion"
 
 async function selfReportController(req:any, res:any) {
     const {data} = req.body;
     const decodeData = req.authData;
+    // console.log("decodeData ==> ", decodeData)
+    // console.log("controll saving ==> ", data)
+    // console.log("kind => ", kind)
     let warping;
+    // const demo = true
+    // decodeData.decode.email && decodeData.decode.tenan && decodeData.token
     if(decodeData.decode.email && decodeData.decode.tenan && decodeData.token){
         const setDate = new Date();
         const isDate = setDate.getFullYear()+"/"+(setDate.getMonth() + 1)+"/"+setDate.getDate()+" "+(setDate.getHours()+7)+":" + setDate.getMinutes()+":"+setDate.getSeconds()
+        // console.log("gen date")
         try{
             const taskKey = datastore.key([kind])
             const task = {
@@ -39,11 +46,13 @@ async function selfReportController(req:any, res:any) {
                     create_date: isDate
                 }
             }
+            
+            await datastore.save(task)
             warping = {
                 status:200,
                 data: "insert success."
             }
-            await datastore.save(task)
+            console.log("saved")
             res.send(warping)
         }catch(err){
             warping = {
@@ -57,6 +66,7 @@ async function selfReportController(req:any, res:any) {
             status:403,
             data: "invalid user."
         }
+        res.send(warping)
     }
     
 }

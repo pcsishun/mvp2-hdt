@@ -1,15 +1,15 @@
 import {Datastore} from "@google-cloud/datastore"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import dotenv from 'dotenv';
-dotenv.config({path:"../../.env"});
+import sentEnv from "../env_mangement"
 
+const envData = sentEnv();
 const datastore = new Datastore();
-const kind = process.env.KIND || "userprofile"
+const kindUserProfile = process.env.KIND_USER_PROFILE || "userprofile"
 const kindTenan = process.env.KIND_TENAN || "profiletenan"
-const tokenSign = process.env.SECRET_TOKEN || "--"
-const Expires = process.env.EXPIRES || "30 days"
-
+const tokenSign = process.env.SECRET_TOKEN || "oasdkf_)(*&@!_+#akodkasiodnidj+__)((*@!!osdf492384272340213--3402o4000---5002340291283===--++_)**&^%$$$%"
+const Expires = process.env.EXPIRES || "7d"
+// console.log(kind, kindTenan, tokenSign, Expires)
 
 async function LoginController(req:any, res:any) {
     const {email, password} = req.body
@@ -23,7 +23,7 @@ async function LoginController(req:any, res:any) {
             // console.log("tenanTask ===> ", tenanTask)
             if(tenanTask[0]){
                 try{
-                    const createQuery =  datastore.createQuery(kind)
+                    const createQuery =  datastore.createQuery(kindUserProfile)
                     .filter("email","=", email)
                     .limit(1)
                     const [task]:any = await datastore.runQuery(createQuery)
@@ -36,7 +36,7 @@ async function LoginController(req:any, res:any) {
                             email: setEmail,
                             tenan: setTenan
                         }
-
+                        
                         const genToken = jwt.sign(
                             setData, 
                             tokenSign, 

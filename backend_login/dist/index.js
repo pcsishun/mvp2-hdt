@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./router/app"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: "../.env" });
-const port = process.env.PORT || 2298;
+const env_mangement_1 = __importDefault(require("./env_mangement"));
+const envData = (0, env_mangement_1.default)();
+const port = envData.PORT;
 app_1.default.listen(port, () => {
     console.log(`service data-sci listen on port ${port}`);
 });

@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
-// import { Module } from "module"
-dotenv.config()
 
-const token:any = process.env.SECRET_TOKEN
+const token = process.env.SECRET_TOKEN || "oasdkf_)(*&@!_+#akodkasiodnidj+__)((*@!!osdf492384272340213--3402o4000---5002340291283===--++_)**&^%$$$%"
+// console.log("token auth => ",token);
 
 const verifyToken = (req:any, res:any, next:any) => {
     const getToken = req.headers['access-token']
@@ -16,6 +14,7 @@ const verifyToken = (req:any, res:any, next:any) => {
     }else{
         try{
             const decode:any = jwt.verify(getToken,token);
+            // console.log("exp => ",decode.iat, ">=" ,decode.exp)
             if(decode.iat >= decode.exp){
                 const payload = {
                     status: 401,
@@ -32,8 +31,9 @@ const verifyToken = (req:any, res:any, next:any) => {
             }
         }catch(err){
             const payload = {
-                status: 401,
-                text: "session expired."
+                status: 403,
+                text: "unauthorized",
+                data: err
             }
             res.send(payload);
         }
