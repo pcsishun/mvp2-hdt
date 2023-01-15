@@ -37,7 +37,7 @@ export class Heartbeat {
         audio: false
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
     if (!this.stream) {
       throw new Error('Could not obtain video from webcam.');
@@ -67,9 +67,9 @@ export class Heartbeat {
     request.send();
     return new Promise(resolve => {
       request.onload = () => {
-        console.log("request.readyState", request.readyState)
+        // console.log("request.readyState", request.readyState)
         if (request.readyState === 4) {
-          console.log("request ==>",request)
+          // console.log("request ==>",request)
           if (request.status === 200) {
             let data = new Uint8Array(request.response);
             cv.FS_createDataFile('/', path, data, true, false, false);

@@ -240,7 +240,6 @@ export default {
             hobby:"",
             dealBreaker: "",
             familySet: "",
-            // position: "",
             streeValue: 50,
             mhGoal: "",
             serverError: "",
@@ -277,7 +276,6 @@ export default {
             }else{
                 this.isError = "ยืนยันรหัสผ่านไม่ถูกต้อง"
             }
-            
         },
 
         haddleStep_2(){
@@ -313,6 +311,7 @@ export default {
                     hobby: this.hobby,
                     job_level:  this.jobLevel,
                     lastname: this.lastname,
+                    family: this.familySet,
                     mh_goal: setMhGoal,
                     password: this.setPassword,
                     peiod: this.peiod,

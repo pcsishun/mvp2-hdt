@@ -26,10 +26,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const dotenv = __importStar(require("dotenv"));
-const app_1 = __importDefault(require("./router/app"));
-dotenv.config({ path: "../.env" });
-const port = process.env.PORT || 3396;
-app_1.default.listen(port, () => {
-    console.log(`service data-sci listen on port ${port}`);
-});
+const registerController_1 = __importDefault(require("../controller/registerController"));
+const testController_1 = __importDefault(require("../controller/testController"));
+dotenv.config({ path: "../../.env" });
+const app = (0, express_1.default)();
+app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json());
+app.use((0, cors_1.default)());
+const port = process.env.PORT || 2287;
+app.get("/test", testController_1.default);
+app.post("/api/register", registerController_1.default);
+exports.default = app;

@@ -33,9 +33,9 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-relax" max="10" min="0" step="1" v-model="$store.state.relaxSubEmo"/>
                             <datalist id="set-relax">
-                                <option  >10</option>
-                                <option  >5</option>
-                                <option  >0</option>
+                                <option >10</option>
+                                <option >5</option>
+                                <option >0</option>
                             </datalist>
                         </div>
                         
