@@ -59,10 +59,13 @@ export class Heartbeat {
 
     let request = new XMLHttpRequest();
     // demo //
-    let demoUrl = "http://localhost:3434/api/haaracscade"
-    request.open('GET', demoUrl ,true);
-    // 
-    // request.open("GET", "./haarcascade_frontalface_alt.xml", true);
+     // request.open("GET", "./haarcascade_frontalface_alt.xml", true);
+    // let demoUrl = "http://localhost:3434/api/haaracscade"
+    // request.open('GET', demoUrl ,true);
+    
+    let Url = "https://backend-hdt-haaracscade-zt27agut7a-as.a.run.app/api/haaracscade"
+    request.open('GET', Url, true)
+   
     request.responseType = 'arraybuffer';
     request.send();
     return new Promise(resolve => {
@@ -75,7 +78,8 @@ export class Heartbeat {
             cv.FS_createDataFile('/', path, data, true, false, false);
             resolve();
           } else {
-            console.log('Failed to load ' + demoUrl + ' status: ' + request.status);
+            // console.log('Failed to load ' + demoUrl + ' status: ' + request.status);
+            console.log('Failed to load ' + Url + ' status: ' + request.status);
           }
         }
       };

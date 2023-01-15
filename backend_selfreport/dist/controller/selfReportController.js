@@ -33,15 +33,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const datastore_1 = require("@google-cloud/datastore");
+// import language from "@google-cloud/language"
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: "../../.env" });
 const datastore = new datastore_1.Datastore();
 const kind = process.env.KIND || "emotion";
 function selfReportController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { token, email, tenan, data } = req.body;
+        const { data } = req.body;
+        const decodeData = req.authData;
         let warping;
-        if (email && tenan) {
+        if (decodeData.decode.email && decodeData.decode.tenan && decodeData.token) {
             const setDate = new Date();
             const isDate = setDate.getFullYear() + "/" + (setDate.getMonth() + 1) + "/" + setDate.getDate() + " " + (setDate.getHours() + 7) + ":" + setDate.getMinutes() + ":" + setDate.getSeconds();
             try {
@@ -49,22 +51,24 @@ function selfReportController(req, res) {
                 const task = {
                     key: taskKey,
                     data: {
-                        anger: data.anger,
-                        email: data.email,
-                        emo_arousal: data.emo_arousal ? data.emo_arousal : null,
-                        emo_valence: data.emo_valence ? data.emo_valence : null,
-                        face_emotion: data.face_emotion,
-                        HR: data.HR,
-                        HRV: data.HRV ? data.HRV : null,
-                        joy: data.joy,
-                        move_step: data.move_step,
-                        relax: data.relax,
-                        sad: data.sad,
-                        sentiment_score: data.sentiment_score,
-                        sleep_score: data.sleep_score,
-                        sum_emo_q: data.sum_emo_q ? data.sum_emo_q : null,
-                        tenan: data.tenan,
-                        word: data.word,
+                        email: decodeData.decode.email,
+                        tenan: decodeData.decode.tenan,
+                        arrayOfanswer: data.arrayOfanswer,
+                        mainEmotion: data.mainEmotion,
+                        weightMainEmotion: data.weightMainEmotion,
+                        happyRange: data.happyRange,
+                        powRange: data.powRange,
+                        relaxRange: data.relaxRange,
+                        relievedRange: data.relievedRange,
+                        normalRange: data.normalRange,
+                        disgustedRange: data.disgustedRange,
+                        sadRange: data.sadRange,
+                        fearRange: data.fearRange,
+                        worryRange: data.worryRange,
+                        angerRange: data.angerRange,
+                        otherEmotionLabel: data.otherEmotionLabel,
+                        otherRangeEmotion: data.otherRangeEmotion,
+                        averagBpm: data.averagBpm,
                         create_date: isDate
                     }
                 };

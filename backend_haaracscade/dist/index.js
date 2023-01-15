@@ -26,7 +26,6 @@ app.get("/debug", (req, res) => {
     res.send("OK");
 });
 app.get("/api/haaracscade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const xmlFile = await fs.readFileSync('../model/haarcascade_frontalface_alt.xml', 'utf8');
     const xml = `<?xml version="1.0"?>
     <!--
         Stump-based 20x20 gentle adaboost frontal face detector.

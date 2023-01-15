@@ -1,5 +1,4 @@
 import {Datastore} from "@google-cloud/datastore"
-// import * as dotenv from 'dotenv'
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from 'dotenv';
@@ -27,30 +26,32 @@ async function LoginController(req:any, res:any) {
                     const createQuery =  datastore.createQuery(kind)
                     .filter("email","=", email)
                     .limit(1)
-                    
                     const [task]:any = await datastore.runQuery(createQuery)
-                    // console.log("task ===> ",task)
                     const hashPassword = task[0].password
                     const setEmail = task[0].email
                     const setTenan = task[0].tenan
-
-                    // console.log("hashPassword ===> ",hashPassword)
-                    // console.log("setEmail ===> ",setEmail)
-                    // console.log("setTenan ===> ",setTenan)
 
                     if(setEmail && (await bcrypt.compare(password, hashPassword))){
                         const setData = {
                             email: setEmail,
                             tenan: setTenan
                         }
-                        const genToken = jwt.sign(setData, tokenSign, {
-                            expiresIn: Expires,
-                        });
+
+                        const genToken = jwt.sign(
+                            setData, 
+                            tokenSign, 
+                            {
+                                expiresIn: Expires,
+                            }
+                        );
+
                         const payload = {
                             status:200,
                             token: genToken,
                         }
-                            res.send(payload)
+
+                        res.send(payload)
+
                     }else{
                         warping = {
                             status: 403,

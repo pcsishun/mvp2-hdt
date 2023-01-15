@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const datastore_1 = require("@google-cloud/datastore");
-// import * as dotenv from 'dotenv'
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -40,13 +39,9 @@ function LoginController(req, res) {
                             .filter("email", "=", email)
                             .limit(1);
                         const [task] = yield datastore.runQuery(createQuery);
-                        // console.log("task ===> ",task)
                         const hashPassword = task[0].password;
                         const setEmail = task[0].email;
                         const setTenan = task[0].tenan;
-                        // console.log("hashPassword ===> ",hashPassword)
-                        // console.log("setEmail ===> ",setEmail)
-                        // console.log("setTenan ===> ",setTenan)
                         if (setEmail && (yield bcrypt_1.default.compare(password, hashPassword))) {
                             const setData = {
                                 email: setEmail,

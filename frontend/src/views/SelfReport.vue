@@ -64,7 +64,7 @@
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 8" >
                     เสร็จสิ้น
                 </button>
-                <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" hidden @click="haddleDebug">debug</button> -->
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700"  @click="haddleDebug">debug</button>
             </div>
         </div>
     </div>
@@ -200,17 +200,35 @@ export default {
                         "access-token": this.$cookies.get("hdt-token")
                     }
                 }
+
                 const payload = {
-                    
+                    data:{
+                        arrayOfanswer: this.$store.state.answerAndEmotion,
+                        mainEmotion: this.$store.state.emotionSlide,
+                        weightMainEmotion: this.$store.state.weightEmotion,
+                        happyRange: this.$store.state.happySubEmo,
+                        powRange: this.$store.state.powSubEmo,
+                        relaxRange: this.$store.state.relaxSubEmo,
+                        relievedRange: this.$store.state.relaxXSubEmo,
+                        normalRange: this.$store.state.nerSubEmo,
+                        disgustedRange: this.$store.state.disSubEmo,
+                        sadRange: this.$store.state.sadSubEmo,
+                        fearRange: this.$store.state.ferSubEmo,
+                        worryRange: this.$store.state.anxSubEmo,
+                        angerRange: this.$store.state.angSubEmo,
+                        otherEmotionLabel: this.$store.state.labelOtherEmo,
+                        otherRangeEmotion: (this.$store.state.labelOtherEmo === '')? 0 : this.$store.state.otherSubEmo,
+                        averagBpm: this.$store.state.averageBpm
+                    }
                 }
 
-                const resultInsert =  await axios.post("https://.../api/insertData", payload,headerConf)
-                console.log("POST finish")
-                // ==== //
+                await axios.post("https://backend-hdt-selfreport-zt27agut7a-as.a.run.app/api/insertData", payload,headerConf)
                 alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
                 location.reload()
             }catch(err){
                 console.log(err)
+                alert(err)
+                location.reload()
             }
         },  
         haddleDebug(){
