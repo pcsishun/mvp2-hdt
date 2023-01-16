@@ -10,12 +10,7 @@ const kind = process.env.KIND || "emotion"
 async function selfReportController(req:any, res:any) {
     const {data} = req.body;
     const decodeData = req.authData;
-    // console.log("decodeData ==> ", decodeData)
-    // console.log("controll saving ==> ", data)
-    // console.log("kind => ", kind)
     let warping;
-    // const demo = true
-    // decodeData.decode.email && decodeData.decode.tenan && decodeData.token
     if(decodeData.decode.email && decodeData.decode.tenan && decodeData.token){
         const setDate = new Date();
         const isDate = setDate.getFullYear()+"/"+(setDate.getMonth() + 1)+"/"+setDate.getDate()+" "+(setDate.getHours()+7)+":" + setDate.getMinutes()+":"+setDate.getSeconds()
@@ -43,7 +38,13 @@ async function selfReportController(req:any, res:any) {
                     otherEmotionLabel: data.otherEmotionLabel,
                     otherRangeEmotion: data.otherRangeEmotion,
                     averagBpm: data.averagBpm,
-                    create_date: isDate
+                    create_date: isDate,
+                    // isDay:setDate.getDate(),
+                    // isMonth: setDate.getMonth() + 1,
+                    // isYear: setDate.getFullYear(),
+                    // isHours: setDate.getHours() + 7,
+                    // isMinute: setDate.getMinutes(),
+                    // isSecond: setDate.getSeconds()
                 }
             }
             

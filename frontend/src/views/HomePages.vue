@@ -43,11 +43,26 @@ export default {
     },
     data(){
         return{
-            isError: ""
+            isError: "",
+            showData:null
         }
     },
     methods:{
-        async authToken(){
+        async haddleAuth(){
+            const isToken = this.$cookies.get("hdt-token");
+            const headerConf = {
+                    headers:{
+                        "access-token": isToken.token
+                    }
+                } 
+            const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
+            if(authCheck.data !== 200 ){
+                alert("unauthorized")
+                this.$cookies.remove('hdt-token');
+                this.$router.push("/login")
+            }
+        },
+        async haddleMiniDashboard(){
             const isToken = this.$cookies.get("hdt-token");
             console.log(isToken);
             if(isToken){
@@ -58,8 +73,28 @@ export default {
                 }
 
                 try{
-                    const homeData = await axios.get(`--`, headerConf);
-                    
+                    const homeData = await axios.get("https://backend-hdt-homepage-zt27agut7a-as.a.run.app/api/home", headerConf)
+                    if(homeData.data.status === 403 ){
+                        alert(homeData.data.text)
+                        this.$cookies.remove("hdt-token")
+                        this.$router.push("/login")
+                    }else if(homeData.data.status === 401 ){
+                        alert(homeData.data.text)
+                        this.$cookies.remove("hdt-token");
+                        this.$router.push("/login")
+                    }else if(homeData.data.status === 200 || homeData.data.status === 500 ){
+                        if(homeData.data.status === 200){
+                            this.showData = {
+                                status: 200,
+                                data:homeData.data
+                            }
+                        }else{
+                            this.showData = {
+                                status: 500,
+                                data: "ระบบแสดงข้อมูลไม่พร้อมใช้งาน"
+                            }
+                        }
+                    }
                 }catch(err){
                     this.isError = err
                 }
@@ -70,8 +105,11 @@ export default {
             }
         }
     },
+    beforeMount(){
+        this.haddleAuth();
+    },
     mounted(){
-        
+        this.haddleMiniDashboard()
     }
 }
 </script>

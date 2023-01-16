@@ -9,9 +9,8 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 import matplotlib  
-from dotenv import load_dotenv
 import os
-load_dotenv()   
+ 
 matplotlib.use('Agg')    
 
 set_port = os.getenv("PORT")
@@ -94,4 +93,4 @@ def send_word_cloud():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, port=set_port)
+    app.run(debug=False, port=3422)

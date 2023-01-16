@@ -151,9 +151,9 @@ export default {
                         max: 1080,
                     },
                     frameRate: {
-                        min: 10,
-                        ideal: 10,
-                        max: 10,
+                        min: 1,
+                        ideal: 1,
+                        max: 1,
                     },
                     facingMode: "environment",
                 },
@@ -187,11 +187,21 @@ export default {
         this.fnInit();
         });
     },
-    beforeMount(){
-        this.controllCard();
-    },
     methods:{
-        
+        async haddleAuth(){
+            const isToken = this.$cookies.get("hdt-token");
+            const headerConf = {
+                    headers:{
+                        "access-token": isToken.token
+                    }
+                } 
+            const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
+            if(authCheck.data !== 200 ){
+                alert("unauthorized")
+                this.$cookies.remove('hdt-token');
+                this.$router.push("/login")
+            }
+        },
         async haddleFinish(){
             try{
                 // POST TO Backend_emotion //
@@ -248,10 +258,13 @@ export default {
         controllCard(){
             const d = new Date();
             const hours = d.getHours();
+            console.log("hours => ", hours)
             if(hours <= 12 && hours > 0){
                 this.cardType = "morning" // morning
+                console.log("cardtype", this.cardType)
             }else{
                 this.cardType = "afternoon" // afternoon
+                console.log("cardtype", this.cardType)
             }
         },
         
@@ -443,7 +456,6 @@ export default {
             await faceapi.nets[this.nets].loadFromUri("/models"); // 
             await faceapi.loadFaceLandmarkModel("/models"); // 
             await faceapi.loadFaceExpressionModel("/models"); // 
-            // await faceapi.loadAgeGenderModel("../../public/models"); 
             switch (this.nets) {
                 case "ssdMobilenetv1":
                     this.options = new faceapi.SsdMobilenetv1Options({
@@ -501,7 +513,17 @@ export default {
                 faceapi.draw.drawFaceExpressions(this.$store.state.canvasEl, resizeResult, 0.05);
                 // output result //
                 // console.log("resizeResult.expressions ==> ", resizeResult.expressions)
-                if(this.countResult < 20){
+
+                this.setAnger.push(resizeResult.expressions.angry)
+                this.setDisgusted.push(resizeResult.expressions.disgusted)
+                this.setFearful.push(resizeResult.expressions.fearful)
+                this.setHappy.push(resizeResult.expressions.happy)
+                this.setNeutral.push(resizeResult.expressions.neutral)
+                this.setSad.push(resizeResult.expressions.sad)
+                this.setSurprised.push(resizeResult.expressions.surprised)
+
+
+                if(this.countResult < 100){
                     this.setAnger.push(resizeResult.expressions.angry)
                     this.setDisgusted.push(resizeResult.expressions.disgusted)
                     this.setFearful.push(resizeResult.expressions.fearful)
@@ -509,10 +531,11 @@ export default {
                     this.setNeutral.push(resizeResult.expressions.neutral)
                     this.setSad.push(resizeResult.expressions.sad)
                     this.setSurprised.push(resizeResult.expressions.surprised)
-                    this.countResult += 1;
+                    this.countResult += 1
                     // console.log(this.countResult);
                 }else{
-                    this.countResult = 0;
+                    this.countResult = 0
+                    this.$store.commit("fnClose")
                     // this.sleepFunc(3000)
                 }
 
@@ -573,10 +596,6 @@ export default {
                 this.fnRunFaceExpression();
                 return;
             }
-            // if (this.detection === "age_gender") {
-            //     this.fnRunFaceAgeAndGender();
-            //     return;
-            // }
         },
 
         fnOpen() {
@@ -616,6 +635,20 @@ export default {
         //     }
         // },
     },
+    beforeMount(){
+        this.haddleAuth();
+        this.controllCard();
+        try{
+            const checkToken = this.$cookies.get("hdt-token")
+            if(!checkToken){    
+            this.$cookies.remove("hdt-token")
+            this.$router.push("/login")
+        }
+        }catch{
+            this.$cookies.remove("hdt-token")
+            this.$router.push("/login")
+        }
+    },  
     beforeDestroy() {
         this.$store.commit('fnClose');
         // this.$store.commit("fnClose")

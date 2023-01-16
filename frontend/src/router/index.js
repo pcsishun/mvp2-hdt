@@ -6,6 +6,7 @@ import Suggestions from '../views/Suggestions.vue'
 import SelfReport from '../views/SelfReport.vue'
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
+import PageNotFound from "../views/PageNotFound.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/self_report',
       name: 'SelfReport',
       component: SelfReport
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "404",
+      component: PageNotFound
     }
   ]
 })

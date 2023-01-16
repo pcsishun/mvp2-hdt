@@ -57,7 +57,13 @@ function selfReportController(req, res) {
                         otherEmotionLabel: data.otherEmotionLabel,
                         otherRangeEmotion: data.otherRangeEmotion,
                         averagBpm: data.averagBpm,
-                        create_date: isDate
+                        create_date: isDate,
+                        isDay: setDate.getDate(),
+                        isMonth: setDate.getMonth() + 1,
+                        isYear: setDate.getFullYear(),
+                        isHours: setDate.getHours() + 7,
+                        isMinute: setDate.getMinutes(),
+                        isSecond: setDate.getSeconds()
                     }
                 };
                 yield datastore.save(task);
