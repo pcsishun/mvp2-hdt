@@ -3,22 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const datastore_1 = require("@google-cloud/datastore");
+const app_1 = __importDefault(require("./router/app"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const app = (0, express_1.default)();
-const datastore = new datastore_1.Datastore();
-// app.enable('trust proxy');
-app.use(express_1.default.urlencoded({ extended: true }));
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+dotenv_1.default.config({ path: "../.env" });
 const port = process.env.PORT || 2287;
-console.log(port);
-app.get("/test", (req, res) => {
-    res.send("OK");
-});
-app.listen(port, () => {
+app_1.default.listen(port, () => {
     console.log(`service data-sci listen on port ${port}`);
 });

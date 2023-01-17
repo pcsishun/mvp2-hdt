@@ -11,8 +11,8 @@ const verifyToken = (req, res, next) => {
     const getToken = req.headers['access-token'];
     if (getToken === undefined || getToken === null) {
         const payload = {
-            error: true,
-            text: "unauthorized please login again."
+            status: 403,
+            text: "unauthorized"
         };
         res.send(payload);
     }
@@ -37,7 +37,7 @@ const verifyToken = (req, res, next) => {
         }
         catch (err) {
             const payload = {
-                status: 401,
+                status: 403,
                 text: "unauthorized",
                 data: err
             };

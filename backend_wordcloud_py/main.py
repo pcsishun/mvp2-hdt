@@ -10,7 +10,9 @@ from io import BytesIO
 import base64
 import matplotlib  
 import os
- 
+import sys
+
+
 matplotlib.use('Agg')    
 
 set_port = os.getenv("PORT")
@@ -19,6 +21,7 @@ CORS(app)
 
 is_font_path = "./THSarabunNew.ttf"
 
+print(sys.version)
 
 @app.route('/api/debug', methods = ['GET'])
 def debugging():
@@ -41,7 +44,7 @@ def send_word_cloud():
 
             words = word_tokenize(text) 
             all_words = ' '.join(words).lower().strip()
-            print("all_words ==> ",all_words)
+            # print("all_words ==> ",all_words)
 
             wordcloud = WordCloud(
                         regexp='[ก-๙]+',
@@ -65,7 +68,7 @@ def send_word_cloud():
             return base64_img
 
         else:
-            text= "ทดสอบระบบ wordcloud นะครับ"
+            text= "ไม่่พบข้อความ"
             words = word_tokenize(text) 
             all_words = ' '.join(words).lower().strip()
 
@@ -93,4 +96,4 @@ def send_word_cloud():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, port=3422)
+    app.run(debug=True, host="0.0.0.0",port=3422)

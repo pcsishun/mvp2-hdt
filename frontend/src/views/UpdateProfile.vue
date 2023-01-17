@@ -2,7 +2,7 @@
     <div class="update-profile-container">
         <div class="title mt-10 text-center font-bold">แก้ไขโปรไฟล์</div>
         <div class="mt-5 border border-gray-500 rounded-lg w-[95%] m-auto">
-
+            
         </div>
     </div>
 </template>

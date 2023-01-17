@@ -48,29 +48,33 @@ export default {
         }
     },
     methods:{
-        async haddleAuth(){
-            const isToken = this.$cookies.get("hdt-token");
-            const headerConf = {
-                    headers:{
-                        "access-token": isToken.token
-                    }
-                } 
-            const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
-            if(authCheck.data !== 200 ){
-                alert("unauthorized")
-                this.$cookies.remove('hdt-token');
-                this.$router.push("/login")
-            }
-        },
+        // async haddleAuth(){
+        //     const isToken = this.$cookies.get("hdt-token");
+        //     const headerConf = {
+        //             headers:{
+        //                 "access-token": isToken.token
+        //             }
+        //         } 
+        //     const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
+            
+        //     if(authCheck.data !== 200 ){
+        //         alert("unauthorized")
+        //         this.$cookies.remove('hdt-token');
+        //         this.$router.push("/login")
+        //     }
+        // },
         async haddleMiniDashboard(){
             const isToken = this.$cookies.get("hdt-token");
-            console.log(isToken);
+            // console.log(isToken);
             if(isToken){
+
                 const headerConf = {
                     headers:{
-                        "access-token": isToken.token
+                        "access-token": isToken
                     }
                 }
+
+                // console.log(headerConf)
 
                 try{
                     const homeData = await axios.get("https://backend-hdt-homepage-zt27agut7a-as.a.run.app/api/home", headerConf)
@@ -84,10 +88,25 @@ export default {
                         this.$router.push("/login")
                     }else if(homeData.data.status === 200 || homeData.data.status === 500 ){
                         if(homeData.data.status === 200){
-                            this.showData = {
-                                status: 200,
-                                data:homeData.data
+                            if(homeData.data.text){
+                                const textLoad = {
+                                    text: homeData.data.text
+                                }
+                                const imgBase64 = await axios.post("https://backend-hdt-wordcloud-zt27agut7a-as.a.run.app/api/wordcloud",textLoad)
+                                this.showData = {
+                                    status: 200,
+                                    img: imgBase64.data,
+                                    data:homeData.data
+                                }
+                                console.log("showData ==> ", this.showData)
+                            }else{
+                                this.showData = {
+                                    status: 200,
+                                    img: "",
+                                    data:homeData.data
+                                }
                             }
+                            
                         }else{
                             this.showData = {
                                 status: 500,
@@ -106,7 +125,7 @@ export default {
         }
     },
     beforeMount(){
-        this.haddleAuth();
+        // this.haddleAuth();
     },
     mounted(){
         this.haddleMiniDashboard()

@@ -4,10 +4,7 @@ indexes:
   - name: email
   - name: tenan
   - name: create_date
-
-- kind: emotion
-  properties:
-  - name: email
-  - name: tenan
-  - name: create_date
     direction: desc
+
+
+
