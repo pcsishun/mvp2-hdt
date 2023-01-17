@@ -34,9 +34,10 @@
 <script>
 import axios from 'axios';
 
+
 export default {
     components:{
-        
+    
     },
     data(){
         return{
@@ -48,6 +49,7 @@ export default {
     },
     methods:{
         async haddleLogin(){
+            this.$store.state.loading = true
             if(this.email && this.password){
                 // start connect to backend at login service //
                 const payload = {
@@ -60,15 +62,19 @@ export default {
                     // console.log("login!")
                     this.$cookies.set("hdt-token", userAccess.data.token)
                     this.$cookies.set("hdt-user", userAccess.data.username)
+                    this.$store.state.loading = false
                     this.$router.push("/")
                 }else{
+                    this.$store.state.loading = false
                     this.isError = "Invalid email or password."
                 }
             }else{
+                this.$store.state.loading = false
                 this.isError = "Email and password are require to login."
             }
         },
         haddleToRegister(){
+            this.$store.state.loading = false
             this.$router.push("/register")
         }
     },

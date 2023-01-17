@@ -189,6 +189,7 @@ export default {
     },
     methods:{
         async haddleAuth(){
+            this.$store.state.loading = true
             const headerConf = {
                     headers:{
                         "access-token": this.$cookies.get("hdt-token")
@@ -199,13 +200,16 @@ export default {
                 alert("unauthorized")
                 this.$cookies.remove('hdt-token')
                 this.$cookies.remove("hdt-user")
+                this.$store.state.loading = false
                 this.$router.push("/login")
             }else{
+                this.$store.state.loading = false
                 console.log("OK")
             }
         },
 
         async haddleFinish(){
+            this.$store.state.loading = true
             try{
                 const headerConf = {
                     headers:{
@@ -236,12 +240,14 @@ export default {
 
                 const replyResult = await axios.post("https://backend-hdt-selfreport-zt27agut7a-as.a.run.app/api/insertData", payload,headerConf)
                 if(replyResult.status === 200 ){
+                    this.$store.state.loading = false
                     alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
                     location.reload()
                 }else{
-                    alert(replyResult.data)
+                    // alert(replyResult.data)
                     this.$cookies.remove('hdt-token')
                     this.$cookies.remove("hdt-user")
+                    this.$store.state.loading = false
                     alert("session expired.")
                     location.reload()
                 }

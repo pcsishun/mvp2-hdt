@@ -37,6 +37,10 @@ export default createStore({
         angSubEmo:5,
         labelOtherEmo:'',
         otherSubEmo:5,
+        imgWordCloud:null,
+        miniDashboardData:null,
+        loadingLineChart:null,
+        loading:false,
     },
     mutations:{
 
