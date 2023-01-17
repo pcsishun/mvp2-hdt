@@ -1,14 +1,14 @@
 import {Datastore} from "@google-cloud/datastore"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import sentEnv from "../env_mangement"
+// import sentEnv from "../env_mangement"
+// const envData = sentEnv();
 
-const envData = sentEnv();
 const datastore = new Datastore();
-const kindUserProfile = process.env.KIND_USER_PROFILE || "userprofile"
-const kindTenan = process.env.KIND_TENAN || "profiletenan"
-const tokenSign = process.env.SECRET_TOKEN || "oasdkf_)(*&@!_+#akodkasiodnidj+__)((*@!!osdf492384272340213--3402o4000---5002340291283===--++_)**&^%$$$%"
-const Expires = process.env.EXPIRES || "7d"
+const kindUserProfile:string = process.env.KIND_USER_PROFILE || "userprofile"
+const kindTenan:string = process.env.KIND_TENAN || "profiletenan"
+const tokenSign:string = process.env.SECRET_TOKEN || "oasdkf_)(*&@!_+#akodkasiodnidj+__)((*@!!osdf492384272340213--3402o4000---5002340291283===--++_)**&^%$$$%"
+const Expires:string = process.env.EXPIRES || "7d"
 // console.log(kind, kindTenan, tokenSign, Expires)
 
 async function LoginController(req:any, res:any) {
@@ -30,10 +30,11 @@ async function LoginController(req:any, res:any) {
                     const hashPassword = task[0].password
                     const setEmail = task[0].email
                     const setTenan = task[0].tenan
-
+                    const name = task[0].firstname;
                     if(setEmail && (await bcrypt.compare(password, hashPassword))){
                         const setData = {
                             email: setEmail,
+                            username: name,
                             tenan: setTenan
                         }
                         
@@ -47,6 +48,7 @@ async function LoginController(req:any, res:any) {
 
                         const payload = {
                             status:200,
+                            username:name,
                             token: genToken,
                         }
 

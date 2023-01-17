@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const datastore_1 = require("@google-cloud/datastore");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const env_mangement_1 = __importDefault(require("../env_mangement"));
-const envData = (0, env_mangement_1.default)();
+// import sentEnv from "../env_mangement"
+// const envData = sentEnv();
 const datastore = new datastore_1.Datastore();
 const kindUserProfile = process.env.KIND_USER_PROFILE || "userprofile";
 const kindTenan = process.env.KIND_TENAN || "profiletenan";
@@ -43,9 +43,11 @@ function LoginController(req, res) {
                         const hashPassword = task[0].password;
                         const setEmail = task[0].email;
                         const setTenan = task[0].tenan;
+                        const name = task[0].firstname;
                         if (setEmail && (yield bcrypt_1.default.compare(password, hashPassword))) {
                             const setData = {
                                 email: setEmail,
+                                username: name,
                                 tenan: setTenan
                             };
                             const genToken = jsonwebtoken_1.default.sign(setData, tokenSign, {
@@ -53,6 +55,7 @@ function LoginController(req, res) {
                             });
                             const payload = {
                                 status: 200,
+                                username: name,
                                 token: genToken,
                             };
                             res.send(payload);

@@ -49,23 +49,21 @@ export default {
     methods:{
         async haddleLogin(){
             if(this.email && this.password){
-                console.log("haddle login ", this.email, this.password)
                 // start connect to backend at login service //
                 const payload = {
                     email: this.email,
                     password: this.password
                 }
                 const userAccess = await axios.post("https://backend-hdt-login-zt27agut7a-as.a.run.app/api/login",payload)
-                console.log("userAccess", userAccess.data)
+                // console.log("userAccess", userAccess.data)
                 if(userAccess.status === 200){
-                    console.log("login!")
+                    // console.log("login!")
                     this.$cookies.set("hdt-token", userAccess.data.token)
+                    this.$cookies.set("hdt-user", userAccess.data.username)
                     this.$router.push("/")
                 }else{
                     this.isError = "Invalid email or password."
                 }
-                
-                // end API //
             }else{
                 this.isError = "Email and password are require to login."
             }

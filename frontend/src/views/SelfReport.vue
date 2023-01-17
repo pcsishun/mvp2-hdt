@@ -189,22 +189,24 @@ export default {
     },
     methods:{
         async haddleAuth(){
-            const isToken = this.$cookies.get("hdt-token");
             const headerConf = {
                     headers:{
-                        "access-token": isToken.token
+                        "access-token": this.$cookies.get("hdt-token")
                     }
                 } 
             const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
-            if(authCheck.data !== 200 ){
+            if(authCheck.status !== 200 ){
                 alert("unauthorized")
-                this.$cookies.remove('hdt-token');
+                this.$cookies.remove('hdt-token')
+                this.$cookies.remove("hdt-user")
                 this.$router.push("/login")
+            }else{
+                console.log("OK")
             }
         },
+
         async haddleFinish(){
             try{
-                // POST TO Backend_emotion //
                 const headerConf = {
                     headers:{
                         "access-token": this.$cookies.get("hdt-token")
@@ -233,12 +235,14 @@ export default {
                 }
 
                 const replyResult = await axios.post("https://backend-hdt-selfreport-zt27agut7a-as.a.run.app/api/insertData", payload,headerConf)
-                // const replyResult = await axios.post("http://localhost:3396/api/insertData", payload, headerConf);
                 if(replyResult.status === 200 ){
                     alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
                     location.reload()
                 }else{
                     alert(replyResult.data)
+                    this.$cookies.remove('hdt-token')
+                    this.$cookies.remove("hdt-user")
+                    alert("session expired.")
                     location.reload()
                 }
             }catch(err){
@@ -270,9 +274,7 @@ export default {
         
         // start face cam // 
         haddleNextCard(){
-            
             this.isError = null
-            // console.log("step card => ", this.$store.state.stepCard)
             if(this.$store.state.stepCard >= 5){
                 this.$store.state.stepCard += 1
             }else if(this.isReport === 'none' && this.$store.state.stepCard === 7){
@@ -305,7 +307,6 @@ export default {
                             surprised:averageSurprised,
                             answer: this.$store.state.answerCard,
                         }
-                        // console.log("afternoon payload => ", payload)
                         this.setAnger = []
                         this.setDisgusted = []
                         this.setFearful = []
@@ -532,11 +533,9 @@ export default {
                     this.setSad.push(resizeResult.expressions.sad)
                     this.setSurprised.push(resizeResult.expressions.surprised)
                     this.countResult += 1
-                    // console.log(this.countResult);
                 }else{
                     this.countResult = 0
                     this.$store.commit("fnClose")
-                    // this.sleepFunc(3000)
                 }
 
             } else {
@@ -612,28 +611,13 @@ export default {
         },
 
         fnSuccess(stream) {
-            // console.log("test ==> ",demo)
-            // console.log("stream ==> ",stream)
             window.stream = stream; 
             this.$store.state.videoEl.srcObject = stream;
             this.$store.state.videoEl.play();
         },
-
         fnError(error) {
-            // console.log(error);
             alert("steaming error: " + error);
         },
-        
-        // fnClose() {
-        //     this.$store.state.canvasEl.getContext("2d").clearRect(0, 0, this.$store.state.canvasEl.width, this.$store.state.canvasEl.height);
-        //     this.$store.state.videoEl.pause();
-        //     clearTimeout(this.timeout);
-        //     if (typeof window.stream === "object") {
-        //         window.stream.getTracks().forEach((track) => track.stop());
-        //         window.stream = "";
-        //         this.$store.state.videoEl.srcObject = null;
-        //     }
-        // },
     },
     beforeMount(){
         this.haddleAuth();

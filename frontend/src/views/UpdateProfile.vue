@@ -21,16 +21,16 @@ export default {
     },
     methods:{
         async haddleAuth(){
-            const isToken = this.$cookies.get("hdt-token");
             const headerConf = {
                     headers:{
-                        "access-token": isToken.token
+                        "access-token": this.$cookies.get("hdt-token")
                     }
                 } 
             const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
             if(authCheck.data !== 200 ){
-                alert("unauthorized")
-                this.$cookies.remove('hdt-token');
+                this.$cookies.remove('hdt-token')
+                this.$cookies.remove("hdt-user")
+                alert("session expired.")
                 this.$router.push("/login")
             }
         },

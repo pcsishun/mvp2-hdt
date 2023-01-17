@@ -48,43 +48,25 @@ export default {
         }
     },
     methods:{
-        // async haddleAuth(){
-        //     const isToken = this.$cookies.get("hdt-token");
-        //     const headerConf = {
-        //             headers:{
-        //                 "access-token": isToken.token
-        //             }
-        //         } 
-        //     const authCheck = await axios.get("https://backend-hdt-auth-zt27agut7a-as.a.run.app/api/auth",headerConf);
-            
-        //     if(authCheck.data !== 200 ){
-        //         alert("unauthorized")
-        //         this.$cookies.remove('hdt-token');
-        //         this.$router.push("/login")
-        //     }
-        // },
         async haddleMiniDashboard(){
-            const isToken = this.$cookies.get("hdt-token");
-            // console.log(isToken);
-            if(isToken){
-
+            const checktoken = this.$cookies.get("hdt-token")
+            if(checktoken){
                 const headerConf = {
                     headers:{
-                        "access-token": isToken
+                        "access-token": this.$cookies.get("hdt-token")
                     }
                 }
-
-                // console.log(headerConf)
-
                 try{
                     const homeData = await axios.get("https://backend-hdt-homepage-zt27agut7a-as.a.run.app/api/home", headerConf)
                     if(homeData.data.status === 403 ){
                         alert(homeData.data.text)
                         this.$cookies.remove("hdt-token")
+                        this.$cookies.remove("hdt-user")
                         this.$router.push("/login")
                     }else if(homeData.data.status === 401 ){
                         alert(homeData.data.text)
-                        this.$cookies.remove("hdt-token");
+                        this.$cookies.remove("hdt-token")
+                        this.$cookies.remove("hdt-user")
                         this.$router.push("/login")
                     }else if(homeData.data.status === 200 || homeData.data.status === 500 ){
                         if(homeData.data.status === 200){
@@ -98,7 +80,7 @@ export default {
                                     img: imgBase64.data,
                                     data:homeData.data
                                 }
-                                console.log("showData ==> ", this.showData)
+                                // console.log("showData ==> ", this.showData)
                             }else{
                                 this.showData = {
                                     status: 200,
@@ -125,7 +107,7 @@ export default {
         }
     },
     beforeMount(){
-        // this.haddleAuth();
+
     },
     mounted(){
         this.haddleMiniDashboard()
