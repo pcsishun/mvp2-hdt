@@ -82,7 +82,7 @@ export default {
                 this.desc= setData.data.weather[0].description,
                 this.weather= setData.data.weather[0].main,
                 this.temp= (setData.data.main.temp - 273.15).toFixed(2)
-                console.log("setData" , this.weather)
+                // console.log("setData" , this.weather)
             }catch(err){
                 this.isError = err
             }

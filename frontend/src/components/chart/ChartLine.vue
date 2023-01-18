@@ -47,7 +47,7 @@ export default {
     }, 
     methods:{
         async fetchData(){
-            console.log("start")
+            // console.log("start")
             this.$store.state.loadingLineChart = false
             let rawData = []
             let setLabel = []
@@ -105,7 +105,7 @@ export default {
             this.setData = dataset
             this.$store.state.loadingLineChart = true
             this.isloaded = true
-            console.log(this.isloaded, this.setData)
+            // console.log(this.isloaded, this.setData)
         }
     },
     mounted(){
