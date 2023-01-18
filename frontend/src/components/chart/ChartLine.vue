@@ -16,10 +16,10 @@ ChartJS.register(
   
 export default {
     components: {
-      Line
+        Line
     },
     data() {
-      return { 
+        return { 
             isloaded: false,
             setData:null,
             options:{
@@ -48,8 +48,7 @@ export default {
     methods:{
         async fetchData(){
             console.log("start")
-            this.isloaded = false
-            this.$store.state.loadingLineChart = true;
+            this.$store.state.loadingLineChart = false
             let rawData = []
             let setLabel = []
             let setNegThes = []
@@ -104,7 +103,7 @@ export default {
                 
 
             this.setData = dataset
-            this.$store.state.loadingLineChart = false;
+            this.$store.state.loadingLineChart = true
             this.isloaded = true
             console.log(this.isloaded, this.setData)
         }

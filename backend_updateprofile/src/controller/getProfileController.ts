@@ -10,24 +10,25 @@ async function getProfileController(req:any, res:any) {
     const email = userProfile.decode.email
     const tenan = userProfile.decode.tenan
     if(email && tenan){
-            // .select([
-            //     "birthday",
-            //     "dealbreaker",
-            //     "exisiting_silution",
-            //     "family",
-            //     "firstname",
-            //     "gender",
-            //     "hobby",
-            //     "job_level",
-            //     "lastname",
-            //     "mh_goal",
-            //     "peiod",
-            //     "personality_type",
-            //     "sector",
-            //     "stree_level",
-            //     "working_nature"
-            // ])
+            
         const query = datastore.createQuery(kindUserProfile)
+        .select([
+                "birthday", // 
+                "dealbreaker",
+                "exisiting_silution",
+                "family",
+                "firstname", // 
+                "gender", // 
+                "hobby",
+                "job_level",
+                "lastname", // 
+                "mh_goal",
+                "peiod",
+                "personality_type",
+                "sector",
+                "stree_level",
+                "working_nature"
+            ])
             .filter("email","=", email)
             .limit(1)
 

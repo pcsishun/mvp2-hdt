@@ -8,14 +8,14 @@
             <WeatherVue/>
         </div>
         <div class="set-chart w-[350px] p-[15px] m-auto rounded-lg">
-            <div class="text-[14px] font-bold mt-5 mb-5">How are you feeling today ?</div>
+            <div class="text-[14px] font-bold mt-5 mb-5">อารมณ์ย้อนหลังประจำวัน</div>
             <div><img src="../assets/good.png" width="20" height="20"/></div>
             <div >
                 <ChartLineVue />
             </div>
-            <!-- <div v-if="$store.state.loadingLineChart === true">
+            <div v-if="$store.state.loadingLineChart === false">
                 <LoadingLineChart/>
-            </div> -->
+            </div>
             <div><img src="../assets/bad.png" width="20" height="20"/></div>
         </div>
         <div class="set-info w-[350px] m-auto mt-[50px] p-[15px] rounded-lg">
@@ -110,7 +110,6 @@ export default {
                     this.isError = err
                 }
             }else{
-                alert("Session is expired.")
                 this.$store.state.loading = false
                 this.$cookies.remove("hdt-token")
                 this.$cookies.remove("hdt-user")

@@ -1,5 +1,4 @@
 import {Datastore} from "@google-cloud/datastore"
-import { timingSafeEqual } from "crypto"
 import bcrypt from "bcrypt"
 
 const datastore = new Datastore();

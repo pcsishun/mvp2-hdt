@@ -153,7 +153,7 @@ export default {
                     frameRate: {
                         min: 1,
                         ideal: 1,
-                        max: 1,
+                        max: 10,
                     },
                     facingMode: "environment",
                 },
@@ -530,19 +530,19 @@ export default {
                 this.setSurprised.push(resizeResult.expressions.surprised)
 
 
-                if(this.countResult < 100){
-                    this.setAnger.push(resizeResult.expressions.angry)
-                    this.setDisgusted.push(resizeResult.expressions.disgusted)
-                    this.setFearful.push(resizeResult.expressions.fearful)
-                    this.setHappy.push(resizeResult.expressions.happy)
-                    this.setNeutral.push(resizeResult.expressions.neutral)
-                    this.setSad.push(resizeResult.expressions.sad)
-                    this.setSurprised.push(resizeResult.expressions.surprised)
-                    this.countResult += 1
-                }else{
-                    this.countResult = 0
-                    this.$store.commit("fnClose")
-                }
+                // if(this.countResult < 100){
+                //     this.setAnger.push(resizeResult.expressions.angry)
+                //     this.setDisgusted.push(resizeResult.expressions.disgusted)
+                //     this.setFearful.push(resizeResult.expressions.fearful)
+                //     this.setHappy.push(resizeResult.expressions.happy)
+                //     this.setNeutral.push(resizeResult.expressions.neutral)
+                //     this.setSad.push(resizeResult.expressions.sad)
+                //     this.setSurprised.push(resizeResult.expressions.surprised)
+                //     this.countResult += 1
+                // }else{
+                //     this.countResult = 0
+                //     this.$store.commit("fnClose")
+                // }
 
             } else {
                 this.$store.state.canvasEl

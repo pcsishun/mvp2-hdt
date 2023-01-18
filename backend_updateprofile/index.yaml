@@ -1,0 +1,19 @@
+indexes:
+- kind: userprofile
+  properties:
+  - name: email
+  - name: birthday
+  - name: dealbreaker
+  - name: exisiting_silution
+  - name: family
+  - name: firstname
+  - name: gender
+  - name: hobby
+  - name: job_level
+  - name: lastname
+  - name: mh_goal
+  - name: peiod
+  - name: personality_type
+  - name: sector
+  - name: stree_level
+  - name: working_nature

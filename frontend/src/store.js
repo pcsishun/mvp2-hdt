@@ -39,8 +39,9 @@ export default createStore({
         otherSubEmo:5,
         imgWordCloud:null,
         miniDashboardData:null,
-        loadingLineChart:null,
+        loadingLineChart:false,
         loading:false,
+        
     },
     mutations:{
 

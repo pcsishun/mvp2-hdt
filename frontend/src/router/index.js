@@ -7,6 +7,7 @@ import SelfReport from '../views/SelfReport.vue'
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import PageNotFound from "../views/PageNotFound.vue"
+import UpdateProfile from "../views/UpdateProfile.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/self_report',
       name: 'SelfReport',
       component: SelfReport
+    },
+    {
+      path: '/updateProfile',
+      name: 'UpdateProfile',
+      component: UpdateProfile
     },
     {
       path: "/:pathMatch(.*)*",

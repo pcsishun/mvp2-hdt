@@ -22,7 +22,7 @@
                 </button>
             </div>
                 
-            <div class="menu-m mt-[40px] ">
+            <!-- <div class="menu-m mt-[40px] ">
                 <button class="flex" @click="haddleMebne('dashboard')">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-700">
@@ -34,7 +34,7 @@
                         Dashboard
                     </div>
                 </button>
-            </div>
+            </div> -->
             <div class="menu-m mt-[40px]">
                 <button class="flex" @click="haddleMebne('selfReport')"> 
                     <div class="mr-3">
