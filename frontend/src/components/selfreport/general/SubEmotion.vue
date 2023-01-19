@@ -10,9 +10,9 @@
                         <div class="set-title text-[14px]">ดีใจ</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-happy" max="10" min="0" step="1" v-model="$store.state.happySubEmo"/>
-                            <datalist id="set-happy">
+                            <datalist class="set-label-col" id="set-happy">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
@@ -21,9 +21,9 @@
                         <div class="set-title text-[14px]">ภูมิใจ</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-pow" max="10" min="0" step="1" v-model="$store.state.powSubEmo"/>
-                            <datalist id="set-pow">
+                            <datalist class="set-label-col" id="set-pow">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
@@ -32,9 +32,9 @@
                         <div class="set-title text-[14px]">สงบ</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-relax" max="10" min="0" step="1" v-model="$store.state.relaxSubEmo"/>
-                            <datalist id="set-relax">
+                            <datalist class="set-label-col" id="set-relax">
                                 <option >10</option>
-                                <option >5</option>
+                                <option hidden>5</option>
                                 <option >0</option>
                             </datalist>
                         </div>
@@ -44,44 +44,34 @@
                         <div class="set-title text-[14px]">โล่งใจ</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-relax-x" max="10" min="0" step="1" v-model="$store.state.relaxXSubEmo"/>
-                            <datalist id="set-relax-x">
+                            <datalist class="set-label-col" id="set-relax-x">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
                     </div>
                     <div>
-                        <div class="set-title text-[14px]">เฉยๆ</div>
+                        <div class="set-title text-[14px]">ผิดหวัง</div>
                         <div class="flex">
-                            <input type="range" orient="vertical" list="set-ner" max="10" min="0" step="1" v-model="$store.state.nerSubEmo"/>
-                            <datalist id="set-ner">
+                            <input type="range" orient="vertical" list="set-dis" max="10" min="0" step="1" v-model="$store.state.disSubEmo"/>
+                            <datalist class="set-label-col" id="set-dis">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-around mt-5">
-                    <div>
-                        <div class="set-title text-[14px]">ผิดหวัง</div>
-                        <div class="flex">
-                            <input type="range" orient="vertical" list="set-dis" max="10" min="0" step="1" v-model="$store.state.disSubEmo"/>
-                            <datalist id="set-dis">
-                                <option>10</option>
-                                <option>5</option>
-                                <option>0</option>
-                            </datalist>
-                        </div>
-                    </div>
+                    
                     <div>
                         <div class="set-title text-[14px]">เศร้า</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-sad" max="10" min="0" step="1" v-model="$store.state.sadSubEmo"/>
-                            <datalist id="set-sad">
+                            <datalist class="set-label-col" id="set-sad">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
@@ -90,9 +80,9 @@
                         <div class="set-title text-[14px]">กลัว</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-fer" max="10" min="0" step="1" v-model="$store.state.ferSubEmo"/>
-                            <datalist id="set-fer">
+                            <datalist class="set-label-col" id="set-fer">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
@@ -101,9 +91,9 @@
                         <div class="set-title text-[14px]">กังวล</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-anx" max="10" min="0" step="1" v-model="$store.state.anxSubEmo"/>
-                            <datalist id="set-anx">
+                            <datalist class="set-label-col" id="set-anx">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
@@ -112,9 +102,9 @@
                         <div class="set-title text-[14px]">โกรธ</div>
                         <div class="flex"> 
                             <input type="range" orient="vertical" list="set-ang" max="10" min="0" step="1"  v-model="$store.state.angSubEmo"/>
-                            <datalist id="set-ang">
+                            <datalist class="set-label-col" id="set-ang">
                                 <option>10</option>
-                                <option>5</option>
+                                <option hidden>5</option>
                                 <option>0</option>
                             </datalist>
                         </div>
@@ -129,9 +119,9 @@
                 </div>
                 <div class="mt-5" v-if="$store.state.labelOtherEmo !== ''">
                     <input class="w-[90%]" type="range"  list="set-othe" max="10" min="0" step="1" v-model="$store.state.otherSubEmo"/>
-                    <datalist id="set-othe">
+                    <datalist class="set-label-row" id="set-othe">
                         <option>0</option>
-                        <option>5</option>
+                        <option hidden>5</option>
                         <option>10</option>
                     </datalist>
                 </div>
@@ -177,7 +167,7 @@ input[type=range][orient=vertical]
     border-radius:  10px;
 }
 
-datalist{
+.set-label-col{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -186,6 +176,15 @@ datalist{
     margin-top: 16px; 
     font-size: 12px;
 }
+
+.set-label-row{
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    overflow: hidden;
+    font-size: 12px;
+}
+
 .set-title{
     margin-bottom: 10px;
     margin-top: 10px;

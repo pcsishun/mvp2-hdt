@@ -25,39 +25,106 @@ function updateProfileController(req, res) {
         const email = userProfile.decode.email;
         const tenan = userProfile.decode.tenan;
         if (email && tenan) {
-            if (password === "") {
-                const transaction = datastore.transaction();
-                const taskKey = datastore.key([kindUserProfile, email]);
+            try {
+                const query = datastore.createQuery(kindUserProfile).filter("email", "=", email).limit(1);
+                const [taskProfile] = yield datastore.runQuery(query);
+                const setDate = new Date();
+                const isDate = setDate.getFullYear() + "/" + (setDate.getMonth() + 1) + "/" + setDate.getDate() + " " + (setDate.getHours() + 7) + ":" + setDate.getMinutes() + ":" + setDate.getSeconds();
+                const idSet = taskProfile[0][datastore.KEY]['id'];
+                const id = parseInt(idSet);
                 try {
-                    const [task] = yield transaction.get(taskKey);
-                    task.birthday = birthday;
-                    task.dealbreaker = dealbreaker;
-                    task.exisiting_silution = exisiting_silution;
-                    task.family = family;
-                    task.firstname = firstname;
-                    task.gender = gender;
-                    task.hobby = hobby;
-                    task.job_level = job_level;
-                    task.lastname = lastname;
-                    task.mh_goal = mh_goal;
-                    task.peiod = peiod;
-                    task.personality_type = personality_type;
-                    task.sector = sector;
-                    task.stree_level = stree_level;
-                    task.working_nature = working_nature;
-                    transaction.save({
-                        key: taskKey,
-                        data: task
-                    });
-                    yield transaction.commit();
-                    const replyData = {
-                        status: 200,
-                        data: "update success."
-                    };
-                    res.send(replyData);
+                    const taskKey = datastore.key([kindUserProfile, id]);
+                    if (password === "") {
+                        const task = {
+                            email: email,
+                            tenan: tenan,
+                            birthday: birthday,
+                            dealbreaker: dealbreaker,
+                            exisiting_silution: exisiting_silution,
+                            family: family,
+                            firstname: firstname,
+                            gender: gender,
+                            hobby: hobby,
+                            job_level: job_level,
+                            lastname: lastname,
+                            mh_goal: mh_goal,
+                            password: taskProfile[0].password,
+                            peiod: peiod,
+                            personality_type: personality_type,
+                            sector: sector,
+                            stree_level: stree_level,
+                            working_nature: working_nature,
+                            create_date: taskProfile[0].create_date,
+                            update_date: isDate
+                        };
+                        const entity = {
+                            key: taskKey,
+                            data: task,
+                        };
+                        try {
+                            yield datastore.update(entity);
+                            const replyData = {
+                                status: 200,
+                                data: "update success."
+                            };
+                            res.send(replyData);
+                        }
+                        catch (err) {
+                            const replyData = {
+                                status: 500,
+                                data: err
+                            };
+                            res.send(replyData);
+                        }
+                    }
+                    else {
+                        const hashPassword = yield bcrypt_1.default.hashSync(password, rounds);
+                        const task = {
+                            email: email,
+                            tenan: tenan,
+                            birthday: birthday,
+                            dealbreaker: dealbreaker,
+                            exisiting_silution: exisiting_silution,
+                            family: family,
+                            firstname: firstname,
+                            gender: gender,
+                            hobby: hobby,
+                            job_level: job_level,
+                            lastname: lastname,
+                            mh_goal: mh_goal,
+                            password: hashPassword,
+                            peiod: peiod,
+                            personality_type: personality_type,
+                            sector: sector,
+                            stree_level: stree_level,
+                            working_nature: working_nature,
+                            create_date: taskProfile[0].create_date,
+                            update_date: isDate
+                        };
+                        const entity = {
+                            key: taskKey,
+                            data: task,
+                        };
+                        // console.log("entity is password => ", entity)
+                        try {
+                            yield datastore.update(entity);
+                            const replyData = {
+                                status: 200,
+                                data: "update success."
+                            };
+                            res.send(replyData);
+                        }
+                        catch (err) {
+                            const replyData = {
+                                status: 500,
+                                data: err
+                            };
+                            res.send(replyData);
+                        }
+                    }
                 }
                 catch (err) {
-                    yield transaction.rollback();
+                    console.log("error create datastore.key ", err);
                     const replyData = {
                         status: 500,
                         data: err
@@ -65,46 +132,13 @@ function updateProfileController(req, res) {
                     res.send(replyData);
                 }
             }
-            else {
-                const transaction = datastore.transaction();
-                const taskKey = datastore.key([kindUserProfile, email]);
-                try {
-                    const [task] = yield transaction.get(taskKey);
-                    task.birthday = birthday;
-                    task.dealbreaker = dealbreaker;
-                    task.exisiting_silution = exisiting_silution;
-                    task.family = family;
-                    task.firstname = firstname;
-                    task.gender = gender;
-                    task.hobby = hobby;
-                    task.job_level = job_level;
-                    task.lastname = lastname;
-                    task.mh_goal = mh_goal;
-                    task.peiod = peiod;
-                    task.personality_type = personality_type;
-                    task.sector = sector;
-                    task.stree_level = stree_level;
-                    task.working_nature = working_nature;
-                    task.password = yield bcrypt_1.default.hashSync(password, rounds);
-                    transaction.save({
-                        key: taskKey,
-                        data: task
-                    });
-                    yield transaction.commit();
-                    const replyData = {
-                        status: 200,
-                        data: "update success."
-                    };
-                    res.send(replyData);
-                }
-                catch (err) {
-                    yield transaction.rollback();
-                    const replyData = {
-                        status: 500,
-                        data: err
-                    };
-                    res.send(replyData);
-                }
+            catch (err) {
+                console.log("error create query ", err);
+                const replyData = {
+                    status: 500,
+                    data: err
+                };
+                res.send(replyData);
             }
         }
         else {

@@ -17,11 +17,10 @@
                         </svg>
                     </div>
                     <div>
-                        Home
+                        หน้าแรก
                     </div>
                 </button>
             </div>
-                
             <!-- <div class="menu-m mt-[40px] ">
                 <button class="flex" @click="haddleMebne('dashboard')">
                     <div class="mr-3">
@@ -43,7 +42,7 @@
                         </svg>
                     </div>
                     <div>
-                        Self report
+                        บันทึกความรู้สึก
                     </div>
                 </button>
             </div>
@@ -82,7 +81,7 @@
                         </svg>
                     </div>
                     <div>
-                        Setting
+                        โปรไฟล์
                     </div>
                 </button>
             </div>
@@ -119,7 +118,8 @@ export default {
             else if(evt === 'selfReport'){
                 this.$router.push("/self_report")
             }else{
-                alert(`This ${evt} function on maintenance.`)
+                // alert(`This ${evt} function on maintenance.`)
+                this.$router.push("/updateProfile")
             }
 
         }
@@ -131,7 +131,7 @@ export default {
 .menu-open{
     position: fixed;
     top:0;
-    width: 150px;
+    width: 180px;
     height: 100vh;
     background: rgba(159, 210, 205, 0.8);
     transition: 1s;

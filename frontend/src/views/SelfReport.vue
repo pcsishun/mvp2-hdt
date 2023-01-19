@@ -40,28 +40,32 @@
             
             <MCard1Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 1"/> <!--  1 -->
             <MCard2Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 2"/> <!--  2 -->
-            <MCard3Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 3"/> <!--  3 -->
+             <!--  3 พอพูดถึงเรื่องนี้เเล้วรู้สึกอย่างไร -->
+            <!-- <MCard3Vue v-if="cardType === 'morning' &&  $store.state.stepCard === 3"/> -->
+
             <ACard1Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 1"/> <!--  1 -->
             <ACard2Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 2"/> <!--  2 -->
             <ACard3Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 3"/> <!--  3 -->
-            <ACard4Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 4"/> <!--  4 -->
-            <ParameterVue v-if="$store.state.stepCard === 5"/><!--  5 -->
-            <SubEmotion v-if="$store.state.stepCard === 6"/><!--  6 -->
-            <HeartRateVue v-if="$store.state.stepCard === 7"/><!--  7 -->
-            <FinishCardVue v-if="$store.state.stepCard === 8"/><!--  8 -->
+            <!--  4 พอพูดถึงเรื่องนี้เเล้วรู้สึกอย่างไร -->
+            <!-- <ACard4Vue v-if="cardType === 'afternoon' &&  $store.state.stepCard === 4"/> -->
+
+            <SubEmotion v-if="$store.state.stepCard === 4"/><!--  5 -->
+            <ParameterVue v-if="$store.state.stepCard === 5"/><!--  6 -->
+            <HeartRateVue v-if="$store.state.stepCard === 6"/><!--  7 -->
+            <FinishCardVue v-if="$store.state.stepCard === 7"/><!--  8 -->
             <div class="text-center text-red-700 mt-3 p-3">{{isError}}</div>
             <div class="btn-selfreport mt-[40px] p-5">
                 <div class="text-right" v-if="$store.state.isGoalCard !== true && $store.state.isUseMic !== false">
-                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleOpenMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 && $store.state.setMic === 'mic'">mic</button>
-                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleCloseMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 && $store.state.setMic === 'off'">off</button>
+                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleOpenMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 3 && $store.state.setMic === 'mic'">mic</button>
+                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleCloseMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 3 && $store.state.setMic === 'off'">off</button>
                 </div>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('start')" v-if="$store.state.stepCard === 0">
                     เริ่มต้น
                 </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 8 " >
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 " >
                     ถัดไป
                 </button>
-                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 8" >
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 7" >
                     เสร็จสิ้น
                 </button>
                 <!-- <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700"  @click="haddleDebug">debug</button> -->
@@ -77,13 +81,13 @@ import Menu from '../components/menu/Menu.vue'
 // morning //
 import MCard1Vue from '../components/selfreport/morning/MCard1.vue'
 import MCard2Vue from '../components/selfreport/morning/MCard2.vue'
-import MCard3Vue from '../components/selfreport/morning/MCard3.vue'
+// import MCard3Vue from '../components/selfreport/morning/MCard3.vue'
 
 // afternoon //
 import ACard1Vue from '../components/selfreport/afternoon/ACard1.vue'
 import ACard2Vue from '../components/selfreport/afternoon/ACard2.vue'
 import ACard3Vue from '../components/selfreport/afternoon/ACard3.vue'
-import ACard4Vue from '../components/selfreport/afternoon/ACard4.vue'
+// import ACard4Vue from '../components/selfreport/afternoon/ACard4.vue'
 
 // general card //
 import ParameterVue from '../components/selfreport/general/Parameter.vue'
@@ -102,11 +106,11 @@ export default {
         Menu,
         MCard1Vue,
         MCard2Vue,
-        MCard3Vue,
+        // MCard3Vue,
         ACard1Vue,
         ACard2Vue,
         ACard3Vue,
-        ACard4Vue,
+        // ACard4Vue,
         ParameterVue,
         SyncDeviceVue,
         SubEmotion,
@@ -204,7 +208,7 @@ export default {
                 this.$router.push("/login")
             }else{
                 this.$store.state.loading = false
-                console.log("OK")
+                // console.log("OK")
             }
         },
 
@@ -239,6 +243,7 @@ export default {
                 }
 
                 const replyResult = await axios.post("https://backend-hdt-selfreport-zt27agut7a-as.a.run.app/api/insertData", payload,headerConf)
+                
                 if(replyResult.status === 200 ){
                     this.$store.state.loading = false
                     alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
@@ -268,31 +273,31 @@ export default {
         controllCard(){
             const d = new Date();
             const hours = d.getHours();
-            console.log("hours => ", hours)
+            // console.log("hours => ", hours)
             if(hours <= 12 && hours > 0){
                 this.cardType = "morning" // morning
-                console.log("cardtype", this.cardType)
+                // console.log("cardtype", this.cardType)
             }else{
                 this.cardType = "afternoon" // afternoon
-                console.log("cardtype", this.cardType)
+                // console.log("cardtype", this.cardType)
             }
         },
         
         // start face cam // 
         haddleNextCard(){
             this.isError = null
-            if(this.$store.state.stepCard >= 5){
+            console.log("step status => ",this.isReport, this.$store.state.stepCard, this.cardType)
+            if(this.$store.state.stepCard >= 4){
+                console.log("No report")
                 this.$store.state.stepCard += 1
-            }else if(this.isReport === 'none' && this.$store.state.stepCard === 7){
-                this.$store.commit('fnClose')
             }
 
             if(this.$store.state.stepCard === 0){
                 this.fnOpen();
                 this.$store.state.stepCard += 1;
-
             }else if (this.isReport !== 'none'){
                 this.$store.state.stepCard += 1;
+                console.log("yes report")
                 if(this.$store.state.isGoalCard === false && this.$store.state.answerCard !== "" && this.$store.state.answerCard !== null && this.$store.state.answerCard !== NaN){
                     const averageAnger = this.setAnger.reduce((a, b) => a + b, 0) / this.setAnger.length;
                     const averageDisgusted = this.setDisgusted.reduce((a, b) => a + b, 0) / this.setDisgusted.length;
@@ -327,10 +332,10 @@ export default {
                         this.$store.state.answerGoal3 = ""
                         this.$store.commit('haddleCloseMic');
                         this.$store.state.isGoalCard = false
-                        if(this.$store.state.stepCard === 5){
+                        console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
+                        if(this.$store.state.stepCard === 4){
                             this.$store.commit('fnClose')
                             this.isReport = "none"
-                            // this.$store.state.stepCard += 1
                         }
                     }else if(this.cardType === 'morning'){
                         const payload = {
@@ -344,7 +349,6 @@ export default {
                             surprised:averageSurprised,
                             answer: this.$store.state.answerCard,
                             }
-                        // console.log("morning payload => ", payload)
                         this.setAnger = []
                         this.setDisgusted = []
                         this.setFearful = []
@@ -359,7 +363,7 @@ export default {
                         this.$store.state.answerGoal3 = ""
                         this.$store.commit('haddleCloseMic')
                         this.$store.state.isGoalCard = false
-                        if(this.$store.state.stepCard === 4){
+                        if(this.$store.state.stepCard === 3){
                             this.$store.commit('fnClose')
                             this.isReport = "none"
                             this.$store.state.stepCard += 1
@@ -404,7 +408,11 @@ export default {
                         this.$store.state.answerGoal3 = ""
                         this.$store.commit('haddleCloseMic');
                         this.$store.state.isGoalCard = false
-                        // console.log("set 4 answerCard => ", this.$store.state.answerCard)
+                        console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
+                        if(this.$store.state.stepCard === 4){
+                            this.$store.commit('fnClose')
+                            this.isReport = "none"
+                        }
                     }else if(this.cardType === 'morning'){
                         const payload = {
                             timing: "morning",
@@ -421,7 +429,6 @@ export default {
                                 this.$store.state.answerGoal3,
                                 ],
                             }
-                        // console.log("goal morning payload => ", payload)
                         this.setAnger = []
                         this.setDisgusted = []
                         this.setFearful = []
@@ -436,11 +443,14 @@ export default {
                         this.$store.state.answerGoal3 = ""
                         this.$store.commit('haddleCloseMic')
                         this.$store.state.isGoalCard = false
-                        // console.log("set 5 answerCard => ", this.$store.state.answerCard)
+                        if(this.$store.state.stepCard === 3){
+                            this.$store.commit('fnClose')
+                            this.isReport = "none"
+                            this.$store.state.stepCard += 1
+                        }
                     }
                 }else{
-                    // console.log(this.$store.state.stepCard)
-                    if(this.$store.state.stepCard === 7){
+                    if(this.$store.state.stepCard === 6){
                         const setAverageBpm =  this.$store.state.myRatebpm.reduce((a, b) => a + b, 0) / this.$store.state.myRatebpm.length;
                         this.$store.state.averageBpm = setAverageBpm
                     }else{
@@ -641,7 +651,6 @@ export default {
     },  
     beforeDestroy() {
         this.$store.commit('fnClose');
-        // this.$store.commit("fnClose")
     },
 }
 </script>

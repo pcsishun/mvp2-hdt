@@ -24,10 +24,10 @@
                     <div class="text-left">บุคลิกภาพ</div>
                     <!-- <input class="set-profile w-[100%] h-[35px]" v-model="personality" required/> -->
                     <select class="set-profile w-[100%] h-[35px]" v-model="personality"  id="personality" name="personality">
-                        <option value="anaylzer">นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP</option>
-                        <option value="diplomat">นกการฑูต: INFJ / INFP / ENFJ / ENFP</option>
-                        <option value="watchman">ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ</option>
-                        <option value="explorer">นักสำรวจ: ISTP / ISFP / ESTP / ESFP</option>
+                        <option value="นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP">นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP</option>
+                        <option value="นกการฑูต: INFJ / INFP / ENFJ / ENFP">นกการฑูต: INFJ / INFP / ENFJ / ENFP</option>
+                        <option value="ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ">ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ</option>
+                        <option value="นักสำรวจ: ISTP / ISFP / ESTP / ESFP">นักสำรวจ: ISTP / ISFP / ESTP / ESFP</option>
                     </select>
                     <div class="text-left mt-3 text-blue-500">
                         <a href="https://www.16personalities.com/th/%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%97%E0%B8%94%E0%B8%AA%E0%B8%AD%E0%B8%9A%E0%B8%9A%E0%B8%B8%E0%B8%84%E0%B8%84%E0%B8%A5%E0%B8%B4%E0%B8%81%E0%B8%A0%E0%B8%B2%E0%B8%9E">
@@ -140,11 +140,11 @@
                     <div class="text-left">งานอดิเรก</div> 
                     <!-- <div>Working Nature</div> -->
                     <select class="set-profile w-[100%] h-[35px]" v-model="hobby"  id="hobby" name="hobby">
-                        <option value="collecting">Collecting: Physical / Record </option>
-                        <option value="making">Making: Clothing / Cooking / Gardening / Modelling</option>
-                        <option value="activities">Activities: Animal / Outdoor / Traveling</option>
-                        <option value="play">Play: Fitness / Game / Sport</option>
-                        <option value="arts">Arts: Dance / Music / Theater / Visual / Literary</option>
+                        <option value="Collecting: Physical / Record">Collecting: Physical / Record </option>
+                        <option value="Making: Clothing / Cooking / Gardening / Modelling">Making: Clothing / Cooking / Gardening / Modelling</option>
+                        <option value="Activities: Animal / Outdoor / Traveling">Activities: Animal / Outdoor / Traveling</option>
+                        <option value="Play: Fitness / Game / Sport">Play: Fitness / Game / Sport</option>
+                        <option value="Arts: Dance / Music / Theater / Visual / Literary">Arts: Dance / Music / Theater / Visual / Literary</option>
                     </select>
                     <!-- <input class="set-profile w-[100%] h-[35px]" type="email" v-model="email" required/> -->
                 </div>
@@ -161,9 +161,8 @@
                         <option value="benefit_balance">Benefit Balance</option>
                     </select>
                 </div>
-                <div class="m-auto text-center mb-10">
+                <!-- <div class="m-auto text-center mb-10">
                     <div class="text-left">ระดับความเครียด</div>
-                    <!-- <div>Job Level</div> -->
                     <div class="stree-icon mt-5 flex justify-between">
                         <div>
                             <img  src="../assets/anger.png" height="30" width="30"/>
@@ -176,7 +175,7 @@
                     <div class="text-left">
                         stree value: {{ streeValue }}
                     </div>
-                </div>
+                </div> -->
                 <div class="m-auto text-center mb-10">
                     <div class="text-left mb-3">
                         <label>เป้าหมายการใช้ application sookyen</label>
@@ -240,7 +239,7 @@ export default {
             hobby:"",
             dealBreaker: "",
             familySet: "",
-            streeValue: 50,
+            streeValue: null,
             mhGoal: "",
             serverError: "",
             peiod:0
@@ -299,7 +298,6 @@ export default {
                 const setDate = new Date();
                 const isDate = setDate.getFullYear()+"/"+(setDate.getMonth() + 1)+"/"+setDate.getDate()+" "+(setDate.getHours()+7)+":" + setDate.getMinutes()+":"+setDate.getSeconds() 
                 // register POST API //
-
                 const payload = {
                     birthday: this.birthDate,
                     create_date: isDate,

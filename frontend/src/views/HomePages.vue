@@ -36,6 +36,7 @@ import Navbar from '../components/navbar/Navbar.vue'
 import Menu from '../components/menu/Menu.vue'
 import axios from 'axios';
 import LoadingLineChart from '../components/loading/LoadingLineChart.vue';
+import ButtonEmer from '../components/emergecyEmo/ButtonEmer.vue';
 
 export default {
     components:{
@@ -46,7 +47,8 @@ export default {
         BTNRedoVue,
         Navbar,
         Menu,
-        LoadingLineChart
+        LoadingLineChart,
+        ButtonEmer
     },
     data(){
         return{

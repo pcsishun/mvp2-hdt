@@ -82,7 +82,7 @@ export default {
                 this.alreadyLogin = true
                 this.username = this.$cookies.get("hdt-user")
             }else{
-                alert("session expired.")
+                // alert("session expired.")
                 this.alreadyLogin = false
                 this.$cookies.remove("hdt-token")
                 this.$cookies.remove("hdt-user")

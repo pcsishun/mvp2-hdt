@@ -51,26 +51,26 @@ async function registerFunction(req:any, res:any) {
         const task = {
             key: taskKey,
             data:{
-                birthday: birthday, // 1 // 
-                create_date: create_date, // 2 //
-                dealbreaker: dealbreaker, // 3 //
-                email: email, // 4
-                exisiting_silution: exisiting_silution, // 5 //
-                firstname: firstname, // 6 //
-                gender: gender, // 7 //
+                birthday: birthday,
+                create_date: create_date,
+                dealbreaker: dealbreaker,
+                email: email,
+                exisiting_silution: exisiting_silution,
+                firstname: firstname, 
+                gender: gender,
                 hobby: hobby,
                 family: family, 
-                job_level: job_level, // 8 //
-                lastname: lastname, // 9 //
-                mh_goal: mh_goal, // 10 //
-                password: hashPassword, // 11 //
-                peiod: peiod, // 12 //
-                personality_type: personality_type, // 13 //
-                sector: sector, // 14 //
-                stree_level: stree_level, // 15 //
-                tenan: tenan, // 16 //
-                update_date: update_date, // 17 //
-                working_nature: working_nature // 18 //
+                job_level: job_level,
+                lastname: lastname,
+                mh_goal: mh_goal,
+                password: hashPassword,
+                peiod: peiod,
+                personality_type: personality_type,
+                sector: sector,
+                stree_level: stree_level,
+                tenan: tenan,
+                update_date: update_date,
+                working_nature: working_nature 
             }
         }
 

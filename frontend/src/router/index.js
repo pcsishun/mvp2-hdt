@@ -8,6 +8,7 @@ import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import PageNotFound from "../views/PageNotFound.vue"
 import UpdateProfile from "../views/UpdateProfile.vue"
+import EmoEmergecy from "../views/EmoEmergecy.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/updateProfile',
       name: 'UpdateProfile',
       component: UpdateProfile
+    },
+    {
+      path: '/emergency',
+      name: 'EmoEmergecy',
+      component: EmoEmergecy
     },
     {
       path: "/:pathMatch(.*)*",

@@ -36,44 +36,19 @@ function homepageController(req, res) {
                     .filter("email", "=", email)
                     .limit(1);
                 const [taskTenan] = yield datastore.runQuery(createTenanQuery);
-                // console.log("test task tenan => ", taskTenan)
                 if (taskTenan[0]) {
-                    // .select([
-                    //     'normalRange',
-                    //     'sadRange', 
-                    //     'fearRange', 
-                    //     'angerRange', 
-                    //     'relaxRange', 
-                    //     'happyRange', 
-                    //     'relievedRange', 
-                    //     'powRange', 
-                    //     'otherRangeEmotion',
-                    //     'worryRange',
-                    //     'disgustedRange',
-                    //     'mainEmotion',
-                    //     'averagBpm',
-                    //     'arrayOfanswer'
-                    // ])
-                    // console.log("kind_emo=> ", kind_emo)
                     const createEmotion = datastore.createQuery(kind_emo)
                         .filter("email", "=", email)
                         .filter("tenan", "=", tenan)
                         .filter("create_date", "<=", isDate)
-                        .filter("create_date", ">=", before_Date);
+                        .filter("create_date", ">=", before_Date)
+                        .limit(5);
                     const [taskData] = yield datastore.runQuery(createEmotion);
-                    // console.log("taskData => ", taskData.arrayOfanswer)
                     let longText = "";
                     for (let i = 0; i < taskData[0].arrayOfanswer.length; i++) {
                         longText = longText + " " + taskData[0].arrayOfanswer[i].answer;
                     }
-                    // console.log("long text => ", longText)
-                    // const genWordCloud = {
-                    //     text: longText
-                    // }
                     try {
-                        // console.log("longText => ", longText)
-                        // const base64 = await axios.post("https://backend-hdt-wordcloud-zt27agut7a-as.a.run.app/api/wordcloud",genWordCloud);
-                        // console.log("base64 =>", base64.data)
                         const replyData = {
                             status: 200,
                             text: longText,

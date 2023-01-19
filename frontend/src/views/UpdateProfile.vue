@@ -34,10 +34,10 @@
                             <div class="text-left">บุคลิกภาพ</div>
                             <!-- <input class="set-profile w-[100%] h-[35px]" v-model="personality" required/> -->
                             <select class="set-profile w-[100%] h-[35px]" v-model="personality_type"  id="personality" name="personality">
-                                <option value="anaylzer">นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP</option>
-                                <option value="diplomat">นกการฑูต: INFJ / INFP / ENFJ / ENFP</option>
-                                <option value="watchman">ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ</option>
-                                <option value="explorer">นักสำรวจ: ISTP / ISFP / ESTP / ESFP</option>
+                                <option value="นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP">นักวิเคราะห์: INTJ / INTP / ENTJ / ENTP</option>
+                                <option value="นกการฑูต: INFJ / INFP / ENFJ / ENFP">นกการฑูต: INFJ / INFP / ENFJ / ENFP</option>
+                                <option value="ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ">ผู้เผ้ายาม: ISTJ / ISFJ / ESTJ / ESFJ</option>
+                                <option value="นักสำรวจ: ISTP / ISFP / ESTP / ESFP">นักสำรวจ: ISTP / ISFP / ESTP / ESFP</option>
                             </select>
                             <div class="text-left mt-3 text-blue-500">
                                 <a href="https://www.16personalities.com/th/%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%97%E0%B8%94%E0%B8%AA%E0%B8%AD%E0%B8%9A%E0%B8%9A%E0%B8%B8%E0%B8%84%E0%B8%84%E0%B8%A5%E0%B8%B4%E0%B8%81%E0%B8%A0%E0%B8%B2%E0%B8%9E">
@@ -162,9 +162,8 @@
                                 <option value="benefit_balance">Benefit Balance</option>
                             </select>
                         </div>
-                        <div class="m-auto text-center mb-10">
+                        <!-- <div class="m-auto text-center mb-10">
                             <div class="text-left">ระดับความเครียด</div>
-                            <!-- <div>Job Level</div> -->
                             <div class="stree-icon mt-5 flex justify-between">
                                 <div>
                                     <img  src="../assets/anger.png" height="30" width="30"/>
@@ -177,7 +176,7 @@
                             <div class="text-left">
                                 stree value: {{ stree_level }}
                             </div>
-                        </div>
+                        </div> -->
                         <div class="m-auto text-center mb-10">
                             <div class="text-left mb-3">
                                 <label>เป้าหมายการใช้ application sookyen</label>
@@ -296,10 +295,12 @@ export default {
                     personality_type: this.personality_type,
                     sector: this.sector,
                     stree_level: this.stree_level,
-                    working_nature: this.working_nature
+                    working_nature: this.working_nature,
+                    password: ""
                 }
                 try{
                     const replyData = await axios.post("https://backend-hdt-updateprofile-zt27agut7a-as.a.run.app/api/updateProfile", payload, headerConf)
+                    console.log("update profile => ", replyData.data)
                     if(replyData.data.status === 200){
                         alert(replyData.data.data)
                         location.reload()
@@ -333,7 +334,8 @@ export default {
                         personality_type: this.personality_type,
                         sector: this.sector,
                         stree_level: this.stree_level,
-                        working_nature: this.working_nature
+                        working_nature: this.working_nature,
+                        password: this.setPassword
                     }
                     try{
                         const replyData = await axios.post("https://backend-hdt-updateprofile-zt27agut7a-as.a.run.app/api/updateProfile", payload, headerConf)

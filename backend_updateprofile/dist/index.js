@@ -8,5 +8,5 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: "../.env" });
 const port = process.env.PORT || 2287;
 app_1.default.listen(port, () => {
-    console.log(`service data-sci listen on port ${port}`);
+    console.log(`service update profile listen on port ${port}`);
 });
