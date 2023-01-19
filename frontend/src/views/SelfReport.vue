@@ -238,7 +238,8 @@ export default {
                         angerRange: this.$store.state.angSubEmo,
                         otherEmotionLabel: this.$store.state.labelOtherEmo,
                         otherRangeEmotion: (this.$store.state.labelOtherEmo === '')? 0 : this.$store.state.otherSubEmo,
-                        averagBpm: this.$store.state.averageBpm
+                        averagBpm: this.$store.state.averageBpm,
+                        mic:  this.$store.state.setMyMic
                     }
                 }
 
@@ -317,6 +318,7 @@ export default {
                             sad:averageSad,
                             surprised:averageSurprised,
                             answer: this.$store.state.answerCard,
+                            isMic: this.$store.state.isMic
                         }
                         this.setAnger = []
                         this.setDisgusted = []
@@ -330,6 +332,7 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
+                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic');
                         this.$store.state.isGoalCard = false
                         console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
@@ -348,6 +351,7 @@ export default {
                             sad:averageSad,
                             surprised:averageSurprised,
                             answer: this.$store.state.answerCard,
+                            isMic: this.$store.state.isMic
                             }
                         this.setAnger = []
                         this.setDisgusted = []
@@ -361,6 +365,7 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
+                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic')
                         this.$store.state.isGoalCard = false
                         if(this.$store.state.stepCard === 3){
@@ -392,6 +397,7 @@ export default {
                                 this.$store.state.answerGoal2,
                                 this.$store.state.answerGoal3,
                             ],
+                            isMic: this.$store.state.isMic
                         }
                         // console.log("goal afternoon payload => ", payload)
                         this.setAnger = []
@@ -406,6 +412,7 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
+                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic');
                         this.$store.state.isGoalCard = false
                         console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
@@ -428,6 +435,7 @@ export default {
                                 this.$store.state.answerGoal2,
                                 this.$store.state.answerGoal3,
                                 ],
+                            isMic: this.$store.state.isMic
                             }
                         this.setAnger = []
                         this.setDisgusted = []
@@ -441,6 +449,7 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
+                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic')
                         this.$store.state.isGoalCard = false
                         if(this.$store.state.stepCard === 3){
@@ -460,15 +469,6 @@ export default {
                 }
             }
         }, 
-
-        sleepFunc(milliseconds){
-            const date = Date.now();
-            let currentDate = null;
-            do {
-                currentDate = Date.now();
-            } while (currentDate - date < milliseconds);
-        },
-
         async fnInit() {
             await faceapi.nets[this.nets].loadFromUri("/models"); // 
             await faceapi.loadFaceLandmarkModel("/models"); // 

@@ -41,7 +41,8 @@ export default createStore({
         miniDashboardData:null,
         loadingLineChart:false,
         loading:false,
-        
+        isMic: false,
+        setMyMic: false
     },
     mutations:{
 
@@ -60,6 +61,7 @@ export default createStore({
                 })
             recognition.start()
             state.setMic = "off"
+            this.isMic = true
         },
 
         haddleCloseMic(state){
@@ -76,6 +78,7 @@ export default createStore({
                 recognition.stop();
                     });
             state.setMic = "mic"
+            this.isMic = false
         },
 
         fnClose(state) {
@@ -87,12 +90,6 @@ export default createStore({
                 window.stream = "";
                 state.videoEl.srcObject = null;
             }
-        },
-        vidOff() {
-            vid.pause();
-            vid.src = "";
-            localstream.getTracks()[0].stop();
-            console.log("Vid off");
         },
     }
 });

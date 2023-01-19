@@ -24,12 +24,7 @@ function selfReportController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = req.body;
         const decodeData = req.authData;
-        // console.log("decodeData ==> ", decodeData)
-        // console.log("controll saving ==> ", data)
-        // console.log("kind => ", kind)
         let warping;
-        // const demo = true
-        // decodeData.decode.email && decodeData.decode.tenan && decodeData.token
         if (decodeData.decode.email && decodeData.decode.tenan && decodeData.token) {
             const setDate = new Date();
             const isDate = setDate.getFullYear() + "/" + (setDate.getMonth() + 1) + "/" + setDate.getDate() + " " + (setDate.getHours() + 7) + ":" + setDate.getMinutes() + ":" + setDate.getSeconds();
@@ -58,12 +53,12 @@ function selfReportController(req, res) {
                         otherRangeEmotion: data.otherRangeEmotion,
                         averagBpm: data.averagBpm,
                         create_date: isDate,
-                        isDay: setDate.getDate(),
-                        isMonth: setDate.getMonth() + 1,
-                        isYear: setDate.getFullYear(),
-                        isHours: setDate.getHours() + 7,
-                        isMinute: setDate.getMinutes(),
-                        isSecond: setDate.getSeconds()
+                        // isDay:setDate.getDate(),
+                        // isMonth: setDate.getMonth() + 1,
+                        // isYear: setDate.getFullYear(),
+                        // isHours: setDate.getHours() + 7,
+                        // isMinute: setDate.getMinutes(),
+                        // isSecond: setDate.getSeconds()
                     }
                 };
                 yield datastore.save(task);
