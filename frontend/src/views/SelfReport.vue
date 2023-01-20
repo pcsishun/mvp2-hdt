@@ -157,7 +157,7 @@ export default {
                     frameRate: {
                         min: 1,
                         ideal: 1,
-                        max: 10,
+                        max: 1,
                     },
                     facingMode: "environment",
                 },
@@ -239,7 +239,7 @@ export default {
                         otherEmotionLabel: this.$store.state.labelOtherEmo,
                         otherRangeEmotion: (this.$store.state.labelOtherEmo === '')? 0 : this.$store.state.otherSubEmo,
                         averagBpm: this.$store.state.averageBpm,
-                        mic:  this.$store.state.setMyMic
+                        mic:  this.$store.state.isMic
                     }
                 }
 
@@ -285,7 +285,7 @@ export default {
         },
         
         // start face cam // 
-        haddleNextCard(){
+        haddleNextCard(status){
             this.isError = null
             console.log("step status => ",this.isReport, this.$store.state.stepCard, this.cardType)
             if(this.$store.state.stepCard >= 4){
@@ -293,8 +293,8 @@ export default {
                 this.$store.state.stepCard += 1
             }
 
-            if(this.$store.state.stepCard === 0){
-                this.fnOpen();
+            if(status === 'start'){
+                // this.fnOpen();
                 this.$store.state.stepCard += 1;
             }else if (this.isReport !== 'none'){
                 this.$store.state.stepCard += 1;
@@ -332,12 +332,12 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
-                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
+                        // this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic');
                         this.$store.state.isGoalCard = false
-                        console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
+                        // console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
                         if(this.$store.state.stepCard === 4){
-                            this.$store.commit('fnClose')
+                            // this.$store.commit('fnClose')
                             this.isReport = "none"
                         }
                     }else if(this.cardType === 'morning'){
@@ -365,11 +365,11 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
-                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
+                        // this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic')
                         this.$store.state.isGoalCard = false
                         if(this.$store.state.stepCard === 3){
-                            this.$store.commit('fnClose')
+                            // this.$store.commit('fnClose')
                             this.isReport = "none"
                             this.$store.state.stepCard += 1
                         }
@@ -412,12 +412,12 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
-                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
+                        // this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic');
                         this.$store.state.isGoalCard = false
                         console.log("this.$store.state.stepCard" , this.$store.state.stepCard)
                         if(this.$store.state.stepCard === 4){
-                            this.$store.commit('fnClose')
+                            // this.$store.commit('fnClose')
                             this.isReport = "none"
                         }
                     }else if(this.cardType === 'morning'){
@@ -449,11 +449,11 @@ export default {
                         this.$store.state.answerGoal1 = ""
                         this.$store.state.answerGoal2 = ""
                         this.$store.state.answerGoal3 = ""
-                        this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
+                        // this.$store.state.setMyMic = (this.$store.state.isMic)?this.$store.state.isMic: false
                         this.$store.commit('haddleCloseMic')
                         this.$store.state.isGoalCard = false
                         if(this.$store.state.stepCard === 3){
-                            this.$store.commit('fnClose')
+                            // this.$store.commit('fnClose')
                             this.isReport = "none"
                             this.$store.state.stepCard += 1
                         }

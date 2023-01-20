@@ -41,6 +41,9 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="set-input-1  mt-5 p-5  w-[80%]  m-auto">
+                <button>กรอกค่าอัตราการเต้นหัวใจ</button>
+            </div> -->
             
             <!-- <div class="input-container mt-10 p-5">
                 <textarea class="set-input-1 w-[90%] h-[100px]" placeholder=""></textarea>

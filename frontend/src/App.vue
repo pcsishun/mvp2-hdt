@@ -23,6 +23,7 @@ body{
   margin: 0px;
   background-color: #EFFAFF;
   font-family: 'Noto Sans Thai', sans-serif;
+  background-image: linear-gradient(#EFFAFF, #c5e5f3);
 }
 
 

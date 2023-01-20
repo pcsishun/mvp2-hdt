@@ -18,7 +18,7 @@ export default createStore({
         isUseMic:false,
         isGoalCard: false,
         clickGoalans:null,
-        selectLang: 'th-TH',
+        // selectLang: 'th-TH',
         setMic: "mic",
         isRecord: false,
         emotionSlide: '0',
@@ -47,38 +47,52 @@ export default createStore({
     mutations:{
 
         haddleOpenMic(state){
-            console.log("haddle open mic")
             window.SpeechRecognition = window.SpeechRecognition ||  window.webkitSpeechRecognition;
             const recognition = new window.SpeechRecognition();
             recognition.interimResults = true;
             recognition.continuous = true;
-            recognition.addEventListener("result", event => {
-                    let text = Array.from(event.results)
-                    .map(result => result[0])
-                    .map(result => result.transcript)
-                    .join("");
-                state.answerCard = text;
-                })
-            recognition.start()
-            state.setMic = "off"
-            this.isMic = true
-        },
+            recognition.lang = 'th-TH'
 
+            if(state.isMic === false){
+                console.log("haddle open mic")
+                
+                recognition.addEventListener("result", event => {
+                        let text = Array.from(event.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join("");
+                    state.answerCard = text;
+                    })
+                recognition.start()
+                state.setMic = "off"
+                state.isMic = true
+                console.log("state.isMic =>", state.isMic)
+            }else{
+                console.log("haddle close mic in btn")
+                recognition.stop();
+                recognition.addEventListener("end", () => {
+                    recognition.stop();
+                        });
+                state.setMic = "mic"
+                state.isMic = false
+            }
+        },
         haddleCloseMic(state){
             console.log("state haddle mic off")
             window.SpeechRecognition = window.SpeechRecognition ||  window.webkitSpeechRecognition;
             const recognition = new window.SpeechRecognition();
-
+            // window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition;
+            // const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'th-TH'
             recognition.interimResults = true;
             recognition.continuous = true;
-
-            recognition.lang = state.selectLang;
             recognition.stop();
             recognition.addEventListener("end", () => {
                 recognition.stop();
                     });
             state.setMic = "mic"
-            this.isMic = false
+            state.isMic = false
+            // console.log("this.isMic =>", state.isMic)
         },
 
         fnClose(state) {

@@ -3,7 +3,7 @@
         <Navbar/>
         <Menu/>
     </div>
-    <div class="update-profile-container">
+    <div class="update-profile-container ">
         <div class="title mt-10 text-center font-bold">แก้ไขโปรไฟล์</div>
         <div class="mt-5 border border-gray-400/[0.5] rounded-lg w-[87%] m-auto text-center">
             <div class="border-b border-gray-400" v-if="toggleProfile === false" @click="toggleCardProfile">
@@ -449,4 +449,8 @@ export default {
     transform: translateY(-30px);
     opacity: 0;
   }
+
+.update-profile-container{
+    height: calc(100vh);
+}
 </style>

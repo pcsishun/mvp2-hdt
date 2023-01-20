@@ -1,7 +1,7 @@
 import store from "../store"
 
 const RESCAN_INTERVAL = 1000;
-const DEFAULT_FPS = 40;
+const DEFAULT_FPS = 20;
 const LOW_BPM = 42;
 const HIGH_BPM = 240;
 const REL_MIN_FACE_SIZE = 0.4;

@@ -71,7 +71,7 @@ export default {
             this.name = this.$cookies.get("hdt-user");
             // const min = d.getMinutes();
             if(hours >= 5 && hours < 12){
-                this.meetup = "สวัสดียมเช้า"
+                this.meetup = "สวัสดียามเช้า"
             }else if(hours >= 12 && hours <= 18 ){
                 this.meetup = "สวัสดียามบ่าย"
             }else {

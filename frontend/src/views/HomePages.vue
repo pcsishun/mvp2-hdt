@@ -3,11 +3,22 @@
         <Navbar/>
         <Menu/>
     </div>
-    <div class="">
+    <div class="mt-5">
         <div class="w-[350px] m-auto">
             <WeatherVue/>
         </div>
-        <div class="set-chart w-[350px] p-[15px] m-auto rounded-lg">
+        <div class="set-chart w-[350px] mt-[20px] p-[15px] m-auto rounded-lg">
+            <div class="title text-[14px] mb-7 font-bold border-b border-gray-400/[0.8]">
+                อารมณ์ระหว่างวน
+            </div>
+            <div class="body-description mt-5 mb-7">
+                หากมีความรู้สึกระหว่างวันที่ดีหรือไม่ดีกับเรื่องอะไรสามารถกดปุ่มด้านล่างได้เลยค่ะ
+            </div>
+            <div class="mb-4">
+                <ButtonEmer/>
+            </div>
+        </div>
+        <div class="set-chart w-[350px] mt-[20px] p-[15px] m-auto rounded-lg">
             <div class="text-[14px] font-bold mt-5 mb-5">อารมณ์ย้อนหลังประจำวัน</div>
             <div><img src="../assets/good.png" width="20" height="20"/></div>
             <div >
@@ -18,7 +29,8 @@
             </div>
             <div><img src="../assets/bad.png" width="20" height="20"/></div>
         </div>
-        <div class="set-info w-[350px] m-auto mt-[50px] p-[15px] rounded-lg">
+        
+        <div class="set-info w-[350px] m-auto mt-[20px] p-[15px] rounded-lg">
             <EmerAlertVue/>
             <CognitiveAndEmotionalVue/>
         </div>
@@ -35,8 +47,9 @@ import BTNRedoVue from '../components/btn_re_do/BTNRedo.vue';
 import Navbar from '../components/navbar/Navbar.vue'
 import Menu from '../components/menu/Menu.vue'
 import axios from 'axios';
-import LoadingLineChart from '../components/loading/LoadingLineChart.vue';
-import ButtonEmer from '../components/emergecyEmo/ButtonEmer.vue';
+import LoadingLineChart from '../components/loading/LoadingLineChart.vue'
+import ButtonEmer from '../components/emergecyEmo/ButtonEmer.vue'
+
 
 export default {
     components:{

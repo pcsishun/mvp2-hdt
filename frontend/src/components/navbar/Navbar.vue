@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[60px]">
+    <div class="nav-tab h-[60px] mb-10">
         <div class="grid grid-cols-2">
             <div class="text-left  mr-5 mt-3.5 flex justify-start">
                 <div class="avatar ml-4">
@@ -41,5 +41,7 @@ export default {
 </script>
 
 <style scoped>
-
+.nav-tab{
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
 </style>
