@@ -3,7 +3,7 @@
         <Navbar/>
         <Menu/>
     </div>
-    <div class="emotion-emergecy h-[100vh] mt-[80px] w-[90%] m-auto text-center">
+    <div class="emotion-emergecy  mt-[80px] w-[90%] m-auto text-center">
         <EmCard v-if="stepCard === 0"/>
         <SubEmotion v-if="stepCard === 1"/>
         <Parameter v-if="stepCard === 2"/>

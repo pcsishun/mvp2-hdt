@@ -46,19 +46,19 @@
                     </div>
                 </button>
             </div>
-            <!-- <div class="menu-m mt-[40px]">
-                <button class="flex" @click="haddleMebne('Therapist')">
+            <div class="menu-m mt-[40px]">
+                <button class="flex" @click="haddleMebne('emer')">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-                        </svg>  
+                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 00-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 01-.189-.866c0-.298.059-.605.189-.866zm2.023 6.828a.75.75 0 10-1.06-1.06 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z" clip-rule="evenodd" />
+                        </svg>
                     </div>
                     <div>
-                        Therapist
+                        อารมณ์ระหว่างวัน 
                     </div>
                 </button>
             </div>
-            <div class="menu-m mt-[40px]">
+            <!-- <div class="menu-m mt-[40px]">
                 <button class="flex" @click="haddleMebne('Look alive')">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-700">
@@ -82,6 +82,18 @@
                     </div>
                     <div>
                         โปรไฟล์
+                    </div>
+                </button>
+            </div>
+            <div class="menu-m mt-[40px]">
+                <button class="flex" @click="haddleMebne('logout')">
+                    <div class="mr-3">   
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm5.03 4.72a.75.75 0 010 1.06l-1.72 1.72h10.94a.75.75 0 010 1.5H10.81l1.72 1.72a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        ออกจากระบบ
                     </div>
                 </button>
             </div>
@@ -117,7 +129,16 @@ export default {
             }
             else if(evt === 'selfReport'){
                 this.$router.push("/self_report")
-            }else{
+            }
+            else if(evt === "emer"){
+                this.$router.push("/emergency")
+            }else if(evt === 'logout'){
+                this.$cookies.remove("hdt-token")
+                this.$cookies.remove("hdt-user")
+                alert("คุณได้ออกจากระบบเรียบร้อยแล้ว")
+                this.$router.push("/login")
+            }
+            else{
                 // alert(`This ${evt} function on maintenance.`)
                 this.$router.push("/updateProfile")
             }

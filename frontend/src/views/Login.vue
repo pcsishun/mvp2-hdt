@@ -69,6 +69,11 @@ export default {
         }
     },
     methods:{
+        haddleCloseMenu(){
+            this.$store.state.cssMenu = "menu-close"
+            this.$store.state.cssHamOpenTB = "ham-tb-close"
+            this.$store.state.cssBodyMenu = "body-menu-close"
+        },
         checkIsLogin(){
             if(this.$cookies.get("hdt-token") && this.$cookies.get("hdt-user")){
                 const d = new Date();
@@ -134,6 +139,7 @@ export default {
         this.checkIsLogin()
     },
     mounted(){
+        this.haddleCloseMenu();
         // console.log("API ===> ",this.apiLogin, import.meta.env.SERVICE_LOGIN)
     }
 }

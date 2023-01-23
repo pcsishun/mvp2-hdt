@@ -11,10 +11,14 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-happy" max="10" min="0" step="1" v-model="$store.state.happySubEmo"/>
                             <datalist class="set-label-col" id="set-happy">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -22,10 +26,14 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-pow" max="10" min="0" step="1" v-model="$store.state.powSubEmo"/>
                             <datalist class="set-label-col" id="set-pow">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -33,22 +41,29 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-relax" max="10" min="0" step="1" v-model="$store.state.relaxSubEmo"/>
                             <datalist class="set-label-col" id="set-relax">
-                                <option >10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option >0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
-                        
                     </div>
                     <div>
                         <div class="set-title text-[14px]">โล่งใจ</div>
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-relax-x" max="10" min="0" step="1" v-model="$store.state.relaxXSubEmo"/>
                             <datalist class="set-label-col" id="set-relax-x">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -56,10 +71,14 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-dis" max="10" min="0" step="1" v-model="$store.state.disSubEmo"/>
                             <datalist class="set-label-col" id="set-dis">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,10 +89,14 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-sad" max="10" min="0" step="1" v-model="$store.state.sadSubEmo"/>
                             <datalist class="set-label-col" id="set-sad">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -81,10 +104,14 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-fer" max="10" min="0" step="1" v-model="$store.state.ferSubEmo"/>
                             <datalist class="set-label-col" id="set-fer">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -92,10 +119,14 @@
                         <div class="flex">
                             <input type="range" orient="vertical" list="set-anx" max="10" min="0" step="1" v-model="$store.state.anxSubEmo"/>
                             <datalist class="set-label-col" id="set-anx">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -103,10 +134,14 @@
                         <div class="flex"> 
                             <input type="range" orient="vertical" list="set-ang" max="10" min="0" step="1"  v-model="$store.state.angSubEmo"/>
                             <datalist class="set-label-col" id="set-ang">
-                                <option>10</option>
+                                <option hidden>10</option>
                                 <option hidden>5</option>
-                                <option>0</option>
+                                <option hidden>0</option>
                             </datalist>
+                            <div class="set-label-col -translate-y-2">
+                                <label>10</label>
+                                <label>0</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,10 +155,14 @@
                 <div class="mt-5" v-if="$store.state.labelOtherEmo !== ''">
                     <input class="w-[90%]" type="range"  list="set-othe" max="10" min="0" step="1" v-model="$store.state.otherSubEmo"/>
                     <datalist class="set-label-row" id="set-othe">
-                        <option>0</option>
+                        <option hidden>0</option>
                         <option hidden>5</option>
-                        <option>10</option>
+                        <option hidden>10</option>
                     </datalist>
+                    <div class="set-label-row ml-3 mr-3">
+                        <label>0</label>
+                        <label>10</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,7 +213,7 @@ input[type=range][orient=vertical]
     height: auto;
     overflow: hidden;
     margin-top: 16px; 
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .set-label-row{

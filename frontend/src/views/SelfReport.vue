@@ -53,17 +53,28 @@
             <ParameterVue v-if="$store.state.stepCard === 5"/><!--  6 -->
             <HeartRateVue v-if="$store.state.stepCard === 6"/><!--  7 -->
             <FinishCardVue v-if="$store.state.stepCard === 7"/><!--  8 -->
+            <div class="text-right " v-if="$store.state.isGoalCard !== true && $store.state.isUseMic !== false">
+                <button class="border border-stone-800 w-[40px] h-[40px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleOpenMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 3 && $store.state.setMic === 'mic'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-center m-auto">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                    </svg>
+                </button>
+                <button class="border border-stone-800 w-[40px] h-[40px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleCloseMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 3 && $store.state.setMic === 'off'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-center m-auto">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                </button>
+            </div>
             <div class="text-center text-red-700 mt-3 p-3">{{isError}}</div>
             <div class="btn-selfreport mt-[40px] p-5">
-                <div class="text-right" v-if="$store.state.isGoalCard !== true && $store.state.isUseMic !== false">
-                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleOpenMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 3 && $store.state.setMic === 'mic'">mic</button>
-                    <button class="border border-stone-800 w-[50px] h-[50px] rounded-full text-slate-50 bg-slate-700" @click="this.$store.commit('haddleCloseMic')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 3 && $store.state.setMic === 'off'">off</button>
-                </div>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('start')" v-if="$store.state.stepCard === 0">
                     เริ่มต้น
                 </button>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleNextCard('con')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 " >
                     ถัดไป
+                </button>
+                <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddlePreviousCard('pervious')" v-if="$store.state.stepCard !== 0 && $store.state.stepCard < 7 " >
+                    ย้อนกลับ
                 </button>
                 <button class="border border-stone-800 w-[200px] h-[50px] rounded-lg text-slate-50 bg-slate-700" @click="haddleFinish" v-if="$store.state.stepCard === 7" >
                     เสร็จสิ้น
@@ -263,14 +274,14 @@ export default {
                 location.reload()
             }
         },  
-        haddleDebug(){
-            console.log("answerAndEmotion ==> ",this.$store.state.answerAndEmotion)
-            console.log("parameter emotion ==> ", this.$store.state.emotionSlide, "and wieght", this.$store.state.weightEmotion)
-            console.log("bpm rate:", this.$store.state.myRatebpm, "average bpm => ", this.$store.state.averageBpm)
-            console.log("emotionSlide =>", this.$store.state.emotionSlide , "weightEmotion =>", this.$store.state.weightEmotion)
-            console.log("happySubEmo", this.$store.state.happySubEmo)
-            console.log("averageBpm => ", this.$store.state.averageBpm)
-        },
+        // haddleDebug(){
+        //     console.log("answerAndEmotion ==> ",this.$store.state.answerAndEmotion)
+        //     console.log("parameter emotion ==> ", this.$store.state.emotionSlide, "and wieght", this.$store.state.weightEmotion)
+        //     console.log("bpm rate:", this.$store.state.myRatebpm, "average bpm => ", this.$store.state.averageBpm)
+        //     console.log("emotionSlide =>", this.$store.state.emotionSlide , "weightEmotion =>", this.$store.state.weightEmotion)
+        //     console.log("happySubEmo", this.$store.state.happySubEmo)
+        //     console.log("averageBpm => ", this.$store.state.averageBpm)
+        // },
         controllCard(){
             const d = new Date();
             const hours = d.getHours();
@@ -281,6 +292,14 @@ export default {
             }else{
                 this.cardType = "afternoon" // afternoon
                 // console.log("cardtype", this.cardType)
+            }
+        },
+        haddlePreviousCard(){
+            if(this.$store.state.stepCard < 0){
+                this.$store.state.stepCard = 1
+            }else{
+                this.$store.commit('haddleCloseMic')
+                this.$store.state.stepCard -= 1
             }
         },
         

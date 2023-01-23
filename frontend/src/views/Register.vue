@@ -246,6 +246,33 @@ export default {
         }
     },
     methods:{
+        reloadDefaultVariable(){
+            this.$store.state.answerAndEmotion = []
+            this.$store.state.answerCard = ""
+            this.$store.state.answerGoal1 = ""
+            this.$store.state.answerGoal2 = ""
+            this.$store.state.answerGoal3 = ""
+            this.$store.state.isUseMic = false
+            this.$store.state.isGoalCard = false  
+            this.$store.state.clickGoalans = null
+            this.$store.state.setMic = "mic"
+            this.$store.state.isRecord = false
+            this.$store.state.emotionSlide = "0"
+            this.$store.state.weightEmotion = 0
+            this.$store.state.averageBpm = 0
+            this.$store.state.myRatebpm = []
+            this.$store.state.happySubEmo = 0
+            this.$store.state.powSubEmo = 0
+            this.$store.state.relaxSubEmo = 0
+            this.$store.state.nerSubEmo = 0
+            this.$store.state.disSubEmo = 0
+            this.$store.state.sadSubEmo = 0 
+            this.$store.state.ferSubEmo = 0
+            this.$store.state.anxSubEmo = 0
+            this.$store.state.angSubEmo = 0
+            this.$store.state.labelOtherEmo = ""
+            this.$store.state.otherSubEmo = ""
+        },
         backStep(){
             if(this.step < 0){
                 this.step -= 1;
@@ -350,7 +377,7 @@ export default {
         }
     },
     mounted(){
-        
+        this.reloadDefaultVariable()
     }
 }
 </script>

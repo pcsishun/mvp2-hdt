@@ -9,7 +9,7 @@
         </div>
         <div class="set-chart w-[350px] mt-[20px] p-[15px] m-auto rounded-lg">
             <div class="title text-[14px] mb-7 font-bold border-b border-gray-400/[0.8]">
-                อารมณ์ระหว่างวน
+                อารมณ์ระหว่างวัน
             </div>
             <div class="body-description mt-5 mb-7">
                 หากมีความรู้สึกระหว่างวันที่ดีหรือไม่ดีกับเรื่องอะไรสามารถกดปุ่มด้านล่างได้เลยค่ะ
@@ -71,6 +71,35 @@ export default {
         }
     },
     methods:{
+        reloadDefaultVariable(){
+            this.$store.state.answerAndEmotion = []
+            this.$store.state.answerCard = ""
+            this.$store.state.answerGoal1 = ""
+            this.$store.state.answerGoal2 = ""
+            this.$store.state.answerGoal3 = ""
+            this.$store.state.isUseMic = false
+            this.$store.state.isGoalCard = false  
+            this.$store.state.clickGoalans = null
+            this.$store.state.setMic = "mic"
+            this.$store.state.isRecord = false
+            this.$store.state.emotionSlide = "0"
+            this.$store.state.weightEmotion = 0
+            this.$store.state.averageBpm = 0
+            this.$store.state.myRatebpm = []
+            this.$store.state.happySubEmo = 0
+            this.$store.state.powSubEmo = 0
+            this.$store.state.relaxSubEmo = 0
+            this.$store.state.nerSubEmo = 0
+            this.$store.state.disSubEmo = 0
+            this.$store.state.sadSubEmo = 0 
+            this.$store.state.ferSubEmo = 0
+            this.$store.state.anxSubEmo = 0
+            this.$store.state.angSubEmo = 0
+            this.$store.state.labelOtherEmo = ""
+            this.$store.state.otherSubEmo = ""
+            this.$store.state.stepCard = 0
+        },
+
         async haddleMiniDashboard(){
             this.$store.state.loading = true
 
@@ -136,7 +165,7 @@ export default {
         this.haddleMiniDashboard()
     },
     mounted(){
-        
+        this.reloadDefaultVariable()
     }
 }
 </script>
