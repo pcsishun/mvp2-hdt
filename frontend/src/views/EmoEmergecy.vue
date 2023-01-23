@@ -56,27 +56,27 @@ export default {
         }
     },  
     methods:{
-        debugData(){
-            console.log("debug data vvvv")
-            console.log( this.$store.state.answerAndEmotion)
-            console.log(this.$store.state.emotionSlide)
-            console.log(this.$store.state.weightEmotion)
-            console.log(this.$store.state.happySubEmo)
-            console.log(this.$store.state.powSubEmo)
-            console.log(this.$store.state.relaxSubEmo)
-            console.log(this.$store.state.relaxXSubEmo)
-            console.log(this.$store.state.nerSubEmo)
-            console.log(this.$store.state.disSubEmo)
-            console.log(this.$store.state.sadSubEmo)
-            console.log(this.$store.state.ferSubEmo)
-            console.log(this.$store.state.anxSubEmo)
-            console.log(this.$store.state.angSubEmo)
-            console.log(this.$store.state.labelOtherEmo)
-            console.log(this.$store.state.labelOtherEmo)
-            console.log(this.$store.state.averageBpm)
-            console.log(this.$store.state.labelOtherEmo)
-            console.log(this.$store.state.isMic)
-        },
+        // debugData(){
+        //     console.log("debug data vvvv")
+        //     console.log( this.$store.state.answerAndEmotion)
+        //     console.log(this.$store.state.emotionSlide)
+        //     console.log(this.$store.state.weightEmotion)
+        //     console.log(this.$store.state.happySubEmo)
+        //     console.log(this.$store.state.powSubEmo)
+        //     console.log(this.$store.state.relaxSubEmo)
+        //     console.log(this.$store.state.relaxXSubEmo)
+        //     console.log(this.$store.state.nerSubEmo)
+        //     console.log(this.$store.state.disSubEmo)
+        //     console.log(this.$store.state.sadSubEmo)
+        //     console.log(this.$store.state.ferSubEmo)
+        //     console.log(this.$store.state.anxSubEmo)
+        //     console.log(this.$store.state.angSubEmo)
+        //     console.log(this.$store.state.labelOtherEmo)
+        //     console.log(this.$store.state.labelOtherEmo)
+        //     console.log(this.$store.state.averageBpm)
+        //     console.log(this.$store.state.labelOtherEmo)
+        //     console.log(this.$store.state.isMic)
+        // },
         haddleStepUp(){
             this.stepCard += 1
             this.$store.commit('haddleCloseMic')
@@ -154,8 +154,8 @@ export default {
                 if(replyResult.status === 200 ){
                     this.$store.state.loading = false
                     alert("ระบบทำการบันทึกเสร็จเรียบร้อย")
-                    location.reload()
                     this.$router.push("/")
+                    location.reload()
                 }else{
                     // alert(replyResult.data)
                     this.$cookies.remove('hdt-token')

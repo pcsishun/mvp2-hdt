@@ -182,7 +182,7 @@ export class Heartbeat {
       this.faceValid = true;
     } else {
       // console.log("No faces");
-      document.getElementById("set-signal").innerHTML = "ไม่พบใบหน้า ขยับใบหน้าให้ใกล้ขึ้น หรือ ปรับแสงสว่างให้มากขึ้น";
+      document.getElementById("set-signal").innerHTML = "ไม่พบใบหน้า";
       this.invalidateFace();
       // return "No faces"
     }
@@ -334,7 +334,7 @@ export class Heartbeat {
       signal.delete();
     } else {
       // let errSig = "signal too small"
-      document.getElementById("set-signal").innerHTML = "ขยับใบหน้าเข้าใกล้ขึ้นอีกนิด หรือ ปรับแสงให้สว่างขึ้น";
+      document.getElementById("set-signal").innerHTML = "ขยับหน้าให้พอดีกับกล้องหรือปรับแสงให้มีความสว่างมากขึ้น";
       // return "signal too small"
     }
   }

@@ -25,6 +25,7 @@
                         id="webcam" 
                         width="300" 
                         height="300"
+                        playsinline=true
                         ></video>
                     <canvas class="rounded-lg text-center" id="canvas" width="300" height="300"></canvas>
                 </div>
@@ -63,7 +64,7 @@ export default {
     },
     data(){
         return{
-           isRec: false
+            isRec: false
         }
     },
     computed:{

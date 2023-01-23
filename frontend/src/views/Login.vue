@@ -4,7 +4,10 @@
             <img class="text-center m-auto" src="../assets/logo.png" height="100" width="100"/>
             <div class="app-name translate-y-[-15px] mb-[100px]">
                 <div class="text-[25px] text-cyan-500/[0.8]">SookYen</div>
-                <div class="text-[12px]  text-cyan-600">Digital Mental Health & Wellness</div>
+                <div class="text-[12px]  text-cyan-600">
+                    Digital Mental Health & Wellness
+                </div>
+                <div class="text-[9px] text-cyan-900 translate-y-[-3px]">version alpha 1.0.1</div>
             </div>
         </div>
         <div v-if="alreadyLogin === true">
